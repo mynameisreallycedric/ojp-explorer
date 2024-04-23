@@ -4,6 +4,7 @@ import TheWelcome from '../components/TheWelcome.vue'
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>OJP Explorer 🚂</h1>
+    <RouterLink to="/demo/timetable">TimeTable</RouterLink>
   </main>
 </template>
