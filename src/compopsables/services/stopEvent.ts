@@ -1,18 +1,21 @@
 import {useAxios} from "@/compopsables/services/axios";
+import type {StopEvent} from "@/types/StopEvent";
 
 export class StopEventService{
 
-    public async getStopEventForLocation(didok: number): Promise<any>{
+    public async getStopEventForLocation(didok: number): Promise<StopEvent>{
         console.log("used get stop event")
-        return useAxios().get('/stopEvent', {
-            params: {
-                stopRef: didok
-            }
-        })
-            .then(res => {
-                console.log(res.data)
-                res.data;
-            })
+        try {
+            const response = await useAxios().get<StopEvent>('/stopEvent', {
+                params: {
+                    stopRef: didok
+                }
+            });
+            return response.data; // Return the fetched data
+        } catch (error) {
+            console.error('Error fetching stop event:', error);
+            throw new Error('Failed to fetch stop event');
+        }
     }
 
 }
