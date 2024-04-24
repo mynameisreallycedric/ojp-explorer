@@ -3,7 +3,7 @@ import useStopEvent from "@/compopsables/services/stopEvent";
 import {onMounted, type Ref, ref} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
-import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableInput.vue";
+import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableConnection.vue";
 
 const stopEvents = ref<StopEvent>();
 
