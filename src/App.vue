@@ -3,9 +3,12 @@
 </script>
 
 <template>
-<RouterView />
+  <main class="main-content wrapper">
+    <RouterView />
+  </main>
 </template>
 
 <style scoped>
+
 
 </style>
