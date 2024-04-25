@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import type {Connection} from "@/types/Connection";
 
 interface Props {
@@ -7,8 +6,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
-
 </script>
 
 <template>
@@ -16,19 +13,20 @@ const props = defineProps<Props>();
     <div>
       <p class="border-solid border border-black p-1 w-min rounded" >{{ connection.info.lineName }}</p>
     </div>
-    <p>{{ new Date(connection.thisStop.departureTime).toLocaleTimeString() }}</p>
+    <p>{{ new Date(connection.thisStop.departureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</p>
     <p>{{ connection.info.destination }}</p>
     <p>{{ connection.info.origin }}</p>
     <p>{{ connection.thisStop.quay }}</p>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import "src/assets/scss/variables";
 
 .timetable_connection {
   width: 600px;
   margin: 1rem;
-  border: 1px solid black;
+  border: 1px solid $pt-main-black;
   border-radius: 5px;
   padding: 5px ;
 
