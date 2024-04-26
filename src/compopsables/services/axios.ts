@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(
             config.headers = new AxiosHeaders();
         }
 
-        console.log(config)
+        console.log(config);
         return config;
     },
     (error) => Promise.reject(error),
