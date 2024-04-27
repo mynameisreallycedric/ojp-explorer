@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useStopEvent from "@/compopsables/services/stopEvent";
-import {computed, type ComputedRef, onMounted, type Ref, ref} from "vue";
+import {computed, type ComputedRef, onMounted, type Ref, ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
 import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableInput.vue";
@@ -16,16 +16,24 @@ const station = ref("");
 
 const showDevMode = ref(false);
 
-const diDok = ref<any>();
+const diDok = ref<DiDok>();
 
-function getDiDok(): void {
-  if (station.value.length > 2) {
-    diDok.value = useDiDokEvent().getDiDokForLocation(station.value);
-  }
+function getDiDok(inputString: string): void {
+    useDiDokEvent().getDiDokForLocation(inputString)
+        .then(res => {
+            diDok.value = res;
+        })
 }
 
 onMounted(async () => {
   stopEvents.value = await useStopEvent().getStopEventForLocation(8502001);
+})
+
+watch(() => station.value, (value) => {
+    console.log(value)
+    if (value.length > 2) {
+        getDiDok(value);
+    }
 })
 </script>
 
