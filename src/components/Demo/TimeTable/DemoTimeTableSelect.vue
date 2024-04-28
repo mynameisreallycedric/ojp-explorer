@@ -40,18 +40,21 @@ function handleFocusOut(){
 function handleFocusIn(){
   showDropDown.value = true;
 }
+
 </script>
 
 <template>
   <div class="flex flex-col w-full">
     <DemoTimeTableInput @focusin="handleFocusIn" @focusout="handleFocusOut" v-model="station"></DemoTimeTableInput>
-    <div v-if="showDropDown">
-      <div v-for="option in diDokList?.results" :key="option.number" class="select__option">
-        <label @click="updateLocation(option.number, option.designationofficial)" >
-          <span>{{ option.designationofficial }}</span>
-        </label>
+    <div class="relative">
+      <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full select__dropdown">
+        <div v-for="option in diDokList?.results" :key="option.number" class="select__option">
+          <label @click="updateLocation(option.number, option.designationofficial)" >
+            <span>{{ option.designationofficial }}</span>
+          </label>
         </div>
       </div>
+    </div>
   </div>
 
 </template>
@@ -63,6 +66,17 @@ function handleFocusIn(){
   width: 100%;
   padding: 9px;
   border: 1px solid $pt-main-black;
+  background: $pt-main-white;
+}
+
+.select__dropdown > div:first-of-type {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.select__dropdown > div:last-of-type {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 </style>
