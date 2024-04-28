@@ -4,7 +4,8 @@ import {ref, watch} from "vue";
 import useDiDokEvent from "@/compopsables/services/didok";
 import type {DiDok} from "@/types/DiDok";
 
-const modelValue = defineModel<number>();
+const selectedDiDok = defineModel<number>('didok');
+const selectedStation = defineModel<string>('station');
 
 const showDropDown = ref(true);
 
@@ -19,7 +20,7 @@ function getDiDok(inputString: string): void {
       })
 }
 
-watch(() => station.value, (value) => {
+watch(() => selectedStation.value, (value) => {
   console.log(value);
   if (value.length > 2) {
     getDiDok(value);
@@ -27,8 +28,8 @@ watch(() => station.value, (value) => {
 });
 
 function updateLocation(diDok: number, stationName: string){
-  modelValue.value = diDok;
-  station.value = stationName;
+  selectedDiDok.value = diDok;
+  selectedStation.value = stationName;
 }
 
 function handleFocusOut(){
@@ -45,7 +46,7 @@ function handleFocusIn(){
 
 <template>
   <div class="flex flex-col w-full">
-    <DemoTimeTableInput @focusin="handleFocusIn" @focusout="handleFocusOut" v-model="station"></DemoTimeTableInput>
+    <DemoTimeTableInput @focusin="handleFocusIn" @focusout="handleFocusOut" v-model="selectedStation"></DemoTimeTableInput>
     <div class="relative">
       <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full select__dropdown">
         <div v-for="option in diDokList?.results" :key="option.number" class="select__option">

@@ -13,7 +13,7 @@ import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect
 
 const stopEvents = ref<StopEvent>();
 
-const station = ref("");
+const selectedStation = ref("");
 
 const showDevMode = ref(false);
 
@@ -31,7 +31,7 @@ watch(() => selectedDiDok.value, async (value) => {
     <template #main>
       <div class="flex flex-col items-center w-full p-[1rem]">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
-        <DemoTimeTableSelect v-model="selectedDiDok"></DemoTimeTableSelect>
+        <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
         {{ selectedDiDok }}
         <div v-for="connection in stopEvents?.connections as Connection[]" class="w-full">
           <DemoTimeTableConnection v-if="connection.info" :connection="connection" />
@@ -40,7 +40,7 @@ watch(() => selectedDiDok.value, async (value) => {
     </template>
     <template #devMode>
       <div class="flex flex-col items-center w-full p-[1rem]">
-        <DemoTimeTableSelect v-model="selectedDiDok"></DemoTimeTableSelect>
+        <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
       </div>
     </template>
   </DemoLayout>
