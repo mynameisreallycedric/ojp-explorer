@@ -1,25 +1,12 @@
 <script setup lang="ts">
-
-import type {DiDok, DiDokResult} from "@/types/DiDok";
-import useDiDokEvent from "@/compopsables/services/didok";
-import {type Ref, ref} from "vue";
-
-interface Props {
-  modelValue: string
-}
-
-const props = defineProps<Props>();
-
-const emit = defineEmits(['update:modelValue']);
+const modelValue = defineModel<string>();
 
 </script>
 
 <template>
   <input class="timetable_input p-1"
          type="text"
-         :value="modelValue"
-         @input="$emit('update:modelValue', $event.target.value), event => updateDiDokOptions(event)"
-
+         v-model="modelValue"
          placeholder="Ausgangspunkt">
 </template>
 

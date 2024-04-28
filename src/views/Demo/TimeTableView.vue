@@ -9,6 +9,7 @@ import DevModeToggle from "@/components/Demo/DevMode/DevModeToggle.vue";
 import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
 import type {DiDok} from "@/types/DiDok";
 import useDiDokEvent from "@/compopsables/services/didok";
+import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
 
 const stopEvents = ref<StopEvent>();
 
@@ -16,24 +17,12 @@ const station = ref("");
 
 const showDevMode = ref(false);
 
-const diDok = ref<DiDok>();
+const selectedDiDok = ref<number>();
 
-function getDiDok(inputString: string): void {
-    useDiDokEvent().getDiDokForLocation(inputString)
-        .then(res => {
-            diDok.value = res;
-        })
-}
-
-onMounted(async () => {
-  stopEvents.value = await useStopEvent().getStopEventForLocation(8502001);
-})
-
-watch(() => station.value, (value) => {
-    console.log(value)
-    if (value.length > 2) {
-        getDiDok(value);
-    }
+watch(() => selectedDiDok.value, async (value) => {
+  if (value) {
+    stopEvents.value = await useStopEvent().getStopEventForLocation(value);
+  }
 })
 </script>
 
@@ -42,10 +31,10 @@ watch(() => station.value, (value) => {
     <template #main>
       <div class="flex flex-col items-center mt-3">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
-        <DemoTimeTableInput v-model="station" @update:model-value="getDiDok"></DemoTimeTableInput>
-          {{ diDok }}
+        <DemoTimeTableSelect v-model="selectedDiDok"></DemoTimeTableSelect>
+        {{ selectedDiDok }}
         <div v-for="connection in stopEvents?.connections as Connection[]">
-          <DemoTimeTableConnection :connection="connection" />
+          <DemoTimeTableConnection v-if="connection.info" :connection="connection" />
         </div>
       </div>
     </template>
