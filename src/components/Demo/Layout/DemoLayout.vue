@@ -7,8 +7,8 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="demo_layout--container w-full">
-    <div>
+  <div class="demo_layout--container grid grid-flow-col justify-center w-full">
+    <div class="demo_layot--main_container">
       <slot name="main"></slot>
     </div>
     <Transition name="transition-devmode">
@@ -21,12 +21,12 @@ const props = defineProps<Props>();
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
 
-.demo_layout--container {
-  display: grid;
-  grid-template-columns: 700px 700px;
+.demo_layot--main_container{
+  width: 700px;
 }
 
 .demo_layot--devMode_container {
+  width: 700px;
   background: $pt-main-gray;
 }
 
