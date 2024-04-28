@@ -29,17 +29,19 @@ watch(() => selectedDiDok.value, async (value) => {
 <template>
   <DemoLayout :showDevMode>
     <template #main>
-      <div class="flex flex-col items-center mt-3">
+      <div class="flex flex-col items-center w-full p-[1rem]">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
         <DemoTimeTableSelect v-model="selectedDiDok"></DemoTimeTableSelect>
         {{ selectedDiDok }}
-        <div v-for="connection in stopEvents?.connections as Connection[]">
+        <div v-for="connection in stopEvents?.connections as Connection[]" class="w-full">
           <DemoTimeTableConnection v-if="connection.info" :connection="connection" />
         </div>
       </div>
     </template>
     <template #devMode>
-      <DemoTimeTableInput v-model="station"></DemoTimeTableInput>
+      <div class="flex flex-col items-center w-full p-[1rem]">
+        <DemoTimeTableSelect v-model="selectedDiDok"></DemoTimeTableSelect>
+      </div>
     </template>
   </DemoLayout>
 </template>

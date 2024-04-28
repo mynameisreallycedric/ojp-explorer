@@ -9,7 +9,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="grid grid-cols-[80px_80px_1fr_1fr_50px] timetable_connection items-center">
+  <div class="grid grid-cols-[max-content_max-content_1fr_1fr_max-content] w-full timetable_connection items-center">
     <div>
       <p class="border-solid border border-black p-1 w-min rounded" >{{ connection.info.lineName }}</p>
     </div>
@@ -24,11 +24,10 @@ const props = defineProps<Props>();
 @import "src/assets/scss/variables";
 
 .timetable_connection {
-  width: 600px;
-  margin: 1rem;
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   padding: 5px ;
+  gap: 5px;
 
   p {
     margin: 0;

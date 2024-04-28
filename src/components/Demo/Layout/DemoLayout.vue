@@ -7,7 +7,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="grid grid-flow-col">
+  <div class="demo_layout--container w-full">
     <div>
       <slot name="main"></slot>
     </div>
@@ -20,6 +20,11 @@ const props = defineProps<Props>();
 </template>
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
+
+.demo_layout--container {
+  display: grid;
+  grid-template-columns: 700px 700px;
+}
 
 .demo_layot--devMode_container {
   background: $pt-main-gray;

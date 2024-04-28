@@ -6,6 +6,8 @@ import type {DiDok} from "@/types/DiDok";
 
 const modelValue = defineModel<number>();
 
+const showDropDown = ref(true);
+
 const station = ref<string>("");
 
 const diDokList = ref<DiDok>();
@@ -23,20 +25,44 @@ watch(() => station.value, (value) => {
     getDiDok(value);
   }
 });
+
+function updateLocation(diDok: number, stationName: string){
+  modelValue.value = diDok;
+  station.value = stationName;
+}
+
+function handleFocusOut(){
+    setTimeout(() => {
+      showDropDown.value = false;
+    }, 100);
+}
+
+function handleFocusIn(){
+  showDropDown.value = true;
+}
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <DemoTimeTableInput v-model="station"></DemoTimeTableInput>
-    <select v-if="diDokList" v-model="modelValue">
-      <option v-for="diDok in diDokList.results" :key="diDok.number" :value="diDok.number">
-        {{ diDok.designationofficial }}
-      </option>
-    </select>
+  <div class="flex flex-col w-full">
+    <DemoTimeTableInput @focusin="handleFocusIn" @focusout="handleFocusOut" v-model="station"></DemoTimeTableInput>
+    <div v-if="showDropDown">
+      <div v-for="option in diDokList?.results" :key="option.number" class="select__option">
+        <label @click="updateLocation(option.number, option.designationofficial)" >
+          <span>{{ option.designationofficial }}</span>
+        </label>
+        </div>
+      </div>
   </div>
 
 </template>
 
 <style scoped lang="scss">
+@import "src/assets/scss/variables";
+
+.select__option {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid $pt-main-black;
+}
 
 </style>

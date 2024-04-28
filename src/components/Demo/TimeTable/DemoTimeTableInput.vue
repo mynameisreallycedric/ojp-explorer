@@ -4,7 +4,7 @@ const modelValue = defineModel<string>();
 </script>
 
 <template>
-  <input class="timetable_input p-1"
+  <input class="timetable_input p-1 w-full"
          type="text"
          v-model="modelValue"
          placeholder="Ausgangspunkt">
@@ -14,8 +14,6 @@ const modelValue = defineModel<string>();
 @import "src/assets/scss/variables";
 
 .timetable_input {
-  width: 600px;
-  margin: 1rem;
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   padding: 9px;

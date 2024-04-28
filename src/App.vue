@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main class="main-content wrapper">
+  <main class="flex wrapper">
     <RouterView />
   </main>
 </template>
