@@ -16,7 +16,7 @@ const props = defineProps<Props>();
     <p>{{ new Date(connection.thisStop.departureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</p>
     <p>{{ connection.info.destination }}</p>
     <p>{{ connection.info.origin }}</p>
-    <p>{{ connection.thisStop.quay }}</p>
+    <p class="text-center">{{ connection.thisStop.quay }}</p>
   </div>
 </template>
 
