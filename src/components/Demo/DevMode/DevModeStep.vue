@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import {useTimeTableStore} from "@/stores/timetable";
+import {storeToRefs} from "pinia";
 
 interface Props {
   stepNr: number
@@ -7,11 +9,22 @@ interface Props {
 
 const isActive = ref<boolean>(false);
 
+const timeTableStore = useTimeTableStore();
+const { getCurrentActiveStep } = storeToRefs(timeTableStore);
+
+function handleFocusIn(){
+  timeTableStore.setCurrentActiveStep(props.stepNr)
+}
+
+function handleFocusOut(){
+  timeTableStore.setCurrentActiveStep(0)
+}
+
 const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="step__container" @focusin="isActive = true" @focusout="isActive = false" :class="{ active: isActive }">
+  <div class="step__container" @focusin="handleFocusIn" @focusout="handleFocusOut" :class="{ active: stepNr === getCurrentActiveStep }">
     <p>{{ "step " + stepNr }}</p>
     <slot />
   </div>
