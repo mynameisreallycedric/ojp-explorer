@@ -46,7 +46,7 @@ function handleFocusIn(){
 
 <template>
   <div class="flex flex-col w-full">
-    <DemoTimeTableInput @focusin="handleFocusIn" @focusout="handleFocusOut" v-model="selectedStation"></DemoTimeTableInput>
+    <DemoTimeTableInput @focus="handleFocusIn" @focusout="handleFocusOut" v-model="selectedStation"></DemoTimeTableInput>
     <div class="relative">
       <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full select__dropdown">
         <div v-for="option in diDokList?.results" :key="option.number" class="select__option">
@@ -68,6 +68,11 @@ function handleFocusIn(){
   padding: 9px;
   border: 1px solid $pt-main-black;
   background: $pt-main-white;
+}
+
+.select__dropdown {
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 .select__dropdown > div:first-of-type {

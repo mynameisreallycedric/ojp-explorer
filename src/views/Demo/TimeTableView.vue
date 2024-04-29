@@ -32,7 +32,13 @@ watch(() => selectedDiDok.value, async (value) => {
       <div class="flex flex-col items-center w-full p-[1rem]">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
         <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
-        {{ selectedDiDok }}
+        <div class="grid grid-cols-[40px_40px_1fr_1fr_95px] gap-3 w-full font-bold mt-1 [&_p]:m-0">
+          <p>Linie</p>
+          <p>Zeit</p>
+          <p>Von</p>
+          <p>Nach</p>
+          <p>Gleis / Kante</p>
+        </div>
         <div v-for="connection in stopEvents?.connections as Connection[]" class="w-full">
           <DemoTimeTableConnection v-if="connection.info" :connection="connection" />
         </div>

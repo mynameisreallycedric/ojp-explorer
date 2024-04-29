@@ -9,7 +9,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="grid grid-cols-[max-content_max-content_1fr_1fr_max-content] w-full timetable_connection items-center">
+  <div class="grid grid-cols-[40px_40px_1fr_1fr_95px] gap-3 w-full timetable_connection items-center">
     <div>
       <p class="border-solid border border-black p-1 w-[3rem] text-center rounded" >{{ connection.info.lineName }}</p>
     </div>
@@ -27,7 +27,6 @@ const props = defineProps<Props>();
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   padding: 5px 10px 5px 5px;
-  gap: 5px;
   margin: 0.5rem 0 0.5rem 0;
 
   p {
