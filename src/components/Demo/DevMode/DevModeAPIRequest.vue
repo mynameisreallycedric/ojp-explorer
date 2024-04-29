@@ -38,7 +38,7 @@ const props = defineProps<Props>();
 
 <template>
     <div class="flex flex-row w-full items-center api-request__container">
-      <div class="mr-2 api-request__method">
+      <div class="mr-2 p-1 api-request__method">
         <p class="text-center rounded m-0 font-bold px-2" >
           {{ method }}
         </p>
