@@ -52,7 +52,7 @@ const props = defineProps<Props>();
     <div v-if="response" class="api_response__container">
       <p class="font-bold mr-auto mb-0">Response</p>
       <div class="api_response__response">
-        {{ response }}
+          {{ response }}
       </div>
     </div>
 </template>

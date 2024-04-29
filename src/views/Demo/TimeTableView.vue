@@ -9,6 +9,7 @@ import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
 import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
 import DevModeAPIRequest from "@/components/Demo/DevMode/DevModeAPIRequest.vue";
 import {APIMethods} from "@/types/DevMode/APIMethods";
+import DevModeStep from "@/components/Demo/DevMode/DevModeStep.vue";
 
 const stopEvents = ref<StopEvent>();
 
@@ -44,10 +45,12 @@ watch(() => selectedDiDok.value, async (value) => {
       </div>
     </template>
     <template #devMode>
-      <div class="flex flex-col items-center w-full p-[1rem]">
-        <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
-        <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
-      </div>
+      <DevModeStep :stepNr=1>
+        <div class="flex flex-col items-center w-full p-[1rem]">
+          <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
+          <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
+        </div>
+      </DevModeStep>
     </template>
   </DemoLayout>
 </template>
