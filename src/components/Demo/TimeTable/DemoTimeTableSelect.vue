@@ -7,7 +7,7 @@ import type {DiDok} from "@/types/DiDok";
 const selectedDiDok = defineModel<number>('didok');
 const selectedStation = defineModel<string>('station');
 
-const showDropDown = ref(true);
+const showDropDown = ref<boolean>(false);
 
 const station = ref<string>("");
 

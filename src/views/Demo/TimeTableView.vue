@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import useStopEvent from "@/compopsables/services/stopEvent";
-import {computed, type ComputedRef, onMounted, type Ref, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
-import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableInput.vue";
 import DemoTimeTableConnection from "@/components/Demo/TimeTable/DemoTimeTableConnection.vue";
 import DevModeToggle from "@/components/Demo/DevMode/DevModeToggle.vue";
 import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
-import type {DiDok} from "@/types/DiDok";
-import useDiDokEvent from "@/compopsables/services/didok";
 import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
+import DevModeAPIRequest from "@/components/Demo/DevMode/DevModeAPIRequest.vue";
+import {APIMethods} from "@/types/DevMode/APIMethods";
 
 const stopEvents = ref<StopEvent>();
 
@@ -47,6 +46,7 @@ watch(() => selectedDiDok.value, async (value) => {
     <template #devMode>
       <div class="flex flex-col items-center w-full p-[1rem]">
         <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
+        <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
       </div>
     </template>
   </DemoLayout>
