@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useStopEvent from "@/compopsables/services/stopEvent";
+import useStopEvent from "@/composables/services/stopEvent";
 import {ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";

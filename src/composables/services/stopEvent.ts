@@ -1,4 +1,4 @@
-import {useAxios} from "@/compopsables/services/axios";
+import {useAxios} from "@/composables/services/axios";
 import type {StopEvent} from "@/types/StopEvent";
 import type {DiDok} from "@/types/DiDok";
 

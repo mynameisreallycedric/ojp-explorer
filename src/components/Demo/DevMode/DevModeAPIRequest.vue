@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {Connection} from "@/types/Connection";
 import type {APIMethods} from "@/types/DevMode/APIMethods";
-import useDiDokEvent from "@/compopsables/services/didok";
+import useDiDokEvent from "@/composables/services/didok";
 import {ref, watch} from "vue";
 import type {DiDok} from "@/types/DiDok";
 
