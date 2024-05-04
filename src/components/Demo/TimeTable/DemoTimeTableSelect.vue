@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableInput.vue";
 import {ref, watch} from "vue";
-import useDiDokEvent from "@/compopsables/services/didok";
+import useDiDokEvent from "@/composables/services/didok";
 import type {DiDok} from "@/types/DiDok";
 
 const selectedDiDok = defineModel<number>('didok');
