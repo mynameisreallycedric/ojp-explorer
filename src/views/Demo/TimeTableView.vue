@@ -3,7 +3,7 @@ import useStopEvent from "@/composables/services/stopEvent";
 import {ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
-import DemoTimeTableConnection from "@/components/Demo/TimeTable/DemoTimeTableConnection.vue";
+import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableConnections.vue";
 import DevModeToggle from "@/components/Demo/DevMode/DevModeToggle.vue";
 import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
 import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
@@ -36,16 +36,8 @@ watch(() => selectedLIR.value, async (value) => {
         <DevModeStep :dev-mode=false :step-nr=1>
           <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
         </DevModeStep>
-        <div class="grid grid-cols-[40px_40px_1fr_1fr_95px] gap-3 w-full font-bold mt-1 [&_p]:m-0">
-          <p>Linie</p>
-          <p>Zeit</p>
-          <p>Von</p>
-          <p>Nach</p>
-          <p>Gleis / Kante</p>
-        </div>
-        <div v-for="connection in stationBoard?.stationBoard as Connection[]" class="w-full">
-          <DemoTimeTableConnection v-if="connection" :connection="connection" />
-        </div>
+
+            <DemoTimeTableConnections v-if="stationBoard?.stationBoard" :connections="stationBoard?.stationBoard" />
       </div>
     </template>
     <template #devMode>
