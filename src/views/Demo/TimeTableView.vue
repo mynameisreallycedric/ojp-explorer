@@ -48,7 +48,7 @@ watch(() => selectedDiDok.value, async (value) => {
     </template>
     <template #devMode>
       <DevModeStep :devMode=true :stepNr=1>
-        <div class="flex flex-col items-center w-full p-[1rem]">
+        <div class="flex flex-col items-center p-[1rem]">
           <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
           <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
         </div>

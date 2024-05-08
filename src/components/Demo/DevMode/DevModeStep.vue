@@ -39,6 +39,7 @@ const props = defineProps<Props>();
 .step__container {
   box-sizing: border-box;
   margin: 0;
+  position: relative;
 
   p {
     margin: 0;
@@ -51,6 +52,8 @@ const props = defineProps<Props>();
 }
 
 .active {
+  position: relative;
+
   //margin: calc(1rem - 1px) calc(1rem - 1px) calc(1rem - 1px) calc(1rem - 4px);;
   //border-radius: 5px;
   outline: 1px solid #59F;
@@ -58,11 +61,19 @@ const props = defineProps<Props>();
   //border-right: 1px solid #59F;
   //border-bottom: 1px solid #59F;
   //border-top: 1px solid #59F;
-  border-left: 4px solid #59F;
+  //border-left: 4px solid #59F;
   background: rgba(31, 120, 255, 0.20);
-
-  p {
-    padding-left: calc(1rem - 4px);
-  }
 }
+
+.active:before {
+  content: ''; /* Create a pseudo-element for the border */
+  position: absolute; /* Position the border absolutely */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px; /* Adjust this width as needed */
+  background-color: #59F;
+}
+
+
 </style>
