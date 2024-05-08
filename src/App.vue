@@ -7,7 +7,7 @@
 </script>
 
 <template>
-    <div class="wrapper flex flex-col">
+    <div class="flex flex-col">
         <main class="grow flex">
             <RouterView/>
         </main>

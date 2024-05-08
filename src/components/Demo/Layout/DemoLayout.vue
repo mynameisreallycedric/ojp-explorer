@@ -8,12 +8,16 @@ const props = defineProps<Props>();
 
 <template>
   <div class="demo_layout--container grid grid-flow-col justify-center w-full mt-4">
-    <div class="demo_layot--main_container">
-      <slot name="main"></slot>
+    <div class="demo_layout--main_container">
+      <div class="demo_layout--main_content">
+        <slot name="main"></slot>
+      </div>
     </div>
     <Transition name="transition-devmode">
-    <div v-if="showDevMode" class="demo_layot--devMode_container">
-      <slot name="devMode"></slot>
+    <div v-if="showDevMode" class="demo_layout--devMode_container">
+      <div  class="demo_layout--devMode_content">
+        <slot name="devMode"></slot>
+      </div>
     </div>
     </Transition>
   </div>
@@ -21,13 +25,28 @@ const props = defineProps<Props>();
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
 
-.demo_layot--main_container{
+.demo_layout--container {
+  grid-template-columns: 1fr 1fr;
+}
+
+.demo_layout--main_container{
+  display: flex;
+  justify-content: right;
+}
+
+.demo_layout--main_content{
+  width: 700px;
+
+}
+
+.demo_layout--devMode_content {
   width: 700px;
 }
 
-.demo_layot--devMode_container {
-  width: 700px;
+.demo_layout--devMode_container {
   background: $pt-main-gray;
+  display: flex;
+  justify-content: left;
 }
 
 .transition-devmode-enter-active {
