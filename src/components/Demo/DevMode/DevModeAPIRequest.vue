@@ -4,21 +4,25 @@ import type {APIMethods} from "@/types/DevMode/APIMethods";
 import useDiDokEvent from "@/composables/services/didok";
 import {ref, watch} from "vue";
 import type {DiDok} from "@/types/old/DiDok";
+import {param} from "ts-interface-checker";
+import type {LIR} from "@/types/LIR";
+import useLIRService from "@/composables/services/lir";
 
 interface Props {
   station: string
   method: APIMethods
   endpointUrl: string
+  params: string
 }
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
 const inputStation = ref<string>();
 
-const response = ref<DiDok>();
+const response = ref<LIR>();
 
-function getDiDok(inputString: string): void {
-  useDiDokEvent().getDiDokForLocation(inputString)
+function getLIR(inputString: string): void {
+  useLIRService().getLIRForLocation(inputString)
       .then(res => {
         response.value = res;
       })
@@ -43,8 +47,8 @@ const props = defineProps<Props>();
           {{ method }}
         </p>
       </div>
-      <p class="m-0 p-0">{{ baseUrl + '/' }}</p>
-      <input type="text" :placeholder="station" v-model="inputStation" @change="getDiDok(inputStation)">
+      <p class="m-0 p-0">{{ '/' + endpointUrl + "?" + params + "="}}</p>
+      <input type="text" :placeholder="station" v-model="inputStation" @change="getLIR(inputStation)">
       <button class="ml-auto">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>

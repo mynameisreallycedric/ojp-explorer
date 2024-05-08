@@ -19,7 +19,7 @@ const selectedStation = ref("");
 
 const showDevMode = ref(false);
 
-const selectedLIR = ref<number>();
+const selectedLIR = ref<string>();
 
 watch(() => selectedLIR.value, async (value) => {
   if (value) {
@@ -52,7 +52,7 @@ watch(() => selectedLIR.value, async (value) => {
       <DevModeStep :devMode=true :stepNr=1>
         <div class="flex flex-col items-center p-[1rem]">
           <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
-          <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
+          <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="locationInformation/" params="locationName" :station="selectedStation"></DevModeAPIRequest>
         </div>
       </DevModeStep>
     </template>

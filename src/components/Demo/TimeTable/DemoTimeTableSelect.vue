@@ -28,7 +28,7 @@ watch(() => selectedStation.value, (value) => {
   }
 });
 
-function updateLocation(lir: number, stationName: string){
+function updateLocation(lir: string, stationName: string){
   selectedLIR.value = lir;
   selectedStation.value = stationName;
 }
