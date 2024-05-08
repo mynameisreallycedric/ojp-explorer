@@ -1,11 +1,11 @@
 import {useAxios} from "@/composables/services/axios";
 import type {StopEvent} from "@/types/StopEvent";
-import type {DiDok} from "@/types/DiDok";
+import type {DiDok} from "@/types/old/DiDok";
 
 export class StopEventService{
 
     public async getStopEventForLocation(didok: number): Promise<StopEvent>{
-        console.log("used get stop event");
+        console.log("used get stop-event service");
         try {
             const response = await useAxios().get<StopEvent>('/stopEvent', {
                 params: {

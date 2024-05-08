@@ -10,18 +10,20 @@ import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect
 import DevModeAPIRequest from "@/components/Demo/DevMode/DevModeAPIRequest.vue";
 import {APIMethods} from "@/types/DevMode/APIMethods";
 import DevModeStep from "@/components/Demo/DevMode/DevModeStep.vue";
+import type {StationBoard} from "@/types/StationBoard";
+import useStationBoardService from "@/composables/services/stationBoard";
 
-const stopEvents = ref<StopEvent>();
+const stationBoard = ref<StationBoard>();
 
 const selectedStation = ref("");
 
 const showDevMode = ref(false);
 
-const selectedDiDok = ref<number>();
+const selectedLIR = ref<number>();
 
-watch(() => selectedDiDok.value, async (value) => {
+watch(() => selectedLIR.value, async (value) => {
   if (value) {
-    stopEvents.value = await useStopEvent().getStopEventForLocation(value);
+    stationBoard.value = await useStationBoardService().getStationBoardForLocation(value);
   }
 })
 </script>
@@ -32,7 +34,7 @@ watch(() => selectedDiDok.value, async (value) => {
       <div class="flex flex-col items-center p-[1rem]">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
         <DevModeStep :dev-mode=false :step-nr=1>
-          <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
+          <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
         </DevModeStep>
         <div class="grid grid-cols-[40px_40px_1fr_1fr_95px] gap-3 w-full font-bold mt-1 [&_p]:m-0">
           <p>Linie</p>
@@ -41,15 +43,15 @@ watch(() => selectedDiDok.value, async (value) => {
           <p>Nach</p>
           <p>Gleis / Kante</p>
         </div>
-        <div v-for="connection in stopEvents?.connections as Connection[]" class="w-full">
-          <DemoTimeTableConnection v-if="connection.info" :connection="connection" />
+        <div v-for="connection in stationBoard?.stationBoard as Connection[]" class="w-full">
+          <DemoTimeTableConnection v-if="connection" :connection="connection" />
         </div>
       </div>
     </template>
     <template #devMode>
       <DevModeStep :devMode=true :stepNr=1>
         <div class="flex flex-col items-center p-[1rem]">
-          <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
+          <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
           <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
         </div>
       </DevModeStep>

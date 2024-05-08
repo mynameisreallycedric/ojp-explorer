@@ -2,33 +2,34 @@
 import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableInput.vue";
 import {ref, watch} from "vue";
 import useDiDokEvent from "@/composables/services/didok";
-import type {DiDok} from "@/types/DiDok";
+import type { LIR } from "@/types/LIR";
+import useLIRService from "@/composables/services/lir";
 
-const selectedDiDok = defineModel<number>('didok');
+const selectedLIR = defineModel<string>('lir');
 const selectedStation = defineModel<string>('station');
 
 const showDropDown = ref<boolean>(false);
 
 const station = ref<string>("");
 
-const diDokList = ref<DiDok>();
+const lirList = ref<LIR>();
 
-function getDiDok(inputString: string): void {
-  useDiDokEvent().getDiDokForLocation(inputString)
+function getLIR(inputString: string): void {
+  useLIRService().getLIRForLocation(inputString)
       .then(res => {
-        diDokList.value = res;
+        lirList.value = res;
       })
 }
 
 watch(() => selectedStation.value, (value) => {
   console.log(value);
   if (value.length > 2) {
-    getDiDok(value);
+    getLIR(value);
   }
 });
 
-function updateLocation(diDok: number, stationName: string){
-  selectedDiDok.value = diDok;
+function updateLocation(lir: number, stationName: string){
+  selectedLIR.value = lir;
   selectedStation.value = stationName;
 }
 
@@ -49,9 +50,9 @@ function handleFocusIn(){
     <DemoTimeTableInput @focus="handleFocusIn" @focusout="handleFocusOut" v-model="selectedStation"></DemoTimeTableInput>
     <div class="relative">
       <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full select__dropdown">
-        <div v-for="option in diDokList?.results" :key="option.number" class="select__option">
-          <label @click="updateLocation(option.number, option.designationofficial)" >
-            <span>{{ option.designationofficial }}</span>
+        <div v-for="option in lirList?.locations" :key="option.id" class="select__option">
+          <label @click="updateLocation(option.id, option.name)" >
+            <span>{{ option.name }}</span>
           </label>
         </div>
       </div>

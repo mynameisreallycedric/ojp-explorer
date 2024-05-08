@@ -11,12 +11,11 @@ const props = defineProps<Props>();
 <template>
   <div class="grid grid-cols-[40px_40px_1fr_1fr_95px] gap-3 w-full timetable_connection items-center">
     <div>
-      <p class="border-solid border border-black p-1 w-[3rem] text-center rounded" >{{ connection.info.lineName }}</p>
+      <p class="border-solid border border-black p-1 w-[3rem] text-center rounded" >{{ connection.name }}</p>
     </div>
-    <p>{{ new Date(connection.thisStop.departureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</p>
-    <p>{{ connection.info.destination }}</p>
-    <p>{{ connection.info.origin }}</p>
-    <p class="text-center">{{ connection.thisStop.quay }}</p>
+    <p>{{ new Date(connection.stop.departure).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</p>
+    <p>{{ connection.to }}</p>
+    <p class="text-center">{{ connection.stop.platform}}</p>
   </div>
 </template>
 

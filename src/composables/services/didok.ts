@@ -1,5 +1,5 @@
 import {useAxios} from "@/composables/services/axios";
-import type {DiDok} from "@/types/DiDok";
+import type {DiDok} from "@/types/old/DiDok";
 
 export class DiDokService {
 

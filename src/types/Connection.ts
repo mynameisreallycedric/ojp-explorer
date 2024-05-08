@@ -1,20 +1,15 @@
 export interface Connection {
-    "info": {
-        "day": Date,
-        "connectionType": string,
-        "lineName": string,
-        "description": string[],
-        "origin": string,
-        "destination": string,
-        "transportType": string,
-        "operator": string,
-    },
-    "previousStops": string[],
-    "thisStop": {
-        "name": string,
-        "quay": string,
-        "departureTime": Date,
-        "arrivalTime": Date
-    },
-    "onwardStops": string[]
+    "name": string,
+    "category": string,
+    "number": number,
+    "operator": string,
+    "to": string,
+    "stop": {
+    "station": string | null,
+        "arrival": Date,
+        "departure": Date,
+        "delay": number | null,
+        "platform": number | null,
+        "prognosis": number | null
+    }
 }
