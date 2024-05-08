@@ -7,7 +7,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="demo_layout--container grid grid-flow-col justify-center w-full">
+  <div class="demo_layout--container grid grid-flow-col justify-center w-full mt-4">
     <div class="demo_layot--main_container">
       <slot name="main"></slot>
     </div>

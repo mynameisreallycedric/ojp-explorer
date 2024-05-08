@@ -54,7 +54,6 @@ watch(() => selectedLIR.value, async (value) => {
       </DevModeStep>
       <DevModeStep :devMode=true :stepNr=2>
         <div class="flex flex-col items-center p-[1rem]">
-          <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
           <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="stationBoard/" params="locationName" :station="selectedStation"></DevModeAPIRequest>
         </div>
       </DevModeStep>
