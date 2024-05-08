@@ -29,9 +29,11 @@ watch(() => selectedDiDok.value, async (value) => {
 <template>
   <DemoLayout :showDevMode>
     <template #main>
-      <div class="flex flex-col items-center w-full p-[1rem]">
+      <div class="flex flex-col items-center p-[1rem]">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
-        <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
+        <DevModeStep :dev-mode=false :step-nr=1>
+          <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
+        </DevModeStep>
         <div class="grid grid-cols-[40px_40px_1fr_1fr_95px] gap-3 w-full font-bold mt-1 [&_p]:m-0">
           <p>Linie</p>
           <p>Zeit</p>
@@ -45,7 +47,7 @@ watch(() => selectedDiDok.value, async (value) => {
       </div>
     </template>
     <template #devMode>
-      <DevModeStep :stepNr=1>
+      <DevModeStep :devMode=true :stepNr=1>
         <div class="flex flex-col items-center w-full p-[1rem]">
           <DemoTimeTableSelect v-model:didok="selectedDiDok" v-model:station="selectedStation"></DemoTimeTableSelect>
           <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="didok/" :station="selectedStation"></DevModeAPIRequest>
