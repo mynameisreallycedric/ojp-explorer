@@ -16,7 +16,7 @@ const props = defineProps<Props>();
       <th>Linie</th>
       <th>Zeit</th>
       <th>Von</th>
-      <th class="text-right">Gleis/Kante</th>
+      <th>Gleis/Kante</th>
     </tr>
     </thead>
   <tbody>
@@ -28,7 +28,7 @@ const props = defineProps<Props>();
       </td>
       <td>{{ new Date(connection.stop.departure).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</td>
       <td>{{ connection.to }}</td>
-      <td class="text-right">{{ connection.stop.platform}}</td>
+      <td>{{ connection.stop.platform}}</td>
     </tr>
   </tbody>
   </table>
