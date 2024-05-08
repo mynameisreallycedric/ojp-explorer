@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {Connection} from "@/types/Connection";
 import type {StationBoard} from "@/types/StationBoard";
+import DemoTimeTableConnection from "@/components/Demo/TimeTable/DemoTimeTableConnection.vue";
 
 interface Props {
   connections: Connection[]
@@ -20,30 +21,15 @@ const props = defineProps<Props>();
     </tr>
     </thead>
   <tbody>
-    <tr v-for="connection in connections">
-      <td>
-        <div class="timetable_connection__line">
-          {{ connection.name }}
-        </div>
-      </td>
-      <td>{{ new Date(connection.stop.departure).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</td>
-      <td>{{ connection.to }}</td>
-      <td>{{ connection.stop.platform}}</td>
-    </tr>
+  <tr v-for="connection in connections">
+    <DemoTimeTableConnection :connection="connection"></DemoTimeTableConnection>
+  </tr>
   </tbody>
   </table>
 </template>
 
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
-
-.timetable_connection__line {
-  border: 1px $pt-main-black solid;
-  border-radius: 5px;
-  display: inline-flex;
-  padding: 5px 10px 5px 10px;
-}
-
 table {
   border-collapse: separate;
   border-spacing: 0 1rem;
@@ -61,10 +47,6 @@ td:first-child {
 
 td:last-child {
   border-radius: 0 5px 5px 0;
-}
-
-td {
-  padding: 0.5rem;
 }
 
 th {

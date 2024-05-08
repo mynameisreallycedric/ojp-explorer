@@ -3,7 +3,7 @@ import useStopEvent from "@/composables/services/stopEvent";
 import {ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
-import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableConnections.vue";
+import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableConnectionTable.vue";
 import DevModeToggle from "@/components/Demo/DevMode/DevModeToggle.vue";
 import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
 import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
@@ -31,20 +31,31 @@ watch(() => selectedLIR.value, async (value) => {
 <template>
   <DemoLayout :showDevMode>
     <template #main>
-      <div class="flex flex-col items-center p-[1rem]">
+      <div class="flex flex-col items-center">
         <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode" />
         <DevModeStep :dev-mode=false :step-nr=1>
-          <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
+          <div class="p-[1rem]">
+            <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
+          </div>
         </DevModeStep>
-
+        <DevModeStep :dev-mode=false :step-nr=2>
+          <div class="p-[1rem]">
             <DemoTimeTableConnections v-if="stationBoard?.stationBoard" :connections="stationBoard?.stationBoard" />
+          </div>
+        </DevModeStep>
       </div>
     </template>
     <template #devMode>
       <DevModeStep :devMode=true :stepNr=1>
         <div class="flex flex-col items-center p-[1rem]">
           <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
-          <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="locationInformation/" params="locationName" :station="selectedStation"></DevModeAPIRequest>
+          <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="locationInformation/" params="station" :station="selectedStation"></DevModeAPIRequest>
+        </div>
+      </DevModeStep>
+      <DevModeStep :devMode=true :stepNr=2>
+        <div class="flex flex-col items-center p-[1rem]">
+          <DemoTimeTableSelect v-model:lir="selectedLIR" v-model:station="selectedStation"></DemoTimeTableSelect>
+          <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="stationBoard/" params="locationName" :station="selectedStation"></DevModeAPIRequest>
         </div>
       </DevModeStep>
     </template>
