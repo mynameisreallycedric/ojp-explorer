@@ -7,14 +7,14 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="demo_layout--container grid grid-flow-col justify-center w-full mt-4">
-    <div class="demo_layout--main_container">
+  <div class="grid grid-flow-col justify-center w-full" :class="{ 'demo_layout--container': showDevMode }">
+    <div class="demo_layout--main_container pt-4">
       <div class="demo_layout--main_content">
         <slot name="main"></slot>
       </div>
     </div>
     <Transition name="transition-devmode">
-    <div v-if="showDevMode" class="demo_layout--devMode_container">
+    <div v-if="showDevMode" class="demo_layout--devMode_container pt-4">
       <div  class="demo_layout--devMode_content">
         <slot name="devMode"></slot>
       </div>
