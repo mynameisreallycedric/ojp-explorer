@@ -11,7 +11,8 @@
     },
     "ojp": {
       "generic": "öppis mettem ojp service TBD",
-      "forbidden": "ojp seit döffsch ned TBD"
+      "forbidden": "ojp seit döffsch ned TBD",
+      "tooManyRequests": "ojp seit besch zfliisig TBD"
     },
     "deserialize": {
       "generic": "öppis xml models TBD"
