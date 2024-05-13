@@ -40,14 +40,17 @@ axiosInstance.interceptors.response.use(
     (error: AxiosError<any, any>): any => {
         const uiStore = useUiStore();
 
+
+        console.log(error)
+
         const serverError: OjpProxyErrorResponse = error.response?.data;
         const customError = {
-            canonicalErrorMsg: i18n.global.t(serverError.Canonical),
+            canonicalErrorMsg: i18n.global.t(serverError.canonical),
             errorMessage: error.message,
             errorCode: error.code,
             httpStatus: error.response?.status,
             httpStatusText: error.response?.statusText,
-            response: serverError.Exception
+            response: serverError.exception
         } as AxiosCustomError;
 
         console.log(customError);
@@ -70,6 +73,6 @@ export interface AxiosCustomError {
 }
 
 export interface OjpProxyErrorResponse {
-    Canonical: string;
-    Exception: string | null;
+    canonical: string;
+    exception: string | null;
 }
