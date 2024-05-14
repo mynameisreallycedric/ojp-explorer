@@ -12,7 +12,7 @@
 </script>
 
 <template>
-    <div class="wrapper flex flex-col">
+ <div class="wrapper flex flex-col">
         <div v-if="uiStore.axiosError !== undefined && uiStore.axiosError !== null" class="bg-red-600 text-white">
             {{ uiStore.axiosError.canonicalErrorMsg }}
         </div>

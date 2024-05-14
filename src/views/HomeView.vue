@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <main>
+    <main class="wrapper">
         <h1>OJP Explorer 🚂</h1>
         <RouterLink to="/demo/timetable">TimeTable</RouterLink>
 
