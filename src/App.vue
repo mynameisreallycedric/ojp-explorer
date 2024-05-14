@@ -2,13 +2,10 @@
     import {computed} from "vue";
     import {useAuthStore} from "@/stores/auth";
     import {useUiStore} from "@/stores/ui";
+    import MainNavBar from "@/components/Main/Layout/MainNavBar.vue";
 
     const authStore = useAuthStore();
     const uiStore = useUiStore();
-
-    const swaggerUrl = computed<string>(() => {
-        return import.meta.env.VITE_SWAGGER_BASEURL + '/index.html';
-    })
 </script>
 
 <template>
@@ -16,13 +13,10 @@
         <div v-if="uiStore.axiosError !== undefined && uiStore.axiosError !== null" class="bg-red-600 text-white">
             {{ uiStore.axiosError.canonicalErrorMsg }}
         </div>
+        <MainNavBar />
         <main class="grow flex">
             <RouterView/>
         </main>
-        <footer class="flex flex-row justify-between items-center">
-            <a :href="swaggerUrl" target="_blank">Go To Swagger</a>
-            <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" />
-        </footer>
     </div>
 </template>
 

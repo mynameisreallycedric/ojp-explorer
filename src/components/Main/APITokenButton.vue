@@ -3,6 +3,8 @@
 import {ref} from "vue";
 import Modal from "@/components/Main/Modal.vue";
 import {useAuthStore} from "@/stores/auth";
+import Button from "@/components/Main/Controls/MainButton.vue";
+import MainButton from "@/components/Main/Controls/MainButton.vue";
 
 const authStore = useAuthStore();
 
@@ -20,10 +22,7 @@ const closeModal = () => {
 </script>
 
 <template>
-  <button class="inline-flex button_container"  @click="openModal">
-    <img src="/src/assets/icons/key_outline.svg">
-    <span>Set API Token</span>
-  </button>
+  <MainButton iconURL="/src/assets/icons/key_outline.svg" text="Set API Token" @click="openModal" />
   <Modal :show-modal="isModalOpened" @modal-close="closeModal">
     <div class="modal__token_input">
       <h3>Your API Token</h3>

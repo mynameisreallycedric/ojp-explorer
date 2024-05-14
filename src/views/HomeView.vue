@@ -23,9 +23,7 @@ onMounted(() => {
         <h1>OJP Explorer 🚂</h1>
         <RouterLink to="/demo/timetable">TimeTable</RouterLink>
 
-        <APITokenButton></APITokenButton>
-
-        <hr class="mt-3"/>
+       <hr class="mt-3"/>
         <h3>Available endpoints (from swagger)</h3>
         <div v-if="!loading" class="flex flex-col gap-3">
             <div v-for="endpoint in endpoints" :key="endpoint.path">
