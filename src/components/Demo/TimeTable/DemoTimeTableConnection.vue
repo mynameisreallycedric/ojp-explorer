@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type {Connection} from "@/types/Connection";
+import {useI18n} from "vue-i18n";
+
+const {d} = useI18n();
 
 interface Props {
   connection: Connection
@@ -14,7 +17,7 @@ const props = defineProps<Props>();
         {{ connection.name }}
       </div>
     </td>
-    <td>{{ new Date(connection.stop.departure).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}}</td>
+    <td>{{ d(connection.stop.departure, 'time') }}</td>
     <td>{{ connection.to }}</td>
     <td>{{ connection.stop.platform}}</td>
 </template>
