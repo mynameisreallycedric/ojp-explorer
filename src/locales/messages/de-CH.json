@@ -1,0 +1,21 @@
+{
+  "apiErrors": {
+    "generic": "öppis esch lätz TBD",
+
+    "auth": {
+      "tokenMissing": "OJP-Token fehlt. xxx TBD xxx"
+    },
+    "templating": {
+      "argumentError": "öppis Argument züüg TBD",
+      "runtimeError": "öppis templating TBD"
+    },
+    "ojp": {
+      "generic": "öppis mettem ojp service TBD",
+      "forbidden": "ojp seit döffsch ned TBD",
+      "tooManyRequests": "ojp seit besch zfliisig TBD"
+    },
+    "deserialize": {
+      "generic": "öppis xml models TBD"
+    }
+  }
+}
