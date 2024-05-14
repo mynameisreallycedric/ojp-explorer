@@ -25,6 +25,10 @@ const props = defineProps<Props>();
   background: $pt-main-white;
   padding: 8px;
   gap: 10px;
-  font-family: 'Inter Bold'
+  font-family: 'Inter Bold';
+
+  &:hover {
+    background: $pt-main-light-gray;
+  }
 }
 </style>
