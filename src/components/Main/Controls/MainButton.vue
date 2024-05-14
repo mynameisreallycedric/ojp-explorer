@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Props {
-  iconURL: string
+  mainIconURL: string
+  secondaryIconURL?: string
   text: string
 }
 
@@ -8,9 +9,10 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <button class="inline-flex button_container" >
-    <img :src="iconURL">
+  <button class="inline-flex items-center button_container" >
+    <img :src="mainIconURL" height="20" width="20">
     <span>{{ text }}</span>
+    <img v-if="secondaryIconURL" :src="secondaryIconURL">
   </button>
 </template>
 
@@ -23,6 +25,6 @@ const props = defineProps<Props>();
   background: $pt-main-white;
   padding: 8px;
   gap: 10px;
-  font-family: 'Inter Bold';
+  font-family: 'Inter Bold'
 }
 </style>

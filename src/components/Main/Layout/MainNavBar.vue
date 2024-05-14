@@ -9,9 +9,9 @@ const swaggerUrl = computed<string>(() => {
 </script>
 
 <template>
-  <nav class="flex w-full justify-between mt-1">
+  <nav class="flex w-full justify-between my-2">
     <h3>OJP Explorer</h3>
-    <div class="inline-flex flex-row content-center gap-1">
+    <div class="inline-flex flex-row items-baseline gap-4">
       <a :href="swaggerUrl" target="_blank">Go To Swagger</a>
       <APITokenButton />
     </div>

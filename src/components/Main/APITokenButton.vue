@@ -1,12 +1,18 @@
 <script setup lang="ts">
 
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import Modal from "@/components/Main/Modal.vue";
 import {useAuthStore} from "@/stores/auth";
 import Button from "@/components/Main/Controls/MainButton.vue";
 import MainButton from "@/components/Main/Controls/MainButton.vue";
 
 const authStore = useAuthStore();
+
+const validateToken = computed(() => ({
+  isTokenSet: !!authStore.ojpToken,
+  response: ( authStore.ojpToken ? "API Key" : " Set API Key" ),
+  imageUrl: ( authStore.ojpToken ? "/src/assets/icons/bubble_valid.svg" : undefined )
+}));
 
 const isModalOpened = ref<boolean>(false);
 
@@ -22,11 +28,14 @@ const closeModal = () => {
 </script>
 
 <template>
-  <MainButton iconURL="/src/assets/icons/key_outline.svg" text="Set API Token" @click="openModal" />
+  <MainButton mainIconURL="/src/assets/icons/key_outline.svg"
+              :text="validateToken.response"
+              @click="openModal"
+              :secondaryIconURL="validateToken.imageUrl" />
   <Modal :show-modal="isModalOpened" @modal-close="closeModal">
     <div class="modal__token_input">
-      <h3>Your API Token</h3>
-      <p>For the API to work you need to create an API Token on the OJP Developer Portal</p>
+      <h3>Your API Key</h3>
+      <p>For the API to work you need to create an API Key on the OJP Developer Portal</p>
       <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" />
       <a href="https://opentransportdata.swiss/en/dev-dashboard/">Get a new Token</a>
     </div>
