@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue";
 import useSwaggerService from "@/composables/services/swagger";
 import type {SwaggerEndpoint} from "@/types/SwaggerModels";
+import APITokenButton from "@/components/Main/APITokenButton.vue";
 
 const swaggerService = useSwaggerService();
 
@@ -21,6 +22,8 @@ onMounted(() => {
     <main class="wrapper">
         <h1>OJP Explorer 🚂</h1>
         <RouterLink to="/demo/timetable">TimeTable</RouterLink>
+
+        <APITokenButton></APITokenButton>
 
         <hr class="mt-3"/>
         <h3>Available endpoints (from swagger)</h3>
