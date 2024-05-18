@@ -28,6 +28,10 @@ function getLIR(inputString: string): void {
       })
 }
 
+async function copyToClipBoard(){
+  await navigator.clipboard.writeText(baseUrl + '/' + props.endpointUrl + "?" + props.params + "=" + props.station);
+}
+
 /*
 watch(() => inputStation.value, (value) => {
   console.log(value);
@@ -41,6 +45,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
+    <!-- Request Bar -->
     <div class="flex flex-row w-full items-center api-request__container">
       <div class="mr-2 p-1 api-request__method">
         <p class="text-center rounded m-0 font-bold px-2" >
@@ -52,7 +57,11 @@ const props = defineProps<Props>();
       <button class="ml-auto">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>
+      <button class="ml-4" @click="copyToClipBoard">
+        <img src="/src/assets/icons/copy.svg" width="20" height="20">
+      </button>
     </div>
+    <!-- Response -->
     <div v-if="response" class="api_response__container">
       <p class="font-bold mr-auto mb-0">Response</p>
       <div class="api_response__response">
