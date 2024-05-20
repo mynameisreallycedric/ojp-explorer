@@ -14,6 +14,7 @@ import type {StationBoard} from "@/types/StationBoard";
 import useStationBoardService from "@/composables/services/stationBoard";
 import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
+import DevModeLIRRequest from "@/components/Demo/DevMode/DevModeLIRRequest.vue";
 
 const stationBoardService = useStationBoardService();
 
@@ -39,9 +40,21 @@ watch(() => selectedLIR.value, async (value) => {
             .then(res => stationBoard.value = res)
             .catch(err => errorMessage.value = err)
             .finally(() => loading.value = false);
-        demoStore.setParametersForEndpoint('locationInformation', {locationName: value})
     }
 });
+
+watch(() => selectedStation.value, async (value) => {
+  demoStore.setParameterValueForEndpoint('locationInformation', 'locationName', value)
+});
+
+onMounted(() => {
+  demoStore.setParametersForEndpoint('locationInformation', {locationName: {
+      value: 'testValue',
+      mandatory: true,
+      type: 'string'
+    }})
+})
+
 </script>
 
 <template>
@@ -62,6 +75,7 @@ watch(() => selectedLIR.value, async (value) => {
                                                   :connections="stationBoard?.stationBoard"/>
                     </div>
                 </DevModeStep>
+                <DevModeLIRRequest></DevModeLIRRequest>
             </div>
         </template>
         <template #devMode>
