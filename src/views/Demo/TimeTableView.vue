@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useStopEvent from "@/composables/services/stopEvent";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
 import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableConnectionTable.vue";
@@ -12,6 +12,8 @@ import {APIMethods} from "@/types/DevMode/APIMethods";
 import DevModeStep from "@/components/Demo/DevMode/DevModeStep.vue";
 import type {StationBoard} from "@/types/StationBoard";
 import useStationBoardService from "@/composables/services/stationBoard";
+import {useDemoPageStore} from "@/stores/demo";
+import {storeToRefs} from "pinia";
 
 const stationBoardService = useStationBoardService();
 
@@ -25,6 +27,9 @@ const showDevMode = ref(false);
 
 const selectedLIR = ref<string>();
 
+const demoStore = useDemoPageStore();
+const { getParametersForEndpoint } = storeToRefs(demoStore);
+
 watch(() => selectedLIR.value, async (value) => {
     if (errorMessage.value !== null) errorMessage.value = null;
 
@@ -34,14 +39,16 @@ watch(() => selectedLIR.value, async (value) => {
             .then(res => stationBoard.value = res)
             .catch(err => errorMessage.value = err)
             .finally(() => loading.value = false);
+        demoStore.setParametersForEndpoint('locationInformation', {locationName: value})
     }
-})
+});
 </script>
 
 <template>
     <DemoLayout :showDevMode>
         <template #main>
             <div class="flex flex-col items-center">
+              <p> {{ demoStore.getParametersForEndpoint('locationInformation') }} </p>
                 <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode"/>
                 <DevModeStep :dev-mode=false :step-nr=1>
                     <div class="p-[1rem]">
@@ -62,14 +69,14 @@ watch(() => selectedLIR.value, async (value) => {
                 <div class="flex flex-col items-center p-[1rem]">
                     <DemoTimeTableSelect v-model:lir="selectedLIR"
                                          v-model:station="selectedStation"></DemoTimeTableSelect>
-                    <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="locationInformation/" params="station"
-                                       :station="selectedStation"></DevModeAPIRequest>
+                    <DevModeAPIRequest :method="APIMethods.GET" endpoint="locationInformation/" params="station"
+                                       :station="selectedStation" :parameters="demoStore.getParametersForEndpoint('locationInformation')"></DevModeAPIRequest>
                 </div>
             </DevModeStep>
             <DevModeStep :devMode=true :stepNr=2>
                 <div class="flex flex-col items-center p-[1rem]">
-                    <DevModeAPIRequest :method="APIMethods.GET" endpointUrl="stationBoard/" params="locationName"
-                                       :station="selectedStation"></DevModeAPIRequest>
+                    <DevModeAPIRequest :method="APIMethods.GET" endpoint="stationBoard/" params="locationName"
+                                       :station="selectedStation" :parameters="demoStore.getParametersForEndpoint('locationInformation')"></DevModeAPIRequest>
                 </div>
             </DevModeStep>
         </template>

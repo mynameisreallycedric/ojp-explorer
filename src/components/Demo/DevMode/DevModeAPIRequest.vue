@@ -11,8 +11,8 @@ import useLIRService from "@/composables/services/lir";
 interface Props {
   station: string
   method: APIMethods
-  endpointUrl: string
-  params: string
+  endpoint: string
+  parameters: { [key: string]: any } | undefined;
 }
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
@@ -29,7 +29,7 @@ function getLIR(inputString: string): void {
 }
 
 async function copyToClipBoard(){
-  await navigator.clipboard.writeText(baseUrl + '/' + props.endpointUrl + "?" + props.params + "=" + props.station);
+  await navigator.clipboard.writeText(baseUrl + '/' + props.endpoint + "?" + props.parameters + "=" + props.station);
 }
 
 /*
@@ -52,7 +52,7 @@ const props = defineProps<Props>();
           {{ method }}
         </p>
       </div>
-      <p class="m-0 p-0">{{ '/' + endpointUrl + "?" + params + "="}}</p>
+      <p class="m-0 p-0">{{ '/' + endpoint + "?" + parameters + "=" }}</p>
       <input type="text" :placeholder="station" v-model="inputStation" @change="getLIR(inputStation)">
       <button class="ml-auto">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">

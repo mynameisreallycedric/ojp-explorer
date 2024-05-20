@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {useTimeTableStore} from "@/stores/timetable";
+import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 
 interface Props {
@@ -10,18 +10,18 @@ interface Props {
 
 const isActive = ref<boolean>(false);
 
-const timeTableStore = useTimeTableStore();
-const { getCurrentActiveStep } = storeToRefs(timeTableStore);
+const demoStore = useDemoPageStore();
+const { getCurrentActiveStep } = storeToRefs(demoStore);
 
 function handleFocusIn(){
   if (props.devMode){
-    timeTableStore.setCurrentActiveStep(props.stepNr)
+    demoStore.setCurrentActiveStep(props.stepNr)
   }
 }
 
 function handleFocusOut(){
   if (props.devMode) {
-    timeTableStore.setCurrentActiveStep(0)
+    demoStore.setCurrentActiveStep(0)
   }
 }
 
