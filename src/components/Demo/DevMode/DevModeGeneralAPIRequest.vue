@@ -17,8 +17,6 @@ interface Props {
   response: string | undefined
 }
 
-const inputValuesParameter: Ref<APIParameters | undefined> = ref();
-
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
 const fullURL = computed(() =>{
@@ -38,6 +36,21 @@ async function copyToClipBoard(){
 defineEmits(['send']);
 
 const props = defineProps<Props>();
+
+// Create a reactive reference for inputValuesParameter and a flag to track user modification
+const inputValuesParameter = ref<APIParameters | undefined>(undefined);
+const userHasModified = ref(false);
+
+watch(() => props.parameters, (newParameters) => {
+  if (newParameters && !userHasModified.value) {
+    inputValuesParameter.value = JSON.parse(JSON.stringify(newParameters));
+  }
+}, { immediate: true });
+
+// Method to handle input change and set the userHasModified flag
+function handleInputChange() {
+  userHasModified.value = true;
+}
 </script>
 
 <template>
@@ -63,7 +76,10 @@ const props = defineProps<Props>();
         {{ parameterDetail.type }}
         <input type="text"
                :placeholder="parameterDetail.value"
-               v-model="inputValuesParameter">
+               v-model="inputValuesParameter[parameterName].value"
+               @input="handleInputChange">
+
+
       </div>
       {{ inputValuesParameter }}
     </div>
