@@ -2,7 +2,7 @@
 import type {Connection} from "@/types/Connection";
 import type {APIMethods} from "@/types/DevMode/APIMethods";
 import useDiDokEvent from "@/composables/services/didok";
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, type Ref, ref, watch} from "vue";
 import type {DiDok} from "@/types/old/DiDok";
 import {param} from "ts-interface-checker";
 import type {LIR} from "@/types/LIR";
@@ -17,7 +17,7 @@ interface Props {
   response: string | undefined
 }
 
-const inputValuesParamter: APIParameters;
+const inputValuesParameter: Ref<APIParameters | undefined> = ref();
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
@@ -49,7 +49,7 @@ const props = defineProps<Props>();
         </p>
       </div>
       <p class="m-0 p-0">{{ fullURL }}</p>
-      <button class="ml-auto" @click="$emit('send', inputValuesParamter)">
+      <button class="ml-auto" @click="$emit('send', inputValuesParameter)">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>
       <button class="ml-4" @click="copyToClipBoard">
@@ -58,10 +58,14 @@ const props = defineProps<Props>();
     </div>
     <!-- Parameters -->
     <div>
-      <div v-for="(parameterDetail, parameterName) in parameters" :key="parameterName" v-bind="inputValuesParamter">
+      <div v-for="(parameterDetail, parameterName) in parameters" :key="parameterName">
         {{ parameterName }}
         {{ parameterDetail.type }}
+        <input type="text"
+               :placeholder="parameterDetail.value"
+               v-model="inputValuesParameter">
       </div>
+      {{ inputValuesParameter }}
     </div>
     <!-- Response -->
     <div v-if="response" class="api_response__container">
