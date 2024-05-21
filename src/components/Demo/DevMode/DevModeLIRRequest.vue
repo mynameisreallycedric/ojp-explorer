@@ -9,7 +9,7 @@ import {storeToRefs} from "pinia";
 import {computed, type Ref, ref, watch} from "vue";
 
 const demoStore = useDemoPageStore();
-const { getParametersForEndpoint } = storeToRefs(demoStore);
+const { getQueryParametersForEndpoint } = storeToRefs(demoStore);
 
 const response = ref();
 
@@ -22,9 +22,19 @@ function getLIR(): void {
 };
 
 
-const params = computed(() => demoStore.getParametersForEndpoint('locationInformation'));
+const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/locationInformation'));
 const inputValue = ref<APIParameters | undefined>({
   locationName: {
+    value: '',
+    mandatory: false,
+    type: ''
+  },
+  Authorization: {
+    value: '',
+    mandatory: false,
+    type: ''
+  },
+  limit: {
     value: '',
     mandatory: false,
     type: ''

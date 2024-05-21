@@ -14,6 +14,7 @@ export interface SwaggerParams {
     in: string;
     style: string;
     schema: SwaggerSchema;
+    value?: any
 }
 
 export interface SwaggerSchema {

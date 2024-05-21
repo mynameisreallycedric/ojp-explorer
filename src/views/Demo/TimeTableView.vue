@@ -44,15 +44,11 @@ watch(() => selectedLIR.value, async (value) => {
 });
 
 watch(() => selectedStation.value, async (value) => {
-  demoStore.setParameterValueForEndpoint('locationInformation', 'locationName', value)
+  demoStore.setParameterValueForEndpoint('/api/locationInformation', 'locationName', value)
 });
 
 onMounted(() => {
-  demoStore.setParametersForEndpoint('locationInformation', {locationName: {
-      value: 'testValue',
-      mandatory: true,
-      type: 'string'
-    }})
+  demoStore.initializeSwaggerDoc();
 })
 
 </script>

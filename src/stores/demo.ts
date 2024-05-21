@@ -1,5 +1,8 @@
 import {defineStore} from "pinia";
 import type {APIParameters} from "@/types/DevMode/APIParameters";
+import type {SwaggerEndpoint, SwaggerParams} from "@/types/SwaggerModels";
+import {useSwaggerStore} from "@/stores/swagger";
+import {useAuthStore} from "@/stores/auth";
 
 interface Endpoint {
     endpoint: string
@@ -8,9 +11,8 @@ interface Endpoint {
 
 interface State {
     activeStep: number
-    endpoints: Endpoint[];
+    endpoints: SwaggerEndpoint[] | null;
 }
-
 
 export const useDemoPageStore = defineStore('demo', {
     state: (): State => ({
@@ -22,9 +24,15 @@ export const useDemoPageStore = defineStore('demo', {
             return state.activeStep;
         },
         getParametersForEndpoint(state) {
-            return (endpoint: string): APIParameters | undefined => {
-                const found = state.endpoints.find(e => e.endpoint === endpoint);
-                return found ? found.parameters : undefined;
+            return (path: string): SwaggerParams[] | undefined => {
+                const found = state.endpoints?.find(e => e.path === path);
+                return found ? found.methods.flatMap(method => method.parameters) : undefined;
+            };
+        },
+        getQueryParametersForEndpoint(state) {
+            return (path: string): SwaggerParams[] | undefined => {
+                const found = state.endpoints?.find(e => e.path === path);
+                return found ? found.methods.flatMap(method => method.parameters.filter(param => param.in === 'query')) : undefined;
             };
         }
     },
@@ -32,21 +40,24 @@ export const useDemoPageStore = defineStore('demo', {
         setCurrentActiveStep(stepNr: number): void{
             this.activeStep = stepNr;
         },
-        setParameterValueForEndpoint(endpoint: string, parameterName: string, value: any){
-            const existingEndpoint = this.endpoints.find(e => e.endpoint === endpoint);
+        setParameterValueForEndpoint(path: string, parameterName: string, value: any) {
+            const existingEndpoint = this.endpoints?.find(e => e.path === path);
             if (existingEndpoint) {
-                existingEndpoint.parameters[parameterName].value = value
-            } else {
-                console.log("param existiert nicht")
+                for (let method of existingEndpoint.methods) {
+                    const param = method.parameters.find(p => p.name === parameterName);
+                    if (param) {
+                        param.value = value;
+                        console.log("set value for parameter")
+                        return; // Exit the function once the parameter is found and set
+                    }
+                }
+                console.log("Parameter not found in the methods");
             }
-        } ,
-        setParametersForEndpoint(endpoint: string, params: { [key: string]: any }): void {
-            const existingEndpoint = this.endpoints.find(e => e.endpoint === endpoint);
-            if (existingEndpoint) {
-                existingEndpoint.parameters = { ...existingEndpoint.parameters, ...params };
-            } else {
-                this.endpoints.push({ endpoint, parameters: params });
-            }
+        },
+        async initializeSwaggerDoc(){
+            const swaggerStore = useSwaggerStore();
+            await swaggerStore.fetchSwaggerJSON()
+                .then(res => this.endpoints = swaggerStore.swaggerJSON)
         }
     }
 });

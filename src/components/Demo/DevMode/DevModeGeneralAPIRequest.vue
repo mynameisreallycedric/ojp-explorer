@@ -8,25 +8,34 @@ import {param} from "ts-interface-checker";
 import type {LIR} from "@/types/LIR";
 import useLIRService from "@/composables/services/lir";
 import type {APIParameterDetail, APIParameters} from "@/types/DevMode/APIParameters";
+import type {SwaggerParams} from "@/types/SwaggerModels";
 
 interface Props {
   method: APIMethods
   placeholder: string | undefined
-  parameters: APIParameters | undefined
+  parameters: SwaggerParams[] | undefined
   endpoint: string
   response: string | undefined
 }
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
+const isUserInput = ref();
+
 const inputValuesParameter = defineModel<APIParameters>();
 
 const fullURL = computed(() =>{
   let paramChain = "";
-  if( props.parameters ){
-    for (let i = 0; i < Object.keys(props.parameters).length; i++) {
-      paramChain += "?" + Object.keys(props.parameters)[i] + "=" + Object.values(props.parameters)[i].value
-    }
+    if( props.parameters ){
+      for (let i = 0; i < props.parameters.length; i++) {
+        if (inputValuesParameter.value[props.parameters[i].name].value){
+            paramChain += "?" + props.parameters[i].name + "=" + inputValuesParameter.value[props.parameters[i].name].value
+        } else {
+          if (props.parameters[i].value){
+            paramChain += "?" + props.parameters[i].name + "=" + props.parameters[i].value
+          }
+        }
+      }
   }
   return baseUrl + props.endpoint + paramChain;
 });
@@ -36,23 +45,7 @@ async function copyToClipBoard(){
 }
 
 defineEmits(['send']);
-
 const props = defineProps<Props>();
-
-// Create a reactive reference for inputValuesParameter and a flag to track user modification
-  //const inputValuesParameter = ref<APIParameters | undefined>(undefined);
-//const userHasModified = ref(false);
-
-/*watch(() => props.parameters, (newParameters) => {
-  if (newParameters && !userHasModified.value) {
-    inputValuesParameter.value = JSON.parse(JSON.stringify(newParameters));
-  }
-}, { immediate: true });
-
-// Method to handle input change and set the userHasModified flag
-function handleInputChange() {
-  userHasModified.value = true;
-}*/
 </script>
 
 <template>
@@ -72,15 +65,18 @@ function handleInputChange() {
       </button>
     </div>
     <!-- Parameters -->
-    <div>
-      <div v-for="(parameterDetail, parameterName) in parameters" :key="parameterName">
-        {{ parameterName }}
-        {{ parameterDetail.type }}
-        <input type="text"
-               :placeholder="parameterDetail.value"
-               v-model="inputValuesParameter[parameterName].value">
+    <div class="flex flex-col w-full api-parameters__container">
+      <hp class="font-bold">Required Parameters</hp>
+      <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
+        <div class="flex flex-col">
+          <p class="api-parameters__text-name">{{ parameter.name }}</p>
+          <p class="api-parameters__text-type">{{ parameter.schema.type }}</p>
+        </div>
+        <input  class="api-parameters__input"
+                type="text"
+               :placeholder="parameter.value"
+               v-model="inputValuesParameter[parameter.name].value">
       </div>
-      {{ inputValuesParameter }}
     </div>
     <!-- Response -->
     <div v-if="response" class="api_response__container">
@@ -109,7 +105,7 @@ function handleInputChange() {
   border-radius: 5px;
   background: $pt-main-white;
   padding: 5px 10px 5px 5px;
-  margin: 0.5rem 0 0.5rem 0;
+  margin: 0.5rem 0 0 0;
 }
 
 .api-request__method {
@@ -117,6 +113,30 @@ function handleInputChange() {
   border-radius: 5px;
   background: $pt-main-black;
   color: $pt-main-white;
+}
+
+.api-parameters__container {
+  border: 1px solid $pt-main-black;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.api-parameters__text-name {
+  font-weight: bold;
+  margin: 0;
+}
+
+.api-parameters__text-type {
+  color: $pt-purple;
+  margin: 0;
+}
+
+.api-parameters__input {
+  padding: 7px;
+  border: 1px solid $pt-main-black;
+  background: $pt-main-white;
+  border-radius: 5px;
+  height: min-content;
 }
 
 </style>
