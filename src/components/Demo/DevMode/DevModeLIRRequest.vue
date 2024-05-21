@@ -6,7 +6,7 @@ import {APIMethods} from "@/types/DevMode/APIMethods";
 import type {APIParameters} from "@/types/DevMode/APIParameters";
 import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
-import {computed, type Ref, ref} from "vue";
+import {computed, type Ref, ref, watch} from "vue";
 
 const demoStore = useDemoPageStore();
 const { getParametersForEndpoint } = storeToRefs(demoStore);
@@ -23,7 +23,21 @@ function getLIR(): void {
 
 
 const params = computed(() => demoStore.getParametersForEndpoint('locationInformation'));
-const inputValue: Ref<APIParameters | undefined> = ref(params);
+const inputValue = ref<APIParameters | undefined>({
+  locationName: {
+    value: '',
+    mandatory: false,
+    type: ''
+  }
+});
+
+
+/*watch(() => params.value, (newParameters) => {
+  console.log("new parameters: " + newParameters)
+  if (newParameters) {
+    inputValue.value = JSON.parse(JSON.stringify(newParameters));
+  }
+}, { immediate: true });*/
 
 
 </script>
