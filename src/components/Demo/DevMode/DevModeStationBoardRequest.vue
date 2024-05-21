@@ -23,31 +23,21 @@ function getStationBoard(): void {
 
 
 const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/stationBoard'));
-const inputValue = ref<APIParameters | undefined>({
+const inputValue = ref({
   locationName: {
     value: '',
-    mandatory: false,
-    type: ''
   },
   station: {
     value: '',
-    mandatory: false,
-    type: ''
   },
   id: {
     value: '',
-    mandatory: false,
-    type: ''
   },
   datetime  : {
     value: '',
-    mandatory: false,
-    type: ''
   },
   limit: {
     value: '',
-    mandatory: false,
-    type: ''
   }
 });
 </script>

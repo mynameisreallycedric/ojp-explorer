@@ -66,7 +66,7 @@ const props = defineProps<Props>();
     </div>
     <!-- Parameters -->
     <div class="flex flex-col w-full api-parameters__container">
-      <hp class="font-bold">Required Parameters</hp>
+      <p class="font-bold">Required Parameters</p>
       <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
         <div class="flex flex-col">
           <p class="api-parameters__text-name">{{ parameter.name }}</p>

@@ -23,21 +23,12 @@ function getLIR(): void {
 
 
 const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/locationInformation'));
-const inputValue = ref<APIParameters | undefined>({
+const inputValue = ref({
   locationName: {
-    value: '',
-    mandatory: false,
-    type: ''
-  },
-  Authorization: {
-    value: '',
-    mandatory: false,
-    type: ''
+    value: ''
   },
   limit: {
     value: '',
-    mandatory: false,
-    type: ''
   }
 });
 </script>
