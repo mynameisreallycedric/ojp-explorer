@@ -15,6 +15,7 @@ import useStationBoardService from "@/composables/services/stationBoard";
 import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import DevModeLIRRequest from "@/components/Demo/DevMode/DevModeLIRRequest.vue";
+import DevModeStationBoardRequest from "@/components/Demo/DevMode/DevModeStationBoardRequest.vue";
 
 const stationBoardService = useStationBoardService();
 
@@ -40,11 +41,13 @@ watch(() => selectedLIR.value, async (value) => {
             .then(res => stationBoard.value = res)
             .catch(err => errorMessage.value = err)
             .finally(() => loading.value = false);
+        demoStore.setParameterValueForEndpoint('/api/stationBoard', 'id', value)
     }
 });
 
 watch(() => selectedStation.value, async (value) => {
   demoStore.setParameterValueForEndpoint('/api/locationInformation', 'locationName', value)
+  demoStore.setParameterValueForEndpoint('/api/stationBoard', 'station', value)
 });
 
 onMounted(() => {
@@ -71,7 +74,6 @@ onMounted(() => {
                                                   :connections="stationBoard?.stationBoard"/>
                     </div>
                 </DevModeStep>
-                <DevModeLIRRequest></DevModeLIRRequest>
             </div>
         </template>
         <template #devMode>
@@ -79,14 +81,12 @@ onMounted(() => {
                 <div class="flex flex-col items-center p-[1rem]">
                     <DemoTimeTableSelect v-model:lir="selectedLIR"
                                          v-model:station="selectedStation"></DemoTimeTableSelect>
-                    <DevModeAPIRequest :method="APIMethods.GET" endpoint="locationInformation/" params="station"
-                                       :station="selectedStation" :parameters="demoStore.getParametersForEndpoint('locationInformation')"></DevModeAPIRequest>
+                  <DevModeLIRRequest />
                 </div>
             </DevModeStep>
             <DevModeStep :devMode=true :stepNr=2>
                 <div class="flex flex-col items-center p-[1rem]">
-                    <DevModeAPIRequest :method="APIMethods.GET" endpoint="stationBoard/" params="locationName"
-                                       :station="selectedStation" :parameters="demoStore.getParametersForEndpoint('locationInformation')"></DevModeAPIRequest>
+                    <DevModeStationBoardRequest />
                 </div>
             </DevModeStep>
         </template>

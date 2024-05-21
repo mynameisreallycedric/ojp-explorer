@@ -119,6 +119,7 @@ const props = defineProps<Props>();
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   padding: 5px;
+  background: $pt-main-white;
 }
 
 .api-parameters__text-name {

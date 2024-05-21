@@ -7,29 +7,39 @@ import type {APIParameters} from "@/types/DevMode/APIParameters";
 import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import {computed, type Ref, ref, watch} from "vue";
+import useStationBoardService from "@/composables/services/stationBoard";
 
 const demoStore = useDemoPageStore();
 const { getQueryParametersForEndpoint } = storeToRefs(demoStore);
 
 const response = ref();
 
-function getLIR(): void {
-  console.log(inputValue.value)
-  useLIRService().getLIRForLocation(inputValue.value['locationName'].value)
+function getStationBoard(): void {
+  useStationBoardService().getStationBoardForLocation(inputValue.value['station'].value)
       .then(res => {
         response.value = res;
       })
-};
+}
 
 
-const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/locationInformation'));
+const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/stationBoard'));
 const inputValue = ref<APIParameters | undefined>({
   locationName: {
     value: '',
     mandatory: false,
     type: ''
   },
-  Authorization: {
+  station: {
+    value: '',
+    mandatory: false,
+    type: ''
+  },
+  id: {
+    value: '',
+    mandatory: false,
+    type: ''
+  },
+  datetime  : {
     value: '',
     mandatory: false,
     type: ''
@@ -45,9 +55,9 @@ const inputValue = ref<APIParameters | undefined>({
 <template>
   <DevModeGeneralAPIRequest
       v-model="inputValue"
-      @send="getLIR"
+      @send="getStationBoard"
       :method="APIMethods.GET"
-      endpoint="/locationInformation"
+      endpoint="/stationBoard"
       :parameters="params"
       placeholder="test"
       :response="response">
