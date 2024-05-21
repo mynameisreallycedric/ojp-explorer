@@ -22,14 +22,14 @@ const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
 const isUserInput = ref();
 
-const inputValuesParameter = defineModel<APIParameters>();
+const userInputParameterValues = defineModel<APIParameters>();
 
 const fullURL = computed(() =>{
   let paramChain = "";
     if( props.parameters ){
       for (let i = 0; i < props.parameters.length; i++) {
-        if (inputValuesParameter.value[props.parameters[i].name].value){
-            paramChain += "?" + props.parameters[i].name + "=" + inputValuesParameter.value[props.parameters[i].name].value
+        if (userInputParameterValues.value[props.parameters[i].name].value){
+            paramChain += "?" + props.parameters[i].name + "=" + userInputParameterValues.value[props.parameters[i].name].value
         } else {
           if (props.parameters[i].value){
             paramChain += "?" + props.parameters[i].name + "=" + props.parameters[i].value
@@ -57,7 +57,7 @@ const props = defineProps<Props>();
         </p>
       </div>
       <p class="m-0 p-0 max-w-full text-nowrap overflow-x-scroll">{{ fullURL }}</p>
-      <button class="ml-auto" @click="$emit('send', inputValuesParameter)">
+      <button class="ml-auto" @click="$emit('send', userInputParameterValues)">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>
       <button class="ml-4" @click="copyToClipBoard">
@@ -75,7 +75,7 @@ const props = defineProps<Props>();
         <input  class="api-parameters__input"
                 type="text"
                :placeholder="parameter.value"
-               v-model="inputValuesParameter[parameter.name].value">
+               v-model="userInputParameterValues[parameter.name].value">
       </div>
     </div>
     <!-- Response -->

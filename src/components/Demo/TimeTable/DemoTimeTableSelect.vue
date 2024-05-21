@@ -49,9 +49,9 @@ function handleFocusIn(){
   <div class="flex flex-col w-full">
     <DemoTimeTableInput @focus="handleFocusIn" @focusout="handleFocusOut" v-model="selectedStation"></DemoTimeTableInput>
     <div class="relative">
-      <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full select__dropdown">
-        <div v-for="option in lirList?.locations" :key="option.id" class="select__option">
-          <label @click="updateLocation(option.id, option.name)" >
+      <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full cursor-pointer select__dropdown">
+        <div v-for="option in lirList?.locations" :key="option.id" class="select__option" @click="updateLocation(option.id, option.name)">
+          <label class="cursor-pointer">
             <span>{{ option.name }}</span>
           </label>
         </div>
