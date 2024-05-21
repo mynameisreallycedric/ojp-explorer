@@ -19,6 +19,8 @@ interface Props {
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
+const inputValuesParameter = defineModel<APIParameters>();
+
 const fullURL = computed(() =>{
   let paramChain = "";
   if( props.parameters ){
@@ -38,10 +40,10 @@ defineEmits(['send']);
 const props = defineProps<Props>();
 
 // Create a reactive reference for inputValuesParameter and a flag to track user modification
-const inputValuesParameter = ref<APIParameters | undefined>(undefined);
-const userHasModified = ref(false);
+//const inputValuesParameter = ref<APIParameters | undefined>(undefined);
+//const userHasModified = ref(false);
 
-watch(() => props.parameters, (newParameters) => {
+/*watch(() => props.parameters, (newParameters) => {
   if (newParameters && !userHasModified.value) {
     inputValuesParameter.value = JSON.parse(JSON.stringify(newParameters));
   }
@@ -50,7 +52,7 @@ watch(() => props.parameters, (newParameters) => {
 // Method to handle input change and set the userHasModified flag
 function handleInputChange() {
   userHasModified.value = true;
-}
+}*/
 </script>
 
 <template>
@@ -76,10 +78,7 @@ function handleInputChange() {
         {{ parameterDetail.type }}
         <input type="text"
                :placeholder="parameterDetail.value"
-               v-model="inputValuesParameter[parameterName].value"
-               @input="handleInputChange">
-
-
+               v-model="inputValuesParameter[parameterName].value">
       </div>
       {{ inputValuesParameter }}
     </div>

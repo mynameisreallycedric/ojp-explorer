@@ -6,14 +6,16 @@ import {APIMethods} from "@/types/DevMode/APIMethods";
 import type {APIParameters} from "@/types/DevMode/APIParameters";
 import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
-import {computed} from "vue";
+import {computed, type Ref, ref} from "vue";
 
 const demoStore = useDemoPageStore();
 const { getParametersForEndpoint } = storeToRefs(demoStore);
 
+const response = ref();
 
-function getLIR(inputString: string): void {
-  useLIRService().getLIRForLocation(inputString)
+function getLIR(): void {
+  console.log(inputValue.value)
+  useLIRService().getLIRForLocation(inputValue.value['locationName'].value)
       .then(res => {
         response.value = res;
       })
@@ -21,11 +23,20 @@ function getLIR(inputString: string): void {
 
 
 const params = computed(() => demoStore.getParametersForEndpoint('locationInformation'));
+const inputValue: Ref<APIParameters | undefined> = ref(params);
+
 
 </script>
 
 <template>
-  <DevModeGeneralAPIRequest @send="(n) => console.log(n)" @copy="console.log('copy')" :method="APIMethods.GET" endpoint="/locationInformation" :parameters="params" placeholder="test" response="test">
+  <DevModeGeneralAPIRequest
+      v-model="inputValue"
+      @send="getLIR"
+      :method="APIMethods.GET"
+      endpoint="/locationInformation"
+      :parameters="params"
+      placeholder="test"
+      :response="response">
   </DevModeGeneralAPIRequest>
 
 </template>
