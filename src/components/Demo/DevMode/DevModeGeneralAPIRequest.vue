@@ -56,7 +56,7 @@ const props = defineProps<Props>();
             {{ method }}
         </p>
       </div>
-      <p class="m-0 p-0">{{ fullURL }}</p>
+      <p class="m-0 p-0 max-w-full text-nowrap overflow-x-scroll">{{ fullURL }}</p>
       <button class="ml-auto" @click="$emit('send', inputValuesParameter)">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>

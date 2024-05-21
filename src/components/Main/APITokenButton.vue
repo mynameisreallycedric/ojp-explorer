@@ -37,7 +37,7 @@ const closeModal = () => {
       <h3>Your API Key</h3>
       <p>For the API to work you need to create an API Key on the OJP Developer Portal</p>
       <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" />
-      <a href="https://opentransportdata.swiss/en/dev-dashboard/">Get a new Token</a>
+      <a class="underline hover:no-underline w-max" href="https://opentransportdata.swiss/en/dev-dashboard/">Get a new Token</a>
     </div>
   </Modal>
 </template>
@@ -51,10 +51,12 @@ const closeModal = () => {
   background: $pt-main-white;
   padding: 8px;
   gap: 10px;
-  font-family: 'Inter Bold';
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
 }
 
 .modal__token_input{
+  width: 600px;
   padding: 2rem;
   background: $pt-main-white;
   border-radius: 15px;
@@ -68,7 +70,7 @@ const closeModal = () => {
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   padding: 9px;
-  width: 500px;
+  width: 100%;
   margin-bottom: 2rem;
 }
 
