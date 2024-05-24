@@ -82,7 +82,7 @@ onMounted(() => {
                 <div class="flex flex-col items-center p-[2rem]">
                     <DemoTimeTableSelect v-model:lir="selectedLIR"
                                          v-model:station="selectedStation"></DemoTimeTableSelect>
-                  <DevModeLIRRequest />
+                  <DevModeLIRRequest :store="useDemoPageStore" />
                 </div>
             </DevModeStep>
             <DevModeStep :devMode=true :stepNr=2>
