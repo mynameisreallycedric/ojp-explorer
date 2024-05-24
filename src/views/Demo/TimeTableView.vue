@@ -76,7 +76,7 @@ onMounted(() => {
             </div>
         </template>
         <template #devMode>
-          <h3 class="font-bold pl-[1rem]">Developer Mode 👾</h3>
+          <h3 class="font-bold pl-[1rem]">Developer Mode</h3>
             <DevModeStep :devMode=true :stepNr=1>
                 <div class="flex flex-col items-center p-[1rem]">
                     <DemoTimeTableSelect v-model:lir="selectedLIR"

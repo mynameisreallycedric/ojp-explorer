@@ -22,7 +22,7 @@ const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 
 const isUserInput = ref();
 
-const userInputParameterValues = defineModel<APIParameters>();
+const userInputParameterValues = defineModel();
 
 const fullURL = computed(() =>{
   let paramChain = "";
