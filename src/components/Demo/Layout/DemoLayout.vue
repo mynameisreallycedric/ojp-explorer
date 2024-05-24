@@ -11,7 +11,7 @@ const props = defineProps<Props>();
 <template>
   <div class="grid grid-flow-col justify-center w-full" :class="{ 'demo_layout--container': showDevMode }">
     <div class="demo_layout--main_container pt-4">
-      <div class="demo_layout--main_content">
+      <div class="demo_layout--main_content" :class="{ 'demo_layout--main_content_devMode': showDevMode }" >
         <slot name="main"></slot>
       </div>
     </div>
@@ -38,11 +38,14 @@ const props = defineProps<Props>();
 
 .demo_layout--main_content{
   width: 700px;
+}
 
+.demo_layout--main_content_devMode {
+  width: 100%;
 }
 
 .demo_layout--devMode_content {
-  width: 700px;
+  width: 100%;
 }
 
 .demo_layout--devMode_container {
@@ -68,5 +71,25 @@ const props = defineProps<Props>();
 .transition-devmode-leave-to {
   transform: translateX(100px);
   opacity: 0;
+}
+
+@media #{$media-query-m} {
+  .demo_layout--container {
+    grid-template-columns: 1fr;
+  }
+
+  .demo_layout--main_container{
+    display: flex;
+    justify-content: right;
+  }
+
+  .demo_layout--devMode_container {
+    position: absolute;
+    margin: 0 25px;
+  }
+
+  .demo_layout--main_content {
+    width: 500px;
+  }
 }
 </style>
