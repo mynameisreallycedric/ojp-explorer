@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DemoLayoutButton from "@/components/Demo/Layout/DemoLayoutButton.vue";
+
 interface Props {
   showDevMode: boolean
 }
@@ -44,6 +46,7 @@ const props = defineProps<Props>();
 }
 
 .demo_layout--devMode_container {
+  position: relative;
   background: $pt-main-gray;
   display: flex;
   justify-content: left;

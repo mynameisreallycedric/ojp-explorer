@@ -16,6 +16,7 @@ import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import DevModeLIRRequest from "@/components/Demo/DevMode/DevModeLIRRequest.vue";
 import DevModeStationBoardRequest from "@/components/Demo/DevMode/DevModeStationBoardRequest.vue";
+import DemoLayoutButton from "@/components/Demo/Layout/DemoLayoutButton.vue";
 
 const stationBoardService = useStationBoardService();
 
@@ -60,7 +61,7 @@ onMounted(() => {
     <DemoLayout :showDevMode>
         <template #main>
             <div class="flex flex-col items-center">
-                <DevModeToggle toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode"/>
+                <DevModeToggle :checked="showDevMode" toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode"/>
                 <DevModeStep :dev-mode=false :step-nr=1>
                     <div class="p-[1rem]">
                         <DemoTimeTableSelect v-model:lir="selectedLIR"
@@ -76,16 +77,17 @@ onMounted(() => {
             </div>
         </template>
         <template #devMode>
-          <h3 class="font-bold pl-[1rem]">Developer Mode</h3>
+          <h3 class="font-bold pl-[2rem]">Developer Mode</h3>
+          <DemoLayoutButton class="demo_layout-button" @click="showDevMode = !showDevMode"/>
             <DevModeStep :devMode=true :stepNr=1>
-                <div class="flex flex-col items-center p-[1rem]">
+                <div class="flex flex-col items-center p-[2rem]">
                     <DemoTimeTableSelect v-model:lir="selectedLIR"
                                          v-model:station="selectedStation"></DemoTimeTableSelect>
                   <DevModeLIRRequest />
                 </div>
             </DevModeStep>
             <DevModeStep :devMode=true :stepNr=2>
-                <div class="flex flex-col items-center p-[1rem]">
+                <div class="flex flex-col items-center p-[2rem]">
                     <DevModeStationBoardRequest />
                 </div>
             </DevModeStep>
@@ -94,5 +96,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.demo_layout-button {
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: -25px;
+  cursor: pointer;
+}
 </style>
