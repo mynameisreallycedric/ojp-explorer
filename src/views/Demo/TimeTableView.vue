@@ -7,7 +7,6 @@ import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableC
 import DevModeToggle from "@/components/Demo/DevMode/DevModeToggle.vue";
 import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
 import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
-import DevModeAPIRequest from "@/components/Demo/DevMode/DevModeAPIRequest.vue";
 import {APIMethods} from "@/types/DevMode/APIMethods";
 import DevModeStep from "@/components/Demo/DevMode/DevModeStep.vue";
 import type {StationBoard} from "@/types/StationBoard";
