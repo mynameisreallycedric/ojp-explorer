@@ -98,7 +98,9 @@ onMounted(() => {
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
 
-
+#devMode_toggle {
+  display: none;
+}
 
 .demo_layout-button {
     position: absolute;

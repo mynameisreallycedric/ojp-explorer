@@ -22,8 +22,9 @@ onMounted(() => {
 <template>
     <main class="wrapper">
       <h1>OJP Explorer 🚂</h1>
-      <MainHeroBubble title="Getting Started" link="/gettingstarted"></MainHeroBubble>
-
+      <div class="w-full flex justify-center">
+        <MainHeroBubble title="Getting Started" link="/gettingstarted"></MainHeroBubble>
+      </div>
       <h2>Demo</h2>
       <RouterLink to="/demo/timetable">TimeTable</RouterLink>
 
