@@ -76,6 +76,7 @@ onMounted(() => {
             </div>
         </template>
         <template #devMode>
+          <DevModeToggle id="devMode_toggle" :checked="showDevMode" toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode"/>
           <h3 class="font-bold pl-[2rem]">Developer Mode</h3>
           <DemoLayoutButton class="demo_layout-button" @click="showDevMode = !showDevMode"/>
             <DevModeStep :devMode=true :stepNr=1>
@@ -94,7 +95,11 @@ onMounted(() => {
     </DemoLayout>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import "src/assets/scss/variables";
+
+
+
 .demo_layout-button {
     position: absolute;
     z-index: 1000;
@@ -102,4 +107,15 @@ onMounted(() => {
     left: -25px;
   cursor: pointer;
 }
+
+@media #{$media-query-l} {
+  .demo_layout-button {
+    display: none;
+  }
+
+  #devMode_toggle {
+    display: flex;
+  }
+}
+
 </style>

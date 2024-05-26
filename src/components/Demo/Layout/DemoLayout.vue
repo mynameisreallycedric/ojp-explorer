@@ -28,7 +28,7 @@ const props = defineProps<Props>();
 @import "src/assets/scss/variables";
 
 .demo_layout--container {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 700px;
 }
 
 .demo_layout--main_container{
@@ -73,7 +73,7 @@ const props = defineProps<Props>();
   opacity: 0;
 }
 
-@media #{$media-query-m} {
+@media #{$media-query-l} {
   .demo_layout--container {
     grid-template-columns: 1fr;
   }
@@ -84,12 +84,8 @@ const props = defineProps<Props>();
   }
 
   .demo_layout--devMode_container {
+    width: 100%;
     position: absolute;
-    margin: 0 25px;
-  }
-
-  .demo_layout--main_content {
-    width: 500px;
   }
 }
 </style>
