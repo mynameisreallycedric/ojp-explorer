@@ -7,6 +7,13 @@ import type {APIParameters} from "@/types/DevMode/APIParameters";
 import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import {computed, type Ref, ref, watch} from "vue";
+import type {SwaggerParams} from "@/types/SwaggerModels";
+
+interface Props {
+  parameters: SwaggerParams[] | undefined;
+}
+
+const props = defineProps<Props>();
 
 const demoStore = useDemoPageStore();
 const { getQueryParametersForEndpoint } = storeToRefs(demoStore);
@@ -22,7 +29,7 @@ function getLIR(): void {
 };
 
 
-const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/locationInformation'));
+
 const inputValue = ref({
   locationName: {
     value: ''
@@ -39,7 +46,7 @@ const inputValue = ref({
       @send="getLIR"
       :method="APIMethods.GET"
       endpoint="/locationInformation"
-      :parameters="params"
+      :parameters="parameters"
       placeholder="test"
       :response="response">
   </DevModeGeneralAPIRequest>

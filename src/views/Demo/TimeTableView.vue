@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useStopEvent from "@/composables/services/stopEvent";
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import type {StopEvent} from "@/types/StopEvent";
 import type {Connection} from "@/types/Connection";
 import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableConnectionTable.vue";
@@ -31,6 +31,9 @@ const selectedLIR = ref<string>();
 
 const demoStore = useDemoPageStore();
 const { getParametersForEndpoint } = storeToRefs(demoStore);
+
+const paramsLIR = computed(() => demoStore.getQueryParametersForEndpoint('/api/locationInformation'));
+const paramsSB = computed(() => demoStore.getQueryParametersForEndpoint('/api/stationBoard'));
 
 watch(() => selectedLIR.value, async (value) => {
     if (errorMessage.value !== null) errorMessage.value = null;
@@ -83,12 +86,12 @@ onMounted(() => {
                 <div class="flex flex-col items-center p-[2rem]">
                     <DemoTimeTableSelect v-model:lir="selectedLIR"
                                          v-model:station="selectedStation"></DemoTimeTableSelect>
-                  <DevModeLIRRequest :store="useDemoPageStore" />
+                  <DevModeLIRRequest :parameters="paramsLIR"/>
                 </div>
             </DevModeStep>
             <DevModeStep :devMode=true :stepNr=2>
                 <div class="flex flex-col items-center p-[2rem]">
-                    <DevModeStationBoardRequest />
+                    <DevModeStationBoardRequest  :parameters="paramsSB"/>
                 </div>
             </DevModeStep>
         </template>

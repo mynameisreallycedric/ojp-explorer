@@ -8,6 +8,13 @@ import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import {computed, type Ref, ref, watch} from "vue";
 import useStationBoardService from "@/composables/services/stationBoard";
+import type {SwaggerParams} from "@/types/SwaggerModels";
+
+interface Props {
+  parameters: SwaggerParams[] | undefined;
+}
+
+const props = defineProps<Props>();
 
 const demoStore = useDemoPageStore();
 const { getQueryParametersForEndpoint } = storeToRefs(demoStore);
@@ -21,8 +28,6 @@ function getStationBoard(): void {
       })
 }
 
-
-const params = computed(() => demoStore.getQueryParametersForEndpoint('/api/stationBoard'));
 const inputValue = ref({
   locationName: {
     value: '',
@@ -48,7 +53,7 @@ const inputValue = ref({
       @send="getStationBoard"
       :method="APIMethods.GET"
       endpoint="/stationBoard"
-      :parameters="params"
+      :parameters="parameters"
       placeholder="test"
       :response="response">
   </DevModeGeneralAPIRequest>
