@@ -36,5 +36,6 @@ const props = defineProps<Props>();
 
   .hero-bubble_title {
     margin: auto 0 0 1.5rem;
+    font-weight: bold;
   }
 </style>

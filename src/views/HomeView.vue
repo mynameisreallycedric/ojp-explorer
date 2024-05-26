@@ -26,7 +26,9 @@ onMounted(() => {
         <MainHeroBubble title="Getting Started" link="/gettingstarted"></MainHeroBubble>
       </div>
       <h2>Demo</h2>
-      <RouterLink to="/demo/timetable">TimeTable</RouterLink>
+      <h3 class="inline-flex content-center gap-2">
+        <img src="/src/assets/icons/arrow_right.svg" height="20" width="20" /><RouterLink to="/demo/timetable">TimeTable</RouterLink>
+      </h3>
 
       <hr class="mt-3"/>
       <h3>Available endpoints (from swagger)</h3>
