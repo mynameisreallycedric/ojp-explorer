@@ -33,6 +33,7 @@ onMounted(() => {
 
     <section>
       <h2>Query Endpoints</h2>
+
       <h3>/locationInformation</h3>
       <div class="getting_started--endpoints_container">
         <DevModeLIRRequest  :parameters="paramsLIR"/>
@@ -58,6 +59,10 @@ section {
   flex-direction: column;
   align-items: center;
   max-width: 700px;
+}
+
+h3 {
+  margin-top: 2rem;
 }
 
 </style>
