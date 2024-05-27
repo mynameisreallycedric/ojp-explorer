@@ -1,13 +1,6 @@
 <script setup lang="ts">
-import type {Connection} from "@/types/Connection";
 import type {APIMethods} from "@/types/DevMode/APIMethods";
-import useDiDokEvent from "@/composables/services/didok";
 import {computed, onMounted, type Ref, ref, watch} from "vue";
-import type {DiDok} from "@/types/old/DiDok";
-import {param} from "ts-interface-checker";
-import type {LIR} from "@/types/LIR";
-import useLIRService from "@/composables/services/lir";
-import type {APIParameterDetail, APIParameters} from "@/types/DevMode/APIParameters";
 import type {SwaggerParams} from "@/types/SwaggerModels";
 
 interface Props {
@@ -79,13 +72,17 @@ const props = defineProps<Props>();
     <div v-if="response" class="api_response__container">
       <p class="font-bold mr-auto mb-0">Response</p>
       <div class="api_response__response">
-        {{ response }}
+        <pre>{{ response }}</pre>
       </div>
     </div>
 </template>
 
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
+
+.api_response__container {
+  width: 100%;
+}
 
 .api_response__response {
   border: 1px solid $pt-main-black;
@@ -95,6 +92,9 @@ const props = defineProps<Props>();
   margin: 0.5rem 0 0.5rem 0;
   max-height: 200px;
   overflow-y: scroll;
+
+  font-family: "Inter";
+  tab-size: 3;
 }
 
 .api-request__container {
