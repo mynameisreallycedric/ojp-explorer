@@ -5,12 +5,15 @@ import type {StationBoard} from "@/types/StationBoard";
 
 export class StationBoardService{
 
-    public async getStationBoardForLocation(lir: string): Promise<StationBoard>{
+    public async getStationBoardForLocation(station: string, limit?: number, id?: number, datetime?: string ): Promise<StationBoard>{
         console.log("used get station-board service");
         try {
             const response = await useAxios().get<StationBoard>('/stationBoard', {
                 params: {
-                    station: lir
+                    station: station,
+                    id: id,
+                    datetime: datetime,
+                    limit: limit
                 }
             });
             return response.data; // Return the fetched data
@@ -19,7 +22,6 @@ export class StationBoardService{
             throw new Error('Failed to fetch station board');
         }
     }
-
 }
 
 const instance = new StationBoardService();

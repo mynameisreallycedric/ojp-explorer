@@ -36,11 +36,12 @@ watch(() => selectedLIR.value, async (value) => {
 
     if (value) {
         loading.value = true;
-        stationBoardService.getStationBoardForLocation(value)
+        stationBoardService.getStationBoardForLocation(value, 8)
             .then(res => stationBoard.value = res)
             .catch(err => errorMessage.value = err)
             .finally(() => loading.value = false);
         demoStore.setParameterValueForEndpoint('/api/stationBoard', 'id', value)
+        demoStore.setParameterValueForEndpoint('/api/stationBoard', 'limit', 8)
     }
 });
 

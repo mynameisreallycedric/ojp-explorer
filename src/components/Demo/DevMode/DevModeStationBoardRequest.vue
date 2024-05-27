@@ -22,27 +22,27 @@ const { getQueryParametersForEndpoint } = storeToRefs(demoStore);
 const response = ref();
 
 function getStationBoard(): void {
-  useStationBoardService().getStationBoardForLocation(inputValue.value['station'].value)
+  useStationBoardService().getStationBoardForLocation(inputValue.value['station'].value,
+      inputValue.value['id'].value,
+      inputValue.value['datetime'].value,
+      inputValue.value['limit'].value)
       .then(res => {
         response.value = res;
       })
 }
 
 const inputValue = ref({
-  locationName: {
-    value: '',
-  },
   station: {
     value: '',
   },
   id: {
-    value: '',
+    value: null,
   },
   datetime  : {
     value: '',
   },
   limit: {
-    value: '',
+    value: null,
   }
 });
 </script>
