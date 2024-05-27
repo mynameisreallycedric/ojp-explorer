@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import useStopEvent from "@/composables/services/stopEvent";
 import {computed, onMounted, ref, watch} from "vue";
-import type {StopEvent} from "@/types/StopEvent";
-import type {Connection} from "@/types/Connection";
 import DemoTimeTableConnections from "@/components/Demo/TimeTable/DemoTimeTableConnectionTable.vue";
 import DevModeToggle from "@/components/Demo/DevMode/DevModeToggle.vue";
 import DemoLayout from "@/components/Demo/Layout/DemoLayout.vue";
 import DemoTimeTableSelect from "@/components/Demo/TimeTable/DemoTimeTableSelect.vue";
-import {APIMethods} from "@/types/DevMode/APIMethods";
 import DevModeStep from "@/components/Demo/DevMode/DevModeStep.vue";
 import type {StationBoard} from "@/types/StationBoard";
 import useStationBoardService from "@/composables/services/stationBoard";
