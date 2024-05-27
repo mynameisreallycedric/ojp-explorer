@@ -22,7 +22,7 @@ const response = ref();
 
 function getLIR(): void {
   console.log(inputValue.value)
-  useLIRService().getLIRForLocation(inputValue.value['locationName'].value)
+  useLIRService().getLIRForLocation(inputValue.value['locationName'].value, inputValue.value['limit'].value)
       .then(res => {
         response.value = res;
       })
@@ -35,7 +35,7 @@ const inputValue = ref({
     value: ''
   },
   limit: {
-    value: '',
+    value: null,
   }
 });
 </script>

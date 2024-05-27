@@ -5,19 +5,20 @@ import type {LIR} from "@/types/LIR";
 
 export class LIRService {
 
-    public async getLIRForLocation(location: string): Promise<LIR> {
+    public async getLIRForLocation(locationName: string, limit?: number): Promise<LIR> {
         console.log("used lir service");
         try {
             return (await useAxios().get<LIR>(`/locationInformation`, {
                 params: {
-                    locationName: location
+                    locationName: locationName,
+                    limit: limit
                 }
             })).data;
             //return response.data;
         } catch (error) {
             console.error('Error fetching lir:', error);
             Promise.reject(error);
-            throw new Error('Failed to fetch lir for ' + location);
+            throw new Error('Failed to fetch lir for ' + locationName);
         }
     }
 }
