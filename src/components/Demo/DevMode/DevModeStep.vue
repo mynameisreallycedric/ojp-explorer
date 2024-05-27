@@ -43,7 +43,7 @@ const props = defineProps<Props>();
 
   p {
     margin: 0;
-    padding-left: 1rem;
+    padding-left: 2rem;
     padding-top: 1rem;
     font-weight: 700;
     letter-spacing: 2.1px;

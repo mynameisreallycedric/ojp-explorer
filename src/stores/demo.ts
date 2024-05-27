@@ -57,7 +57,7 @@ export const useDemoPageStore = defineStore('demo', {
         async initializeSwaggerDoc(){
             const swaggerStore = useSwaggerStore();
             await swaggerStore.fetchSwaggerJSON()
-                .then(res => this.endpoints = swaggerStore.swaggerJSON)
+                .then(res => this.endpoints = JSON.parse(JSON.stringify(swaggerStore.swaggerJSON)))
         }
     }
 });
