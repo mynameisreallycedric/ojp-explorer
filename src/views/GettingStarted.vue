@@ -65,13 +65,15 @@ onMounted(() => {
 
 section {
   margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .getting_started--endpoints_container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  max-width: 700px;
+  align-self: center;
+  width: 700px;
 }
 
 h3 {
