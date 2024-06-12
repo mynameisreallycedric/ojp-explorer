@@ -12,6 +12,8 @@ export const useAuthStore = defineStore('auth', {
 
     },
     actions: {
-
+        clearToken(): void {
+            this.ojpToken = null
+        }
     }
 })

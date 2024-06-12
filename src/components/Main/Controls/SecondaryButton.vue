@@ -16,13 +16,17 @@ const props = defineProps<Props>();
 @import "src/assets/scss/variables";
 
 .secondary-button_container {
-  border: 1px solid $pt-main-black;
+  border: 1px solid transparent;
   border-radius: 5px;
-  background: $pt-main-black;
+  background: $pt-main-white;
   padding: 8px 15px;
   gap: 10px;
   width: fit-content;
-  color: $pt-main-white;
+  color: $pt-main-black;
   font-family: 'Inter Bold';
+
+  &:hover {
+    background: $pt-main-light-gray;
+  }
 }
 </style>
