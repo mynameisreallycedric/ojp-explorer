@@ -21,6 +21,23 @@ export class LIRService {
             throw new Error('Failed to fetch lir for ' + locationName);
         }
     }
+
+    public async getSingleLIRForLocation(locationName: string) {
+        console.log("used single lir service");
+        try {
+            const responseData = (await useAxios().get<LIR>(`/locationInformation`, {
+                params: {
+                    locationName: locationName,
+                }
+            })).data;
+            return responseData.locations.slice(0)
+            //return response.data;
+        } catch (error) {
+            console.error('Error fetching lir:', error);
+            Promise.reject(error);
+            throw new Error('Failed to fetch lir for ' + locationName);
+        }
+    }
 }
 
 const instance = new LIRService();

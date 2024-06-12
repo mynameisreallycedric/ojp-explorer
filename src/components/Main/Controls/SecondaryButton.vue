@@ -7,7 +7,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <button class="inline-flex items-center button_container" >
+  <button class="inline-flex items-center secondary-button_container" >
     <span>{{ text }}</span>
   </button>
 </template>
@@ -15,7 +15,7 @@ const props = defineProps<Props>();
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
 
-.button_container {
+.secondary-button_container {
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   background: $pt-main-black;

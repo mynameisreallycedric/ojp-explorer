@@ -21,6 +21,11 @@ function getLIR(inputString: string): void {
       })
 }
 
+function getSingleLIR(inputString: string) {
+  useLIRService().getSingleLIRForLocation(inputString)
+      .then(res => updateLocation(res[0].id, res[0].name))
+}
+
 watch(() => selectedStation.value, (value) => {
   console.log(value);
   if (value.length > 2) {
@@ -31,26 +36,35 @@ watch(() => selectedStation.value, (value) => {
 function updateLocation(lir: string, stationName: string){
   selectedLIR.value = lir;
   selectedStation.value = stationName;
+  showDropDown.value = false
 }
 
-function handleFocusOut(){
-    setTimeout(() => {
-      showDropDown.value = false;
-    }, 100);
+function handleFocusOut(event: FocusEvent) {
+  if (!event.relatedTarget || !(event.relatedTarget as HTMLElement).closest('.select__dropdown')) {
+    showDropDown.value = false;
+  }
 }
 
 function handleFocusIn(){
   showDropDown.value = true;
 }
 
+function handleEnterPress() {
+  console.log('Enter pressed with value:', selectedStation.value);
+  // Call any function you want with the input value
+  if (selectedStation.value){
+    getSingleLIR(selectedStation.value)
+  }
+}
+
 </script>
 
 <template>
   <div class="flex flex-col w-full">
-    <DemoTimeTableInput @focus="handleFocusIn" @focusout="handleFocusOut" v-model="selectedStation"></DemoTimeTableInput>
+    <DemoTimeTableInput @focus="handleFocusIn" @blur="handleFocusOut" @keydown.enter="handleEnterPress"  v-model="selectedStation"></DemoTimeTableInput>
     <div class="relative">
       <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full cursor-pointer select__dropdown">
-        <div v-for="option in lirList?.locations" :key="option.id" class="select__option" @click="updateLocation(option.id, option.name)">
+        <div v-for="option in lirList?.locations" :key="option.id" class="select__option" @mousedown.prevent @click="updateLocation(option.id, option.name)">
           <label class="cursor-pointer">
             <span>{{ option.name }}</span>
           </label>

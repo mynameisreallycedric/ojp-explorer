@@ -13,6 +13,7 @@ interface Props {
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 const userInputParameterValues = defineModel();
+const copiedToClipBoard = ref(false);
 
 const fullURL = computed(() =>{
   let paramChain = "";
@@ -32,6 +33,10 @@ const fullURL = computed(() =>{
 
 async function copyToClipBoard(){
   await navigator.clipboard.writeText(fullURL.value);
+  copiedToClipBoard.value = true;
+  setTimeout(() => {
+    copiedToClipBoard.value = false;
+  }, 2000); // Restore URL after 2 seconds
 }
 
 defineEmits(['send']);
@@ -43,10 +48,13 @@ const props = defineProps<Props>();
     <div class="flex flex-row w-full items-center api-request__container">
       <div class="mr-2 p-1 api-request__method">
         <p class="text-center rounded m-0 font-bold px-2" >
-            {{ method }}
+          {{ method }}
         </p>
       </div>
-      <p class="m-0 p-0 max-w-full text-nowrap overflow-x-auto">{{ fullURL }}</p>
+      <p class="m-0 p-0 max-w-full text-nowrap overflow-x-auto">
+        <span style="font-style: italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
+        <span v-else>{{ fullURL }}</span>
+      </p>
       <button class="ml-auto" @click="$emit('send', userInputParameterValues)">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>
@@ -98,6 +106,7 @@ const props = defineProps<Props>();
 }
 
 .api-request__container {
+  position: relative;
   border: 1px solid $pt-main-black;
   border-radius: 5px;
   background: $pt-main-white;

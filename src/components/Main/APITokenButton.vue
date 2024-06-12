@@ -3,7 +3,7 @@
 import {computed, ref} from "vue";
 import Modal from "@/components/Main/Modal.vue";
 import {useAuthStore} from "@/stores/auth";
-import MainButton from "@/components/Main/Controls/MainButton.vue";
+import MainButton from "@/components/Main/Controls/PrimaryButton.vue";
 import SecondaryButton from "@/components/Main/Controls/SecondaryButton.vue";
 
 const authStore = useAuthStore();
