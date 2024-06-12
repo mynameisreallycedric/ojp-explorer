@@ -21,6 +21,7 @@ const props = defineProps<Props>();
       <template v-if="connection.stop.departure">{{ d(connection.stop.departure, 'time') }}</template>
       <template v-else>N.A</template>
     </td>
+    <!--TODO: Add Delay-->
     <td>{{ connection.to }}</td>
     <td>{{ connection.stop.platform}}</td>
 </template>

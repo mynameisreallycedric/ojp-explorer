@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DemoTimeTableInput from "@/components/Demo/TimeTable/DemoTimeTableInput.vue";
-import {ref, watch} from "vue";
+import {onMounted, type Ref, ref, watch} from "vue";
 import useDiDokEvent from "@/composables/services/didok";
 import type { LIR } from "@/types/LIR";
 import useLIRService from "@/composables/services/lir";
@@ -13,6 +13,9 @@ const showDropDown = ref<boolean>(false);
 const station = ref<string>("");
 
 const lirList = ref<LIR>();
+
+const multiSelectContainer: Ref<HTMLDivElement | undefined> = ref();
+const inputComponent : Ref<HTMLInputElement | undefined> = ref();
 
 function getLIR(inputString: string): void {
   useLIRService().getLIRForLocation(inputString)
@@ -36,17 +39,23 @@ watch(() => selectedStation.value, (value) => {
 function updateLocation(lir: string, stationName: string){
   selectedLIR.value = lir;
   selectedStation.value = stationName;
-  showDropDown.value = false
-}
-
-function handleFocusOut(event: FocusEvent) {
-  if (!event.relatedTarget || !(event.relatedTarget as HTMLElement).closest('.select__dropdown')) {
-    showDropDown.value = false;
-  }
 }
 
 function handleFocusIn(){
   showDropDown.value = true;
+  registerEventListenerClickOutside();
+}
+
+function registerEventListenerClickOutside() {
+  window.addEventListener("click", closeDropDown, false);
+}
+
+function closeDropDown(e: Event){
+  if (!(e.target === multiSelectContainer.value || e.composedPath().includes(multiSelectContainer.value))) {
+    showDropDown.value = false;
+    // emits("change:value", selectedOptions);
+    window.removeEventListener("click", closeDropDown);
+  }
 }
 
 function handleEnterPress() {
@@ -60,8 +69,8 @@ function handleEnterPress() {
 </script>
 
 <template>
-  <div class="flex flex-col w-full">
-    <DemoTimeTableInput @focus="handleFocusIn" @blur="handleFocusOut" @keydown.enter="handleEnterPress"  v-model="selectedStation"></DemoTimeTableInput>
+  <div ref="multiSelectContainer" class="flex flex-col w-full">
+    <DemoTimeTableInput ref="inputComponent" @focus="handleFocusIn" @keydown.enter="handleEnterPress"  v-model="selectedStation"></DemoTimeTableInput>
     <div class="relative">
       <div v-if="showDropDown" class="flex flex-col absolute z-10 w-full cursor-pointer select__dropdown">
         <div v-for="option in lirList?.locations" :key="option.id" class="select__option" @mousedown.prevent @click="updateLocation(option.id, option.name)">
@@ -81,7 +90,9 @@ function handleEnterPress() {
 .select__option {
   width: 100%;
   padding: 9px;
-  border: 1px solid $pt-main-black;
+  border-color: $pt-main-black;
+  border-style: solid;
+  border-width: 0 1px 1px 1px;
   background: $pt-main-white;
 }
 
@@ -93,6 +104,7 @@ function handleEnterPress() {
 .select__dropdown > div:first-of-type {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border-top: 1px $pt-main-black solid;
 }
 
 .select__dropdown > div:last-of-type {
