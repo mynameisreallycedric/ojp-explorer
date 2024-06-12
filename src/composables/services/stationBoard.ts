@@ -11,9 +11,9 @@ export class StationBoardService{
             const response = await useAxios().get<StationBoard>('/stationBoard', {
                 params: {
                     station: station,
+                    limit: limit,
                     id: id,
-                    datetime: datetime,
-                    limit: limit
+                    datetime: datetime
                 }
             });
             return response.data; // Return the fetched data

@@ -3,8 +3,8 @@
 import {computed, ref} from "vue";
 import Modal from "@/components/Main/Modal.vue";
 import {useAuthStore} from "@/stores/auth";
-import Button from "@/components/Main/Controls/MainButton.vue";
 import MainButton from "@/components/Main/Controls/MainButton.vue";
+import SecondaryButton from "@/components/Main/Controls/SecondaryButton.vue";
 
 const authStore = useAuthStore();
 
@@ -36,7 +36,8 @@ const closeModal = () => {
     <div class="modal__token_input">
       <h3>Your API Key</h3>
       <p>For the API to work you need to create an API Key on the OJP Developer Portal</p>
-      <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" />
+      <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" @keyup.enter="closeModal"/>
+      <SecondaryButton text="Save" @click="closeModal"/>
       <a class="underline hover:no-underline w-max" href="https://opentransportdata.swiss/en/dev-dashboard/">Get a new Token</a>
     </div>
   </Modal>
@@ -64,6 +65,10 @@ const closeModal = () => {
 
   display: flex;
   flex-direction: column;
+
+  a {
+    margin-top: 1rem;
+  }
 }
 
 .token-input {
