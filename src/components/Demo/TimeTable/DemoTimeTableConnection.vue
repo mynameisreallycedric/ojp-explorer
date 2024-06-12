@@ -17,7 +17,10 @@ const props = defineProps<Props>();
         {{ connection.name }}
       </div>
     </td>
-    <td>{{ d(connection.stop.departure, 'time') }}</td>
+    <td>
+      <template v-if="connection.stop.departure">{{ d(connection.stop.departure, 'time') }}</template>
+      <template v-else>N.A</template>
+    </td>
     <td>{{ connection.to }}</td>
     <td>{{ connection.stop.platform}}</td>
 </template>
