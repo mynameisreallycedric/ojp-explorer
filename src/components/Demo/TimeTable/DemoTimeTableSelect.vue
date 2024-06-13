@@ -97,6 +97,10 @@ function handleEnterPress() {
   border-style: solid;
   border-width: 0 1px 1px 1px;
   background: $pt-main-white;
+
+  &:hover{
+      background: $pt-main-light-gray;
+  }
 }
 
 .select__dropdown {
