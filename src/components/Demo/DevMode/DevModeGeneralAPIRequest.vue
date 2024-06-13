@@ -2,6 +2,8 @@
 import type {APIMethods} from "@/types/DevMode/APIMethods";
 import {computed, onMounted, type Ref, ref, watch} from "vue";
 import type {SwaggerParams} from "@/types/SwaggerModels";
+import VueJsonPretty from 'vue-json-pretty';
+import 'vue-json-pretty/lib/styles.css';
 
 interface Props {
   method: APIMethods
@@ -80,7 +82,7 @@ const props = defineProps<Props>();
     <div v-if="response" class="api_response__container">
       <p class="font-bold mr-auto mb-0">Response</p>
       <div class="api_response__response">
-        <pre>{{ response }}</pre>
+        <vue-json-pretty :data="response"></vue-json-pretty>
       </div>
     </div>
 </template>
@@ -95,7 +97,7 @@ const props = defineProps<Props>();
 .api_response__response {
   border: 1px solid $pt-main-black;
   border-radius: 5px;
-  background: $pt-main-gray;
+  background: $pt-main-light-gray;
   padding: 5px 10px 5px 5px;
   margin: 0.5rem 0 0.5rem 0;
   max-height: 200px;
