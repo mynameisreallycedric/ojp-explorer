@@ -15,7 +15,7 @@ const station = ref<string>("");
 const lirList = ref<LIR>();
 
 const multiSelectContainer: Ref<HTMLDivElement | undefined> = ref();
-const inputComponent : Ref<HTMLInputElement | undefined> = ref();
+const inputComponent = ref();
 
 function getLIR(inputString: string): void {
   useLIRService().getLIRForLocation(inputString)
@@ -39,6 +39,9 @@ watch(() => selectedStation.value, (value) => {
 function updateLocation(lir: string, stationName: string){
   selectedLIR.value = lir;
   selectedStation.value = stationName;
+  inputComponent.value.inputField.blur();
+  showDropDown.value = false;
+  window.removeEventListener("click", closeDropDown);
 }
 
 function handleFocusIn(){

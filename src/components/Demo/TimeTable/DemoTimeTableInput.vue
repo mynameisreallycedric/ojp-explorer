@@ -1,10 +1,17 @@
 <script setup lang="ts">
-const modelValue = defineModel<string>();
+import {ref} from "vue";
 
+const modelValue = defineModel<string>();
+const inputField = ref()
+
+defineExpose({
+  inputField
+})
 </script>
 
 <template>
   <input class="timetable_input p-1 w-full"
+         ref="inputField"
          type="text"
          v-model="modelValue"
          placeholder="Ausgangspunkt">
