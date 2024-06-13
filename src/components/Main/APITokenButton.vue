@@ -1,50 +1,38 @@
 <script setup lang="ts">
 
 import {computed, ref} from "vue";
-import Modal from "@/components/Main/Modal.vue";
 import {useAuthStore} from "@/stores/auth";
 import MainButton from "@/components/Main/Controls/IconButton.vue";
 import PrimaryButton from "@/components/Main/Controls/PrimaryButton.vue";
 import SecondaryButton from "@/components/Main/Controls/SecondaryButton.vue";
+import ModalPopover from "@/components/Main/ModalPopover.vue";
 
 const authStore = useAuthStore();
+const modalComponent = ref();
 
 const validateToken = computed(() => ({
   isTokenSet: !!authStore.ojpToken,
   response: ( authStore.ojpToken ? "API Key" : " Set API Key" ),
   imageUrl: ( authStore.ojpToken ? "/src/assets/icons/bubble_valid.svg" : undefined )
 }));
-
-const isModalOpened = ref<boolean>(false);
-
-const openModal = () => {
-  isModalOpened.value = true;
-  document.body.style.overflow = "hidden";
-};
-const closeModal = () => {
-  isModalOpened.value = false;
-  document.body.style.overflow = "visible";
-};
-
 </script>
 
 <template>
-  <MainButton mainIconURL="/src/assets/icons/key_outline.svg"
+  <MainButton popovertarget="manageApiToken" mainIconURL="/src/assets/icons/key_outline.svg"
               :text="validateToken.response"
-              @click="openModal"
               :secondaryIconURL="validateToken.imageUrl" />
-  <Modal :show-modal="isModalOpened" @modal-close="closeModal">
+  <ModalPopover ref="modalComponent" popover-id="manageApiToken">
     <div class="modal__token_input">
       <h3>Your API Key</h3>
       <p>For the API to work you need to create an API Key on the OJP Developer Portal</p>
       <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" @keyup.enter="closeModal"/>
       <div class="flex flex-row gap-4">
-        <PrimaryButton text="Save" @click="closeModal"/>
+        <PrimaryButton text="Save" @click="modalComponent.closeModal()"/>
         <SecondaryButton text="Clear" @click="authStore.clearToken()" />
       </div>
       <a class="underline hover:no-underline w-max" href="https://opentransportdata.swiss/en/dev-dashboard/">Get a new Token</a>
     </div>
-  </Modal>
+  </ModalPopover>
 </template>
 
 <style scoped lang="scss">
