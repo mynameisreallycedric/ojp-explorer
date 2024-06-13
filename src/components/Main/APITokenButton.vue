@@ -25,7 +25,7 @@ const validateToken = computed(() => ({
     <div class="modal__token_input">
       <h3>Your API Key</h3>
       <p>For the API to work you need to create an API Key on the OJP Developer Portal</p>
-      <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" @keyup.enter="closeModal"/>
+      <input class="token-input" type="text" v-model="authStore.ojpToken" placeholder="ojp-token" @keyup.enter="modalComponent.closeModal()"/>
       <div class="flex flex-row gap-4">
         <PrimaryButton text="Save" @click="modalComponent.closeModal()"/>
         <SecondaryButton text="Clear" @click="authStore.clearToken()" />
