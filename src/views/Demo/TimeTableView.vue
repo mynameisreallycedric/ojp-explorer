@@ -36,7 +36,9 @@ watch(() => selectedLIR.value, async (value) => {
 
     if (value) {
         loading.value = true;
-        stationBoard.value = await stationBoardService.getStationBoardForLocation(value)
+        stationBoardService.getStationBoardForLocation(value)
+            .then((res) => stationBoard.value = res)
+            .finally(() => loading.value = false)
         demoStore.setParameterValueForEndpoint('/api/stationBoard', 'id', value)
         demoStore.setParameterValueForEndpoint('/api/stationBoard', 'limit', 8)
     }
@@ -65,10 +67,18 @@ onMounted(() => {
                     </div>
                 </DevModeStep>
                 <DevModeStep :dev-mode=false :step-nr=2>
+                  <div v-if="loading" class="flex content-center justify-center" >
+                    <p class="italic">loading Station Board...</p>
+                  </div>
+                  <div v-else>
                     <div v-if="stationBoard" class="p-[1rem]">
-                        <DemoTimeTableConnections v-if="stationBoard.stationBoard"
-                                                  :connections="stationBoard?.stationBoard"/>
+                      <DemoTimeTableConnections v-if="stationBoard.stationBoard.length > 0"
+                                                :connections="stationBoard?.stationBoard"/>
+                      <div v-else>
+                        <p>No Station Board for this Destination</p>
+                      </div>
                     </div>
+                  </div>
                 </DevModeStep>
             </div>
         </template>
