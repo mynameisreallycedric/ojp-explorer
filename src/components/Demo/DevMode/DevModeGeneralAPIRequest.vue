@@ -57,10 +57,10 @@ const props = defineProps<Props>();
         <span style="font-style: italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
         <span v-else>{{ fullURL }}</span>
       </p>
-      <button class="ml-auto" @click="$emit('send', userInputParameterValues)">
+      <button title="send request" class="ml-auto api-request__button" @click="$emit('send', userInputParameterValues)">
         <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
       </button>
-      <button class="ml-4" @click="copyToClipBoard">
+      <button title="copy full URL to clipboard" class="ml-4 api-request__button" @click="copyToClipBoard">
         <img src="/src/assets/icons/copy.svg" width="20" height="20">
       </button>
     </div>
@@ -92,6 +92,10 @@ const props = defineProps<Props>();
 
 .api_response__container {
   width: 100%;
+}
+
+.api-request__button:hover{
+  filter: brightness(3);
 }
 
 .api_response__response {
