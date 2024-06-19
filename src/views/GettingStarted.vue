@@ -7,6 +7,7 @@ import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import {computed, onMounted} from "vue";
 import {useSwaggerStore} from "@/stores/swagger";
+import DocLayout from "@/components/Doc/Layout/DocLayout.vue";
 
 const swaggerStore = useSwaggerStore();
 const { getQueryParametersForEndpoint } = storeToRefs(swaggerStore);
@@ -21,7 +22,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="wrapper">
+  <DocLayout active-link="gettingStarted">
+  <div class="wrapper content-wrapper">
     <section>
       <h1>GettingStarted</h1>
       <p>Welcome to the OJP-Explorer documentation!<br>
@@ -59,6 +61,7 @@ onMounted(() => {
       </div>
     </section>
   </div>
+  </DocLayout>
 </template>
 
 <style scoped lang="scss">
