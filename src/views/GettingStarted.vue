@@ -48,14 +48,14 @@ onMounted(() => {
         You can use this for receiving a list of locations for easy selection as well as the location id needed for other endpoints.
       </p>
       <div class="getting_started--endpoints_container">
-        <DevModeLIRRequest  :parameters="paramsLIR"/>
+        <DevModeLIRRequest :parameters="paramsLIR"/>
       </div>
 
       <h3>/stationBoard</h3>
       <p>The "stationBoard" endpoint provides a list of outgoing connections from a specified location.
         This information can be used for creating a station-board for a specific location.</p>
       <div class="getting_started--endpoints_container">
-        <DevModeStationBoardRequest  :parameters="paramsSB"/>
+        <DevModeStationBoardRequest :parameters="paramsSB"/>
       </div>
     </section>
   </div>

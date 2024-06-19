@@ -11,6 +11,8 @@ export interface SwaggerMethod {
 
 export interface SwaggerParams {
     name: string;
+    required?: boolean;
+    description?: string;
     in: string;
     style: string;
     schema: SwaggerSchema;

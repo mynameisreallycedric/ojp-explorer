@@ -12,7 +12,9 @@ export const useSwaggerStore = defineStore('swagger', {
         getQueryParametersForEndpoint(state) {
             return (path: string): SwaggerParams[] | undefined => {
                 const found = state.swaggerJSON?.find(e => e.path === path);
-                return found ? found.methods.flatMap(method => method.parameters.filter(param => param.in === 'query')) : undefined;
+                return found ? found.methods
+                    .flatMap(method => method.parameters
+                        .filter(param => param.in === 'query')) : undefined;
             };
         }
     },

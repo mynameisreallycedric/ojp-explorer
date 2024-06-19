@@ -6,39 +6,39 @@ import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
 
 interface Props {
-  method: APIMethods
-  placeholder: string | undefined
-  parameters: SwaggerParams[] | undefined
-  endpoint: string
-  response: string | undefined
+    method: APIMethods
+    placeholder: string | undefined
+    parameters: SwaggerParams[] | undefined
+    endpoint: string
+    response: string | undefined
 }
 
 const baseUrl = import.meta.env.VITE_API_BASEURL as string;
 const userInputParameterValues = defineModel();
 const copiedToClipBoard = ref(false);
 
-const fullURL = computed(() =>{
-  let paramChain = "";
-    if( props.parameters ){
-      for (let i = 0; i < props.parameters.length; i++) {
-        if (userInputParameterValues.value[props.parameters[i].name].value){
-            paramChain += "?" + props.parameters[i].name + "=" + userInputParameterValues.value[props.parameters[i].name].value
-        } else {
-          if (props.parameters[i].value){
-            paramChain += "?" + props.parameters[i].name + "=" + props.parameters[i].value
-          }
+const fullURL = computed(() => {
+    let paramChain = "";
+    if (props.parameters) {
+        for (let i = 0; i < props.parameters.length; i++) {
+            if (userInputParameterValues.value[props.parameters[i].name].value) {
+                paramChain += "?" + props.parameters[i].name + "=" + userInputParameterValues.value[props.parameters[i].name].value
+            } else {
+                if (props.parameters[i].value) {
+                    paramChain += "?" + props.parameters[i].name + "=" + props.parameters[i].value
+                }
+            }
         }
-      }
-  }
-  return baseUrl + props.endpoint + paramChain;
+    }
+    return baseUrl + props.endpoint + paramChain;
 });
 
-async function copyToClipBoard(){
-  await navigator.clipboard.writeText(fullURL.value);
-  copiedToClipBoard.value = true;
-  setTimeout(() => {
-    copiedToClipBoard.value = false;
-  }, 2000); // Restore URL after 2 seconds
+async function copyToClipBoard() {
+    await navigator.clipboard.writeText(fullURL.value);
+    copiedToClipBoard.value = true;
+    setTimeout(() => {
+        copiedToClipBoard.value = false;
+    }, 2000); // Restore URL after 2 seconds
 }
 
 defineEmits(['send']);
@@ -66,24 +66,30 @@ const props = defineProps<Props>();
     </div>
     <!-- Parameters -->
     <div class="flex flex-col w-full api-parameters__container">
-      <p class="font-bold">Required Parameters</p>
-      <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
-        <div class="flex flex-col">
-          <p class="api-parameters__text-name">{{ parameter.name }}</p>
-          <p class="api-parameters__text-type">{{ parameter.schema.type }}</p>
+        <p class="font-bold">Required Parameters</p>
+        <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
+            <div class="flex flex-col">
+                <div>
+                    <span class="font-bold" >{{ parameter.name }}</span>
+                    <span v-if="parameter.required !== undefined && parameter.required" class="text-red-500">*</span>
+                    <span class="api-parameters__text-type ml-2">{{ parameter.schema.type }}</span>
+                </div>
+                <p v-if="parameter.description !== undefined">
+                    {{ parameter.description }}
+                </p>
+            </div>
+            <input class="api-parameters__input"
+                   type="text"
+                   :placeholder="parameter.value"
+                   v-model="userInputParameterValues[parameter.name].value">
         </div>
-        <input  class="api-parameters__input"
-                type="text"
-               :placeholder="parameter.value"
-               v-model="userInputParameterValues[parameter.name].value">
-      </div>
     </div>
     <!-- Response -->
     <div v-if="response" class="api_response__container">
-      <p class="font-bold mr-auto mb-0">Response</p>
-      <div class="api_response__response">
-        <vue-json-pretty :data="response"></vue-json-pretty>
-      </div>
+        <p class="font-bold mr-auto mb-0">Response</p>
+        <div class="api_response__response">
+            <vue-json-pretty :data="response"></vue-json-pretty>
+        </div>
     </div>
 </template>
 
@@ -91,7 +97,7 @@ const props = defineProps<Props>();
 @import "src/assets/scss/variables";
 
 .api_response__container {
-  width: 100%;
+    width: 100%;
 }
 
 .api-request__button:hover{
@@ -99,57 +105,51 @@ const props = defineProps<Props>();
 }
 
 .api_response__response {
-  border: 1px solid $pt-main-black;
-  border-radius: 5px;
-  background: $pt-main-light-gray;
-  padding: 5px 10px 5px 5px;
-  margin: 0.5rem 0 0.5rem 0;
-  max-height: 200px;
-  overflow-y: scroll;
+    border: 1px solid $pt-main-black;
+    border-radius: 5px;
+    background: $pt-main-light-gray;
+    padding: 5px 10px 5px 5px;
+    margin: 0.5rem 0 0.5rem 0;
+    max-height: 200px;
+    overflow-y: scroll;
 
-  font-family: "Inter";
-  tab-size: 3;
+    font-family: "Inter";
+    tab-size: 3;
 }
 
 .api-request__container {
-  position: relative;
-  border: 1px solid $pt-main-black;
-  border-radius: 5px;
-  background: $pt-main-white;
-  padding: 5px 10px 5px 5px;
-  margin: 0.5rem 0 0 0;
+    position: relative;
+    border: 1px solid $pt-main-black;
+    border-radius: 5px;
+    background: $pt-main-white;
+    padding: 5px 10px 5px 5px;
+    margin: 0.5rem 0 0 0;
 }
 
 .api-request__method {
-  border: 1px solid $pt-main-black;
-  border-radius: 5px;
-  background: $pt-main-black;
-  color: $pt-main-white;
+    border: 1px solid $pt-main-black;
+    border-radius: 5px;
+    background: $pt-main-black;
+    color: $pt-main-white;
 }
 
 .api-parameters__container {
-  border: 1px solid $pt-main-black;
-  border-radius: 5px;
-  padding: 5px;
-  background: $pt-main-white;
-}
-
-.api-parameters__text-name {
-  font-weight: bold;
-  margin: 0;
+    border: 1px solid $pt-main-black;
+    border-radius: 5px;
+    padding: 5px;
+    background: $pt-main-white;
 }
 
 .api-parameters__text-type {
-  color: $pt-purple;
-  margin: 0;
+    color: $pt-purple;
 }
 
 .api-parameters__input {
-  padding: 7px;
-  border: 1px solid $pt-main-black;
-  background: $pt-main-white;
-  border-radius: 5px;
-  height: min-content;
+    padding: 7px;
+    border: 1px solid $pt-main-black;
+    background: $pt-main-white;
+    border-radius: 5px;
+    height: min-content;
 }
 
 </style>
