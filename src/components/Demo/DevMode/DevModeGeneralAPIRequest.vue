@@ -4,6 +4,8 @@ import {computed, onMounted, type Ref, ref, watch} from "vue";
 import type {SwaggerParams} from "@/types/SwaggerModels";
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
+import DevModeParamInput from "@/components/Demo/DevMode/DevModeParamInput.vue";
+import {InputType} from "@/types/DevMode/InputType";
 
 interface Props {
     method: APIMethods
@@ -21,17 +23,33 @@ const fullURL = computed(() => {
     let paramChain = "";
     if (props.parameters) {
         for (let i = 0; i < props.parameters.length; i++) {
+            const chainChar = paramChain.includes('?') ? '&' : '?';
             if (userInputParameterValues.value[props.parameters[i].name].value) {
-                paramChain += "?" + props.parameters[i].name + "=" + userInputParameterValues.value[props.parameters[i].name].value
+                paramChain += chainChar + props.parameters[i].name + "=" + userInputParameterValues.value[props.parameters[i].name].value
             } else {
                 if (props.parameters[i].value) {
-                    paramChain += "?" + props.parameters[i].name + "=" + props.parameters[i].value
+                    paramChain += chainChar + props.parameters[i].name + "=" + props.parameters[i].value
                 }
             }
         }
     }
     return baseUrl + props.endpoint + paramChain;
 });
+
+function getInputType(param: SwaggerParams): InputType {
+    switch (param.schema.type) {
+        case 'integer':
+            return InputType.Number;
+        case 'string':
+            if (param.name === 'datetime') {
+                return InputType.DateTime;
+            } else {
+                return InputType.String;
+            }
+        default:
+            return InputType.String;
+    }
+}
 
 async function copyToClipBoard() {
     await navigator.clipboard.writeText(fullURL.value);
@@ -48,21 +66,22 @@ const props = defineProps<Props>();
 <template>
     <!-- Request Bar -->
     <div class="flex flex-row w-full items-center api-request__container">
-      <div class="mr-2 p-1 api-request__method">
-        <p class="text-center rounded m-0 font-bold px-2" >
-          {{ method }}
+        <div class="mr-2 p-1 api-request__method">
+            <p class="text-center rounded m-0 font-bold px-2">
+                {{ method }}
+            </p>
+        </div>
+        <p class="m-0 p-0 max-w-full text-nowrap overflow-x-auto">
+            <span style="font-style: italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
+            <span v-else>{{ fullURL }}</span>
         </p>
-      </div>
-      <p class="m-0 p-0 max-w-full text-nowrap overflow-x-auto">
-        <span style="font-style: italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
-        <span v-else>{{ fullURL }}</span>
-      </p>
-      <button title="send request" class="ml-auto api-request__button" @click="$emit('send', userInputParameterValues)">
-        <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
-      </button>
-      <button title="copy full URL to clipboard" class="ml-4 api-request__button" @click="copyToClipBoard">
-        <img src="/src/assets/icons/copy.svg" width="20" height="20">
-      </button>
+        <button title="send request" class="ml-auto api-request__button"
+                @click="$emit('send', userInputParameterValues)">
+            <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
+        </button>
+        <button title="copy full URL to clipboard" class="ml-4 api-request__button" @click="copyToClipBoard">
+            <img src="/src/assets/icons/copy.svg" width="20" height="20">
+        </button>
     </div>
     <!-- Parameters -->
     <div class="flex flex-col w-full api-parameters__container">
@@ -70,7 +89,7 @@ const props = defineProps<Props>();
         <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
             <div class="flex flex-col">
                 <div>
-                    <span class="font-bold" >{{ parameter.name }}</span>
+                    <span class="font-bold">{{ parameter.name }}</span>
                     <span v-if="parameter.required !== undefined && parameter.required" class="text-red-500">*</span>
                     <span class="api-parameters__text-type ml-2">{{ parameter.schema.type }}</span>
                 </div>
@@ -78,10 +97,8 @@ const props = defineProps<Props>();
                     {{ parameter.description }}
                 </p>
             </div>
-            <input class="api-parameters__input"
-                   type="text"
-                   :placeholder="parameter.value"
-                   v-model="userInputParameterValues[parameter.name].value">
+            <DevModeParamInput :type="getInputType(parameter)" :required="parameter.required"
+                               v-model="userInputParameterValues[parameter.name].value" />
         </div>
     </div>
     <!-- Response -->
@@ -100,8 +117,8 @@ const props = defineProps<Props>();
     width: 100%;
 }
 
-.api-request__button:hover{
-  filter: brightness(3);
+.api-request__button:hover {
+    filter: brightness(3);
 }
 
 .api_response__response {
