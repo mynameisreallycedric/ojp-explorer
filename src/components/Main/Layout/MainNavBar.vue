@@ -10,7 +10,12 @@ const swaggerUrl = computed<string>(() => {
 
 <template>
   <nav class="flex w-full justify-between my-2 main-nav">
-    <RouterLink to="/"><h3>OJP Explorer 🚂</h3></RouterLink>
+    <div class="flex flex-row gap-6">
+      <RouterLink class="nav__primary-links" to="/"><p>OJP Explorer 🚂</p></RouterLink>
+      <RouterLink class="nav__secondary-links" to="/gettingstarted"><p>Getting Started</p></RouterLink>
+      <RouterLink class="nav__secondary-links" to="/doc/locationInformation"><p>Doc</p></RouterLink>
+      <RouterLink class="nav__secondary-links" to="/demo/timetable"><p>Demo</p></RouterLink>
+    </div>
     <div class="inline-flex flex-row items-baseline gap-4">
       <a :href="swaggerUrl" target="_blank">Go To Swagger</a>
       <APITokenButton />
@@ -25,4 +30,14 @@ const swaggerUrl = computed<string>(() => {
   padding: 0.5rem 0 0.5rem 0;
   border-bottom: 2px solid $pt-main-light-gray;
 }
+
+.nav__secondary-links {
+  font-size: 1.5rem;
+}
+
+.nav__primary-links {
+  font-size: 1.5rem;
+  font-family: "Inter Bold";
+}
+
 </style>
