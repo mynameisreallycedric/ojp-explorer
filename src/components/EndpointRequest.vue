@@ -107,7 +107,7 @@ watch(() => relevantParameters.value, (value) => {
                 <span class="italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
                 <span v-else>{{ fullURL }}</span>
             </p>
-            <div class="flex-grow-0 flex flex-row items-center gap-1.5">
+            <div class="flex-grow-0 flex flex-row items-center gap-3 mr-1.5">
                 <button title="send request" class="api-request__button"
                         @click="sendRequest">
                     <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
@@ -118,17 +118,17 @@ watch(() => relevantParameters.value, (value) => {
             </div>
         </div>
         <!-- Parameters -->
-        <div class="flex flex-col w-full p-1.5 bg-white rounded-b">
+        <div class="flex flex-col gap-3 w-full p-3 bg-white rounded-b">
             <p class="font-bold">Parameters</p>
-            <div v-for="parameter in relevantParameters" class="grid grid-cols-[1fr_1fr_1fr] ">
+            <div v-for="parameter in relevantParameters" class="grid grid-cols-[1fr_1fr_1fr]">
                 <div class="flex flex-col">
                     <div>
                         <span class="font-bold">{{ parameter.name }}</span>
                         <span v-if="parameter.required !== undefined && parameter.required"
                               class="text-red-500">*</span>
-                        <span class="api-parameters__text-type ml-2">{{ parameter.schema.type }}</span>
+                        <span class="text-purple ml-2">{{ parameter.schema.type }}</span>
                     </div>
-                    <p v-if="parameter.description !== undefined">
+                    <p v-if="parameter.description !== undefined" class="m-0">
                         {{ parameter.description }}
                     </p>
                 </div>
@@ -144,7 +144,12 @@ watch(() => relevantParameters.value, (value) => {
                     @enter="enter"
                     @leave="leave">
             <div v-if="response !== null" class="rounded-b px-3 py-6">
-                <span class="font-bold text-white">Response</span>
+                <div class="flex flex-row justify-between">
+                    <span class="font-bold text-white">Response</span>
+                    <button title="collapse" class="response__collapse-button" @click="response = null">
+                        <img src="/src/assets/icons/x_white.svg" width="17" height="17">
+                    </button>
+                </div>
                 <div class="api_response__response rounded mt-3 mb-12 text-gray-300">
                     <vue-json-pretty theme="dark" :data="response"></vue-json-pretty>
                 </div>
@@ -160,14 +165,14 @@ watch(() => relevantParameters.value, (value) => {
     filter: brightness(3);
 }
 
+.response__collapse-button:hover {
+    filter: grayscale(1);
+}
+
 .api_response__response {
     height: 600px;
     overflow-y: scroll;
     tab-size: 3;
-}
-
-.api-parameters__text-type {
-    color: $pt-purple;
 }
 
 .expand-enter-active,

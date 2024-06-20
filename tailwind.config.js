@@ -19,6 +19,14 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        black: {
+          DEFAULT: "#2D2D2D"
+        },
+        purple: {
+          DEFAULT: "#B311FF"
+        }
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
