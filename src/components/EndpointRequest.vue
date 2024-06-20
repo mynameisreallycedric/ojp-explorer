@@ -144,19 +144,14 @@ watch(() => relevantParameters.value, (value) => {
                     @before-enter="beforeEnter"
                     @enter="enter"
                     @leave="leave">
-            <div v-if="uiStore.queriedEndpoint == endpoint && uiStore.axiosError !== null"
-                 class="font-bold bg-red-700 text-white p-3">
-                {{ uiStore.axiosError.canonicalErrorMsg }}
+            <div v-if="uiStore.queriedEndpoint == endpoint && uiStore.axiosError !== null || validationError !== null"
+                 class="font-bold bg-red-100 text-red-600 p-3 border-b border-black">
+                <span v-if="uiStore.axiosError !== null">{{ uiStore.axiosError.canonicalErrorMsg }}</span>
+                <span v-if="validationError !== null">{{ validationError }}</span>
+
             </div>
         </Transition>
-        <Transition name="expand"
-                    @before-enter="beforeEnter"
-                    @enter="enter"
-                    @leave="leave">
-            <div v-if="validationError !== null" class="font-bold bg-red-700 text-white p-3">
-                {{ validationError }}
-            </div>
-        </Transition>
+
         <!-- Parameters -->
         <div class="flex flex-col gap-3 w-full p-3 bg-white rounded-b">
             <p class="font-bold">Parameters</p>
