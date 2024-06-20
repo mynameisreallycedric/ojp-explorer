@@ -24,13 +24,10 @@ onMounted(() => {
 <template>
     <div class="wrapper content-wrapper">
       <div class="flex flex-col text-center mb-10">
-        <h1>Your One Way stop to get all relevant data for swiss public transport</h1>
+        <h1>your one way stop to get all relevant data for swiss public transport</h1>
         <div class="flex justify-center mt-4">
           <PrimaryButton @click="$router.push('/gettingstarted')" text="get started"></PrimaryButton>
         </div>
-      </div>
-      <div class="flex flex-col text-center">
-        <h3>features</h3>
       </div>
       <div class="flex flex-col justify-center gap-4">
         <MainFeatureCard title="location information"

@@ -9,7 +9,7 @@ const swaggerUrl = computed<string>(() => {
 </script>
 
 <template>
-  <nav class="flex w-full justify-between py-2 main-nav">
+  <nav class="flex w-full justify-between py-2 mb-6 main-nav">
     <div class="flex items-center flex-row gap-6">
       <RouterLink class="nav__primary-links" to="/"><p>OJP Explorer 🚂</p></RouterLink>
       <RouterLink class="nav__secondary-links" to="/gettingstarted"><p>Getting Started</p></RouterLink>
