@@ -8,7 +8,7 @@ const props = defineProps<Props>();
 
 <template>
   <div class="doc__container">
-    <nav class="sticky top-4 py-10 px-8 flex flex-col doc__sidebar">
+    <nav class="sticky top-4 py-10 px-8 flex flex-col gap-2 doc__sidebar">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink :class="{ 'sidebar__active-link': props.activeLink === 'gettingStarted' }" to="/gettingstarted">Getting Started</RouterLink>
       <span class="sidebar__section-title">Endpoints</span>
@@ -34,7 +34,6 @@ const props = defineProps<Props>();
 .sidebar__section-title{
   color: $pt-main-black;
   margin-top: 2rem;
-  margin-bottom: 0.5rem;
   text-transform: uppercase;
   font-family: "Inter Bold";
   letter-spacing: 2.5px;
