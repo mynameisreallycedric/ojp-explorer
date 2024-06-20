@@ -1,0 +1,25 @@
+<script setup lang="ts">
+import type {SwaggerEndpoint} from "@/types/SwaggerModels";
+import {computed, type PropType, ref} from "vue";
+import EndpointRequest from "@/components/EndpointRequest.vue";
+
+const props = defineProps({
+    endpoint: {type: Object as PropType<SwaggerEndpoint>, required: true}
+})
+
+</script>
+
+<template>
+    <div>
+        <h3>{{ endpoint.path }}</h3>
+
+        <template v-for="method in endpoint.methods" :key="method.name">
+            <p>{{ method.description }}</p>
+            <EndpointRequest :method="method" :endpoint="endpoint.path" />
+        </template>
+    </div>
+</template>
+
+<style scoped lang="scss">
+
+</style>

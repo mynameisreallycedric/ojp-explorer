@@ -4,7 +4,7 @@ import {useUiStore} from "@/stores/ui";
 import {useI18n} from "vue-i18n";
 import i18n from "@/plugins/i18n";
 
-const baseUrl = 'http://localhost:5047/api';
+const baseUrl = import.meta.env.VITE_API_BASEURLNEW as string;
 
 //create axios instance
 const axiosInstance: AxiosInstance = axios.create({

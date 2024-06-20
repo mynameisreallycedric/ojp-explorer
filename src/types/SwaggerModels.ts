@@ -5,6 +5,8 @@ export interface SwaggerEndpoint {
 
 export interface SwaggerMethod {
     name: string;
+    summary: string;
+    description: string;
     parameters: SwaggerParams[];
     responses: SwaggerResponse[];
 }

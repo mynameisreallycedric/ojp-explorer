@@ -64,43 +64,46 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-    <!-- Request Bar -->
-    <div class="flex flex-row w-full items-center api-request__container">
-        <div class="mr-2 p-1 api-request__method">
-            <p class="text-center rounded m-0 font-bold px-2">
-                {{ method }}
-            </p>
-        </div>
-        <p class="m-0 p-0 max-w-full text-nowrap overflow-x-auto">
-            <span style="font-style: italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
-            <span v-else>{{ fullURL }}</span>
-        </p>
-        <button title="send request" class="ml-auto api-request__button"
-                @click="$emit('send', userInputParameterValues)">
-            <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
-        </button>
-        <button title="copy full URL to clipboard" class="ml-4 api-request__button" @click="copyToClipBoard">
-            <img src="/src/assets/icons/copy.svg" width="20" height="20">
-        </button>
-    </div>
-    <!-- Parameters -->
-    <div class="flex flex-col w-full api-parameters__container">
-        <p class="font-bold">Required Parameters</p>
-        <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
-            <div class="flex flex-col">
-                <div>
-                    <span class="font-bold">{{ parameter.name }}</span>
-                    <span v-if="parameter.required !== undefined && parameter.required" class="text-red-500">*</span>
-                    <span class="api-parameters__text-type ml-2">{{ parameter.schema.type }}</span>
-                </div>
-                <p v-if="parameter.description !== undefined">
-                    {{ parameter.description }}
-                </p>
+    <div class="border border-black rounded">
+        <!-- Request Bar -->
+        <div class="flex flex-row gap-1.5 w-full items-center border-b border-black p-1.5">
+            <div class="flex-grow-0 p-1 bg-black text-white rounded">
+                <span class="text-center font-bold px-2">{{ method }}</span>
             </div>
-            <DevModeParamInput :type="getInputType(parameter)" :required="parameter.required"
-                               v-model="userInputParameterValues[parameter.name].value" />
+            <p class="flex-grow m-0 p-0 max-w-full text-nowrap overflow-x-auto">
+                <span class="italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
+                <span v-else>{{ fullURL }}</span>
+            </p>
+            <div class="flex-grow-0 flex flex-row items-center gap-1.5">
+                <button title="send request" class="api-request__button"
+                        @click="$emit('send', userInputParameterValues)">
+                    <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
+                </button>
+                <button title="copy full URL to clipboard" class="api-request__button" @click="copyToClipBoard">
+                    <img src="/src/assets/icons/copy.svg" width="20" height="20">
+                </button>
+            </div>
+        </div>
+        <!-- Parameters -->
+        <div class="flex flex-col w-full p-1.5">
+            <p class="font-bold">Required Parameters</p>
+            <div v-for="parameter in parameters" class="grid grid-cols-[1fr_1fr_1fr] ">
+                <div class="flex flex-col">
+                    <div>
+                        <span class="font-bold">{{ parameter.name }}</span>
+                        <span v-if="parameter.required !== undefined && parameter.required" class="text-red-500">*</span>
+                        <span class="api-parameters__text-type ml-2">{{ parameter.schema.type }}</span>
+                    </div>
+                    <p v-if="parameter.description !== undefined">
+                        {{ parameter.description }}
+                    </p>
+                </div>
+                <DevModeParamInput :type="getInputType(parameter)" :required="parameter.required"
+                                   v-model="userInputParameterValues[parameter.name].value" />
+            </div>
         </div>
     </div>
+
     <!-- Response -->
     <div v-if="response" class="api_response__container">
         <p class="font-bold mr-auto mb-0">Response</p>
@@ -134,39 +137,9 @@ const props = defineProps<Props>();
     tab-size: 3;
 }
 
-.api-request__container {
-    position: relative;
-    border: 1px solid $pt-main-black;
-    border-radius: 5px;
-    background: $pt-main-white;
-    padding: 5px 10px 5px 5px;
-    margin: 0.5rem 0 0 0;
-}
-
-.api-request__method {
-    border: 1px solid $pt-main-black;
-    border-radius: 5px;
-    background: $pt-main-black;
-    color: $pt-main-white;
-}
-
-.api-parameters__container {
-    border: 1px solid $pt-main-black;
-    border-radius: 5px;
-    padding: 5px;
-    background: $pt-main-white;
-}
 
 .api-parameters__text-type {
     color: $pt-purple;
-}
-
-.api-parameters__input {
-    padding: 7px;
-    border: 1px solid $pt-main-black;
-    background: $pt-main-white;
-    border-radius: 5px;
-    height: min-content;
 }
 
 </style>
