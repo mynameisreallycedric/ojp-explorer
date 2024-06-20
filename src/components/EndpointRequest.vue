@@ -5,8 +5,10 @@ import DevModeParamInput from "@/components/Demo/DevMode/DevModeParamInput.vue";
 import VueJsonPretty from "vue-json-pretty";
 import {InputType} from "@/types/DevMode/InputType";
 import {useAxios} from "@/composables/services/axios";
+import {useUiStore} from "@/stores/ui";
 
 const axios = useAxios();
+const uiStore = useUiStore();
 
 const props = defineProps({
     endpoint: {type: String, required: true},
@@ -17,6 +19,7 @@ const baseUrl = import.meta.env.VITE_API_BASEURLNEW as string;
 const copiedToClipBoard = ref<boolean>(false);
 const userInputParameterValues = reactive<{ [key: string]: any }>({});
 const response = ref<string | null>(null);
+const validationError = ref<string | null>(null);
 
 const relevantParameters = computed(() => {
     return props.method?.parameters.filter(param => param.in !== 'header')
@@ -51,6 +54,16 @@ function getInputType(param: SwaggerParams): InputType {
 }
 
 function sendRequest(): void {
+    validationError.value = null;
+    if (paramMissing.value.length > 0) {
+        if (paramMissing.value.length === 1) {
+            validationError.value = 'Param "' + paramMissing.value[0].name + '" is required!';
+        } else {
+            validationError.value = 'Following params are required: ' + paramMissing.value.map(param => param.name);
+        }
+        return;
+    }
+
     axios.get(props.endpoint, {
         params: userInputParameterValues
     })
@@ -72,12 +85,21 @@ async function copyToClipBoard() {
     }, 2000); // Restore URL after 2 seconds
 }
 
+const paramMissing = computed<SwaggerParams[]>(() => {
+    const result = [] as SwaggerParams[];
+    const requiredParams = relevantParameters.value.filter(param => param.required);
+    requiredParams.forEach(param => {
+        if (userInputParameterValues[param.name] === null || userInputParameterValues[param.name].replace(/\s/g, '') === '') result.push(param);
+    })
+    return result;
+})
+
 function beforeEnter(el: any): void {
     el.style.height = '0';
 }
 
 function enter(el: any, done: any): void {
-    el.style.height = el.scrollHeight + 'px';
+    el.style.height = (el.scrollHeight + 15) + 'px';
     el.addEventListener('transitionend', done);
 }
 
@@ -117,6 +139,24 @@ watch(() => relevantParameters.value, (value) => {
                 </button>
             </div>
         </div>
+
+        <Transition name="expand"
+                    @before-enter="beforeEnter"
+                    @enter="enter"
+                    @leave="leave">
+            <div v-if="uiStore.queriedEndpoint == endpoint && uiStore.axiosError !== null"
+                 class="font-bold bg-red-700 text-white p-3">
+                {{ uiStore.axiosError.canonicalErrorMsg }}
+            </div>
+        </Transition>
+        <Transition name="expand"
+                    @before-enter="beforeEnter"
+                    @enter="enter"
+                    @leave="leave">
+            <div v-if="validationError !== null" class="font-bold bg-red-700 text-white p-3">
+                {{ validationError }}
+            </div>
+        </Transition>
         <!-- Parameters -->
         <div class="flex flex-col gap-3 w-full p-3 bg-white rounded-b">
             <p class="font-bold">Parameters</p>

@@ -15,6 +15,9 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         const authStore = useAuthStore();
+        const uiStore = useUiStore();
+
+        uiStore.queriedEndpoint = config.url ?? null;
 
         //prepare headers if necessary
         if (config.headers === undefined) {
