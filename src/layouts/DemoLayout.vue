@@ -3,7 +3,9 @@
 </script>
 
 <template>
-    <h1>/locationInformation</h1>
+    <div class="flex w-full">
+        <RouterView />
+    </div>
 </template>
 
 <style scoped lang="scss">

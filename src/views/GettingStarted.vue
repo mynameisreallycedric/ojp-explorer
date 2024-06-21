@@ -1,63 +1,42 @@
 <script setup lang="ts">
-
 import APITokenButton from "@/components/Main/APITokenButton.vue";
-import DevModeLIRRequest from "@/components/Demo/DevMode/DevModeLIRRequest.vue";
-import DevModeStationBoardRequest from "@/components/Demo/DevMode/DevModeStationBoardRequest.vue";
-import {useDemoPageStore} from "@/stores/demo";
-import {storeToRefs} from "pinia";
-import {computed, onMounted} from "vue";
-import {useSwaggerStore} from "@/stores/swagger";
-import DocLayout from "@/components/Doc/Layout/DocLayout.vue";
-import Endpoint from "@/components/Endpoint.vue";
-
-const swaggerStore = useSwaggerStore();
-const {getQueryParametersForEndpoint} = storeToRefs(swaggerStore);
-
-const paramsLIR = computed(() => swaggerStore.getQueryParametersForEndpoint('/api/locationInformation'));
-const paramsSB = computed(() => swaggerStore.getQueryParametersForEndpoint('/api/stationBoard'));
-
-onMounted(() => {
-    swaggerStore.fetchSwaggerJSON();
-})
+import GettingStartedStep from "@/components/GettingStartedStep.vue";
 
 </script>
 
 <template>
-    <DocLayout active-link="gettingStarted">
-    <div class="wrapper">
-        <section>
-            <h1>GettingStarted</h1>
-            <p>Welcome to the OJP-Explorer documentation!<br>
-                This guide will help you get started with accessing and using the API to retrieve data about Swiss
-                public transport.</p>
-        </section>
+    <p>
+        Welcome to the OJP-Explorer documentation!<br>
+        This guide will help you get started with accessing and using the API to retrieve data about Swiss
+        public transport.
+    </p>
 
-        <section>
-            <h2>Get your Key</h2>
-            <p>To authenticate your requests, you need an API key. You can obtain an API key by signing up on the
-                official OJP-Developer portal.<br>
-                You can find the developer portal under the following link: <a style="text-decoration: underline"
-                                                                               href="https://opentransportdata.swiss/en/dev-dashboard/">OJP-Developer
-                    Portal</a><br>
-                <br>
-                This API key needs to be included in the Authorization header of your HTTP requests.<br>
-                <br>
-                For all demos on the OJP-Explorer, you can set your API key using the option at the top-right of the
-                page. The option is indicated like the following button.
-            </p>
-            <APITokenButton/>
-        </section>
+    <GettingStartedStep :step="1" title="Get your Key">
+        <p>To authenticate your requests, you need an API key. You can obtain an API key by signing up on the
+            official OJP-Developer portal.<br>
+            You can find the developer portal under the following link:
+            <a style="text-decoration: underline" href="https://opentransportdata.swiss/en/dev-dashboard/">OJP-Developer Portal</a>
+            <br>
+            <br>
+            This API key needs to be included in the Authorization header of your HTTP requests.<br>
+            <br>
+            For all demos on the OJP-Explorer, you can set your API key using the option at the top-right of the
+            page. The option is indicated like the following button.
+        </p>
+        <APITokenButton/>
+    </GettingStartedStep>
 
-        <section>
-            <h2>Query Endpoints</h2>
-            <p>Next you can start querying the different available endpoints.</p>
+    <GettingStartedStep :step="2" title="Retrieve StationRef identifier" endpoint-path="/api/locationInformation">
+        <p>TBD</p>
+    </GettingStartedStep>
 
-            <div class="flex flex-col gap-10 mt-10">
-                <Endpoint v-for="endpoint in swaggerStore.swaggerJSON" :key="endpoint.path" :endpoint="endpoint" />
-            </div>
-        </section>
-    </div>
-    </DocLayout>
+    <GettingStartedStep :step="3" title="Fetch the Stationboard" endpoint-path="/api/stationBoard">
+        <p>TBD</p>
+    </GettingStartedStep>
+
+    <GettingStartedStep :step="4" title="Do a TripRequest" endpoint-path="/api/tripRequest">
+        <p>TBD</p>
+    </GettingStartedStep>
 </template>
 
 <style scoped lang="scss">
@@ -71,5 +50,4 @@ section {
 h3 {
     margin-top: 2rem;
 }
-
 </style>

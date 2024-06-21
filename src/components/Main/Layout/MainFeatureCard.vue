@@ -1,22 +1,23 @@
 <script setup lang="ts">
+import type {RouteNames} from "@/types/RouteNames";
+
 interface Props {
   iconUrl: string
   title: string
   text: string
-  link: string
 }
 
 const props = defineProps<Props>();
 </script>
 
 <template>
-  <div class="flex flex-row gap-6 items-start text-left feature_card" @click="$router.push(link)">
+  <div class="flex flex-row gap-6 items-start text-left feature_card">
     <img class="pt-2" :src="iconUrl" height="45px" width="45px">
     <div class="flex flex-col">
       <h3>{{ title }}</h3>
       <p>{{ text }}</p>
       <span class="inline-flex flex-row gap-2 font-bold">
-        <RouterLink :to="link">read more</RouterLink>
+<!--        <RouterLink :to="link">read more</RouterLink>-->
         <img src="/src/assets/icons/arrow_right.svg" height="14" width="14">
       </span>
     </div>

@@ -8,7 +8,7 @@ export class LIRService {
     public async getLIRForLocation(locationName: string, limit?: number): Promise<LIR> {
         console.log("used lir service");
         try {
-            return (await useAxios().get<LIR>(`/locationInformation`, {
+            return (await useAxios().get<LIR>(`/api/locationInformation`, {
                 params: {
                     locationName: locationName,
                     limit: limit
@@ -25,7 +25,7 @@ export class LIRService {
     public async getSingleLIRForLocation(locationName: string) {
         console.log("used single lir service");
         try {
-            const responseData = (await useAxios().get<LIR>(`/locationInformation`, {
+            const responseData = (await useAxios().get<LIR>(`/api/locationInformation`, {
                 params: {
                     locationName: locationName,
                 }

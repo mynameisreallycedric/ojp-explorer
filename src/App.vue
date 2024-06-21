@@ -1,25 +1,30 @@
 <script setup lang="ts">
-    import {computed} from "vue";
-    import {useAuthStore} from "@/stores/auth";
-    import {useUiStore} from "@/stores/ui";
-    import MainNavBar from "@/components/Main/Layout/MainNavBar.vue";
+import MainNavBar from "@/components/Main/Layout/MainNavBar.vue";
+import {useSwaggerStore} from "@/stores/swagger";
+import {onMounted} from "vue";
+
+const swaggerStore = useSwaggerStore();
+
+onMounted(() => {
+    swaggerStore.fetchSwaggerJSON();
+})
 </script>
 
 <template>
- <div class="wrapper flex flex-col">
-        <MainNavBar />
-        <main class="grow flex">
-            <RouterView/>
+    <div class="flex flex-col items-center">
+        <main class="w-full 2xl:w-2/3 max-w-7xl">
+            <MainNavBar />
+            <RouterView />
         </main>
     </div>
 </template>
 
 <style scoped lang="scss">
-    @import "src/assets/scss/variables";
+@import "src/assets/scss/variables";
 
-    .token-input {
-        border: 1px solid $pt-main-black;
-        border-radius: 5px;
-        padding: 9px;
-    }
+.token-input {
+    border: 1px solid $pt-main-black;
+    border-radius: 5px;
+    padding: 9px;
+}
 </style>
