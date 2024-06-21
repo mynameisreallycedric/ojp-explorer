@@ -7,6 +7,7 @@ import {useDemoPageStore} from "@/stores/demo";
 import {storeToRefs} from "pinia";
 import {computed, onMounted} from "vue";
 import {useSwaggerStore} from "@/stores/swagger";
+import DocLayout from "@/components/Doc/Layout/DocLayout.vue";
 import Endpoint from "@/components/Endpoint.vue";
 
 const swaggerStore = useSwaggerStore();
@@ -22,6 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <DocLayout active-link="gettingStarted">
     <div class="wrapper">
         <section>
             <h1>GettingStarted</h1>
@@ -55,6 +57,7 @@ onMounted(() => {
             </div>
         </section>
     </div>
+    </DocLayout>
 </template>
 
 <style scoped lang="scss">
@@ -64,8 +67,6 @@ section {
     display: flex;
     flex-direction: column;
 }
-
-
 
 h3 {
     margin-top: 2rem;

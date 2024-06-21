@@ -4,6 +4,8 @@ import useSwaggerService from "@/composables/services/swagger";
 import type {SwaggerEndpoint} from "@/types/SwaggerModels";
 import APITokenButton from "@/components/Main/APITokenButton.vue";
 import MainHeroBubble from "@/components/Main/Layout/MainHeroBubble.vue";
+import PrimaryButton from "@/components/Main/Controls/PrimaryButton.vue";
+import MainFeatureCard from "@/components/Main/Layout/MainFeatureCard.vue";
 
 const swaggerService = useSwaggerService();
 
@@ -20,31 +22,27 @@ onMounted(() => {
 </script>
 
 <template>
-    <main class="wrapper">
-      <h1>OJP Explorer 🚂</h1>
-      <div class="w-full flex justify-center">
-        <MainHeroBubble title="Getting Started" link="/gettingstarted"></MainHeroBubble>
+    <div class="wrapper content-wrapper">
+      <div class="flex flex-col text-center mb-10">
+        <h1>your one way stop to get all relevant data for swiss public transport</h1>
+        <div class="flex justify-center mt-4">
+          <PrimaryButton @click="$router.push('/gettingstarted')" text="get started"></PrimaryButton>
+        </div>
       </div>
-      <h2>Demo</h2>
-      <h3 class="inline-flex content-center gap-2">
-        <img src="/src/assets/icons/arrow_right.svg" height="20" width="20" /><RouterLink to="/demo/timetable">TimeTable</RouterLink>
-      </h3>
-
-      <hr class="mt-3"/>
-      <h3>Available endpoints (from swagger)</h3>
-      <div v-if="!loading" class="flex flex-col gap-3">
-          <div v-for="endpoint in endpoints" :key="endpoint.path">
-              <div v-for="mehtod in endpoint.methods" :key="mehtod.name" class="flex flex-row items-center gap-2">
-                  <div class="flex flex-row items-center gap-2">
-                      <div class="py-1 px-3 border-2 uppercase">{{ mehtod.name }}</div>
-                      <pre>{{ endpoint.path }}</pre>
-                  </div>
-              </div>
-          </div>
+      <div class="flex flex-col justify-center gap-4">
+        <MainFeatureCard title="location information"
+                         icon-url="/src/assets/icons/gps.svg"
+                         text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                         link="/doc/locationInformation"/>
+        <MainFeatureCard title="station board"
+                         icon-url="/src/assets/icons/timetable.svg"
+                         text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                         link="/doc/stationBoard"/>
       </div>
-      <template v-else>
-          <span>loading</span>
-      </template>
-
-    </main>
+      <div class="mt-6">
+        <p>
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        </p>
+      </div>
+    </div>
 </template>
