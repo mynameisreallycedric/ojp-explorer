@@ -6,9 +6,11 @@ import PrimaryButton from "@/components/Main/Controls/PrimaryButton.vue";
 import MainFeatureCard from "@/components/Main/Layout/MainFeatureCard.vue";
 import {RouteNames} from "@/types/RouteNames";
 import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
 
 const swaggerService = useSwaggerService();
 const router = useRouter();
+const { t } = useI18n();
 
 const loading = ref<boolean>(false);
 const endpoints = ref<SwaggerEndpoint[]>([]);
@@ -25,20 +27,20 @@ onMounted(() => {
 <template>
     <div class="flex flex-col items-center">
       <div class="flex flex-col items-center text-center mb-10">
-        <h1 class="max-w-3xl">your one way stop to get all relevant data for swiss public transport</h1>
+        <h1 class="max-w-3xl">{{ t('page.home') }}</h1>
         <div class="flex justify-center mt-4">
-          <PrimaryButton @click="$router.push({name: RouteNames.gettingStarted})" text="get started"></PrimaryButton>
+          <PrimaryButton @click="$router.push({name: RouteNames.docsGettingStarted})" :text="t('action.getStarted')"></PrimaryButton>
         </div>
       </div>
       <div class="flex flex-col justify-center gap-4 max-w-3xl">
         <MainFeatureCard title="location information"
                          icon-url="/src/assets/icons/gps.svg"
                          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
-                         @click="router.push({name: RouteNames.doc, hash: '#/api/locationInformation'})"/>
+                         @click="router.push({name: RouteNames.docsEndpoints, hash: '#/api/locationInformation'})"/>
         <MainFeatureCard title="station board"
                          icon-url="/src/assets/icons/timetable.svg"
                          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
-                         @click="router.push({name: RouteNames.doc, hash: '#/api/stationBoard'})"/>
+                         @click="router.push({name: RouteNames.docsEndpoints, hash: '#/api/stationBoard'})"/>
       </div>
       <div class="mt-6">
         <p>

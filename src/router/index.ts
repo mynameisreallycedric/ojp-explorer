@@ -4,8 +4,11 @@ import TimeTableView from "@/views/Demo/TimeTableView.vue";
 import GettingStarted from "@/views/GettingStarted.vue";
 import DocLayout from "@/layouts/DocLayout.vue";
 import DemoLayout from "@/layouts/DemoLayout.vue";
-import DocView from "@/views/Doc/DocView.vue";
 import {RouteNames} from "@/types/RouteNames";
+import DocEnpointsView from "@/views/Docs/DocEnpointsView.vue";
+import IntroductionView from "@/views/IntroductionView.vue";
+import {useI18n} from "vue-i18n";
+import i18n from "@/plugins/i18n";
 
 const routes = [
     {
@@ -19,7 +22,7 @@ const routes = [
         children: [
             {
                 path: 'timetable',
-                name: RouteNames.timeTable,
+                name: RouteNames.demoTimeTable,
                 component: TimeTableView
             },
         ]
@@ -29,17 +32,30 @@ const routes = [
         component: DocLayout,
         children: [
             {
-                path: '',
-                name: RouteNames.doc,
-                component: DocView,
+                path: 'introduction',
+                alias: [''],
+                name: RouteNames.docsIntroduction,
+                component: IntroductionView,
                 meta: {
-                    hashFragments: true
+                    title: i18n.global.t('page.docs.introduction'),
                 }
             },
             {
                 path: 'gettingstarted',
-                name: RouteNames.gettingStarted,
-                component: GettingStarted
+                name: RouteNames.docsGettingStarted,
+                component: GettingStarted,
+                meta: {
+                    title: i18n.global.t('page.docs.gettingStarted'),
+                }
+            },
+            {
+                path: 'endpoints',
+                name: RouteNames.docsEndpoints,
+                component: DocEnpointsView,
+                meta: {
+                    title: i18n.global.t('page.docs.endpoints'),
+                    hashFragments: true
+                }
             }
         ]
     },

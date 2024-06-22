@@ -11,9 +11,11 @@ const router = useRouter();
         <aside class="mb-10">
             <DocNav />
         </aside>
-        <div class="flex flex-col gap-20 mx-6 md:mr-0">
-            <h1>{{ router.currentRoute.value.name }}</h1>
-            <RouterView />
+        <div class="flex flex-col gap-20 md:ml-6 w-full">
+            <h1>{{ router.currentRoute.value.meta.title }}</h1>
+
+                <RouterView />
+
         </div>
     </div>
 </template>

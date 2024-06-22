@@ -1,6 +1,7 @@
 export enum RouteNames {
     home = 'Home',
-    doc = 'Documentation',
-    timeTable = 'TimeTable',
-    gettingStarted = 'GettingStarted',
+    docsEndpoints = 'Endpoints',
+    demoTimeTable = 'TimeTable',
+    docsGettingStarted = 'GettingStarted',
+    docsIntroduction = 'Introduction',
 }

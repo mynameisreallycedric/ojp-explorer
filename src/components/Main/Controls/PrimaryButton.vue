@@ -8,7 +8,7 @@ const props = defineProps<Props>();
 
 <template>
   <button class="inline-flex items-center primary-button_container" >
-    <span>{{ text }}</span>
+    <span class="lowercase">{{ text }}</span>
   </button>
 </template>
 

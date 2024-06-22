@@ -1,0 +1,63 @@
+{
+  "apiErrors": {
+    "generic": "öppis esch lätz TBD",
+    "auth": {
+      "tokenMissing": "OJP-Token fehlt. xxx TBD xxx"
+    },
+    "templating": {
+      "argumentError": "öppis Argument züüg TBD",
+      "runtimeError": "öppis templating TBD"
+    },
+    "ojp": {
+      "generic": "öppis mettem ojp service TBD",
+      "forbidden": "ojp seit döffsch ned TBD",
+      "tooManyRequests": "ojp seit besch zfliisig TBD"
+    },
+    "deserialize": {
+      "generic": "öppis xml models TBD"
+    }
+  },
+  "page": {
+    "home": "your one way stop to get all relevant data for swiss public transport",
+    "demo": {
+      "index": "Demo",
+      "timeTable": "TimeTable"
+    },
+    "docs": {
+      "index": "Docs",
+      "introduction": "Introduction",
+      "gettingStarted": "Getting Started",
+      "endpoints": "Endpoints"
+    }
+  },
+  "action": {
+    "getStarted": "Get started",
+    "goToSwagger": "Go To Swagger"
+  },
+
+
+
+  "docsIntroduction": {
+    "header": "Welcome to the OJP-Explorer documentation!\nThis guide will help you get started with accessing and using the API to retrieve data about Swiss public transport."
+  },
+
+  "docsGettingStarted": {
+    "header": "Welcome to the OJP-Explorer documentation!\nThis guide will help you get started with accessing and using the API to retrieve data about Swiss public transport.",
+    "step1": {
+      "title": "Get your Key",
+      "description": "To authenticate your requests, you need an API key. You can obtain an API key by signing up on the official OJP-Developer portal.\n You can find the developer portal under the following link: {link}\n\nThis API key needs to be included in the Authorization header of your HTTP requests.\n\nFor all demos on the OJP-Explorer, you can set your API key using the option at the top-right of the page. The option is indicated like the following button."
+    },
+    "step2": {
+      "title": "Retrieve StationRef identifier",
+      "description": "TBD"
+    },
+    "step3": {
+      "title": "Fetch the StationBoard",
+      "description": "TBD"
+    },
+    "step4": {
+      "title": "Make a TripRequest",
+      "description": "TBD"
+    }
+  }
+}
