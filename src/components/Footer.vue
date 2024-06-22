@@ -2,13 +2,21 @@
 import {Separator} from "@/components/ui/separator";
 import {useI18n} from "vue-i18n";
 import {useUiStore} from "@/stores/ui";
+import {useRouter} from "vue-router";
 
 const i18n = useI18n();
+const uiStore = useUiStore();
+const router = useRouter();
+
+function changeLocale(locale: string): void {
+    uiStore.changeLocale(locale);
+}
 
 </script>
 
 <template>
-    <div class="py-3">
+    <div class="flex flex-col gap-6 p-3">
+        <Separator />
         <div class="flex h-5 items-center space-x-3 text-sm">
 
             <template v-for="(locale, index) in i18n.availableLocales" :key="index">

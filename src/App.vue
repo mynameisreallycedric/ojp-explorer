@@ -3,6 +3,8 @@ import MainNavBar from "@/components/Main/Layout/MainNavBar.vue";
 import {useSwaggerStore} from "@/stores/swagger";
 import {onMounted} from "vue";
 import Footer from "@/components/Footer.vue";
+import {useI18n} from "vue-i18n";
+import {useUiStore} from "@/stores/ui";
 
 const swaggerStore = useSwaggerStore();
 
