@@ -43,7 +43,7 @@ const value = defineModel<any>();
 </template>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables";
+@import "../assets/scss/variables";
 
 .api-parameters__input {
     padding: 7px;

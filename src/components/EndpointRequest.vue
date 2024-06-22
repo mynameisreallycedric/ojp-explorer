@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import {computed, type PropType, reactive, ref, watch} from "vue";
+import {computed, onMounted, type PropType, reactive, ref, watch} from "vue";
 import type {SwaggerMethod, SwaggerParams} from "@/types/SwaggerModels";
-import DevModeParamInput from "@/components/Demo/DevMode/DevModeParamInput.vue";
 import VueJsonPretty from "vue-json-pretty";
 import {InputType} from "@/types/DevMode/InputType";
 import {useAxios} from "@/composables/services/axios";
 import {useUiStore} from "@/stores/ui";
+import {useAuthStore} from "@/stores/auth";
+import {useI18n} from "vue-i18n";
+import EndpointRequestParamInput from "@/components/EndpointRequestParamInput.vue";
+import EndpointRequestButton from "@/components/EndpointRequestButton.vue";
 
 const axios = useAxios();
 const uiStore = useUiStore();
+const authStore = useAuthStore();
+const {t} = useI18n();
 
 const props = defineProps({
     endpoint: {type: String, required: true},
@@ -16,10 +21,19 @@ const props = defineProps({
 })
 
 const baseUrl = import.meta.env.VITE_API_BASEURLNEW as string;
-const copiedToClipBoard = ref<boolean>(false);
+const displayMsg = ref<boolean>(false);
 const userInputParameterValues = reactive<{ [key: string]: any }>({});
 const response = ref<string | null>(null);
 const validationError = ref<string | null>(null);
+
+const methodBlock = ref();
+const paperPlane = ref();
+const loading = ref(false);
+
+onMounted(() => {
+    paperPlane.value.style.right = '2.8em';
+    paperPlane.value.style.display = 'none';
+})
 
 const relevantParameters = computed(() => {
     return props.method?.parameters.filter(param => param.in !== 'header')
@@ -64,6 +78,21 @@ function sendRequest(): void {
         return;
     }
 
+    const targetX = methodBlock.value.getBoundingClientRect().x;
+    console.log(targetX)
+    const startX = paperPlane.value.getBoundingClientRect().x;
+    const deltaX = startX - targetX;
+
+    loading.value = true;
+    paperPlane.value.style.display = 'flex';
+    paperPlane.value.style.transform = 'rotate(-180deg)';
+    paperPlane.value.style.transition = 'right 3s linear';
+
+
+    setTimeout(() => {
+        paperPlane.value.style.right = '35em'
+    }, 100);
+
     axios.get(props.endpoint, {
         params: userInputParameterValues
     })
@@ -74,14 +103,46 @@ function sendRequest(): void {
         .catch(err => {
             console.log('err', err);
         })
+        .finally(() => {
+            paperPlane.value.style.transition = 'right 1s linear';
+            setTimeout(() => {
+                paperPlane.value.style.right = '57em'
+            }, 100);
+            setTimeout(() => {
+                paperPlane.value.style.display = 'none'
+                paperPlane.value.style.right = '2.8em'
+                methodBlockPop();
+                loading.value = false;
+            }, 1100);
+        });
+}
+
+function methodBlockPop(): void {
+    methodBlock.value.style.transition = 'all .5s ease-in-out';
+    setTimeout(() => {
+        //methodBlock.value.style.backgroundColor = 'red'
+        methodBlock.value.style.transform = 'scale(1.2)'
+    }, 100);
+
+    setTimeout(() => {
+        methodBlock.value.style.transform = 'scale(1)'
+    }, 1000);
+    setTimeout(() => {
+        methodBlock.value.style.backgroundColor = '#2D2D2D'
+    }, 3000);
+
+
+
 }
 
 async function copyToClipBoard() {
-    await navigator.clipboard.writeText(fullURL.value);
-    copiedToClipBoard.value = true;
+    const curlCmd = `curl --location '${fullURL.value}' --header 'Authorization: Bearer ${authStore.ojpToken}'`;
+
+    await navigator.clipboard.writeText(curlCmd);
+    displayMsg.value = true;
     setTimeout(() => {
-        copiedToClipBoard.value = false;
-    }, 2000); // Restore URL after 2 seconds
+        displayMsg.value = false;
+    }, 2000);
 }
 
 const paramMissing = computed<SwaggerParams[]>(() => {
@@ -115,27 +176,32 @@ watch(() => relevantParameters.value, (value) => {
         userInputParameterValues[key.name] = null;
     })
 }, {immediate: true, deep: true});
+
 </script>
 
 <template>
     <div class="border border-black rounded bg-black">
         <!-- Request Bar -->
-        <div class="flex flex-row gap-1.5 w-full rounded-t items-center border-b border-black p-1.5 bg-white">
-            <div class="flex-grow-0 p-1 bg-black text-white rounded">
+        <div class="flex flex-row gap-1.5 w-full rounded-t items-center border-b border-black p-1.5 bg-white relative">
+
+            <div ref="paperPlane" class="align-middle absolute">
+                <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
+            </div>
+
+            <div ref="methodBlock" class="flex-grow-0 p-1 bg-black text-white rounded">
                 <span class="text-center font-bold px-2">{{ method.name.toUpperCase() }}</span>
             </div>
-            <p class="flex-grow m-0 p-0 max-w-full text-nowrap overflow-x-auto">
-                <span class="italic" v-if="copiedToClipBoard">copied to Clipboard!</span>
+            <div class="flex-grow max-w-full text-nowrap overflow-x-auto">
+                <span class="italic" v-if="displayMsg">copied to Clipboard!</span>
                 <span v-else>{{ fullURL }}</span>
-            </p>
+            </div>
             <div class="flex-grow-0 flex flex-row items-center gap-3 mr-1.5">
-                <button title="send request" class="api-request__button"
-                        @click="sendRequest">
-                    <img src="/src/assets/icons/paperplane.svg" width="21" height="21">
-                </button>
-                <button title="copy full URL to clipboard" class="api-request__button" @click="copyToClipBoard">
-                    <img src="/src/assets/icons/copy.svg" width="20" height="20">
-                </button>
+
+                <Transition>
+                    <EndpointRequestButton v-if="!loading" :tooltip-msg="t('action.send')" icon-path="/src/assets/icons/paperplane.svg" @click="sendRequest" />
+                </Transition>
+                <EndpointRequestButton :tooltip-msg="t('action.curlToClipBoard')" icon-path="/src/assets/icons/copy.svg" @click="copyToClipBoard" />
+
             </div>
         </div>
 
@@ -153,7 +219,8 @@ watch(() => relevantParameters.value, (value) => {
 
         <!-- Parameters -->
         <div class="flex flex-col gap-3 w-full p-3 bg-white rounded-b">
-            <p class="font-bold">Parameters</p>
+            <span class="font-bold mb-1.5">Parameters</span>
+
             <div v-for="parameter in relevantParameters" class="grid grid-cols-[1fr_1fr_1fr]">
                 <div class="flex flex-col">
                     <div>
@@ -166,7 +233,7 @@ watch(() => relevantParameters.value, (value) => {
                         {{ parameter.description }}
                     </p>
                 </div>
-                <DevModeParamInput v-if="userInputParameterValues !== undefined" :type="getInputType(parameter)"
+                <EndpointRequestParamInput v-if="userInputParameterValues !== undefined" :type="getInputType(parameter)"
                                    :required="parameter.required"
                                    v-model="userInputParameterValues[parameter.name]"/>
             </div>

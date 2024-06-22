@@ -32,7 +32,9 @@
   },
   "action": {
     "getStarted": "Loslegen",
-    "goToSwagger": "Zu Swagger gehen"
+    "goToSwagger": "Zu Swagger gehen",
+    "curlToClipBoard": "Curl cmd kopieren",
+    "send": "Abschicken"
   },
 
 

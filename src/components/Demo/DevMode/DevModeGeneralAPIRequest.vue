@@ -4,8 +4,8 @@ import {computed, onMounted, type Ref, ref, watch} from "vue";
 import type {SwaggerParams} from "@/types/SwaggerModels";
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
-import DevModeParamInput from "@/components/Demo/DevMode/DevModeParamInput.vue";
 import {InputType} from "@/types/DevMode/InputType";
+import EndpointRequestParamInput from "@/components/EndpointRequestParamInput.vue";
 
 interface Props {
     method: APIMethods
@@ -98,7 +98,7 @@ const props = defineProps<Props>();
                         {{ parameter.description }}
                     </p>
                 </div>
-                <DevModeParamInput :type="getInputType(parameter)" :required="parameter.required"
+                <EndpointRequestParamInput :type="getInputType(parameter)" :required="parameter.required"
                                    v-model="userInputParameterValues[parameter.name].value" />
             </div>
         </div>
