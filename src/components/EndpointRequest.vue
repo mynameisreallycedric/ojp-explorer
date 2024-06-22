@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, onMounted, type PropType, reactive, ref, watch} from "vue";
-import type {SwaggerEndpoint, SwaggerMethod, SwaggerParams} from "@/types/SwaggerModels";
+import {computed, type PropType, reactive, ref, watch} from "vue";
+import type {SwaggerMethod, SwaggerParams} from "@/types/SwaggerModels";
 import DevModeParamInput from "@/components/Demo/DevMode/DevModeParamInput.vue";
 import VueJsonPretty from "vue-json-pretty";
 import {InputType} from "@/types/DevMode/InputType";
@@ -72,7 +72,6 @@ function sendRequest(): void {
             response.value = res.data;
         })
         .catch(err => {
-            //TODO: error userfeedback
             console.log('err', err);
         })
 }
@@ -179,10 +178,10 @@ watch(() => relevantParameters.value, (value) => {
                     @enter="enter"
                     @leave="leave">
             <div v-if="response !== null" class="rounded-b px-3 py-6">
-                <div class="flex flex-row justify-between">
+                <div class="flex flex-row justify-between pb-6">
                     <span class="font-bold text-white">Response</span>
-                    <button title="collapse" class="response__collapse-button" @click="response = null">
-                        <img src="/src/assets/icons/x_white.svg" width="17" height="17">
+                    <button title="collapse" class="response__collapse-button mr-1.5" @click="response = null">
+                        <img src="/src/assets/icons/x_white.svg" width="14" height="14">
                     </button>
                 </div>
                 <div class="api_response__response rounded mt-3 mb-12 text-gray-300">
@@ -205,7 +204,7 @@ watch(() => relevantParameters.value, (value) => {
 }
 
 .api_response__response {
-    height: 600px;
+    height: 580px;
     overflow-y: scroll;
     tab-size: 3;
 }

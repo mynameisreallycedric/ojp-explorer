@@ -6,7 +6,6 @@ import {useRouter} from "vue-router";
 
 const i18n = useI18n();
 const uiStore = useUiStore();
-const router = useRouter();
 
 function changeLocale(locale: string): void {
     uiStore.changeLocale(locale);
