@@ -81,14 +81,13 @@ function sendRequest(): void {
         return;
     }
 
-    // Set loading state and initialize animation
     loading.value = true;
     paperPlane.value.style.display = 'flex';
     paperPlane.value.style.transform = 'rotate(-180deg)';
-    paperPlane.value.style.transition = 'right 3s linear';
+    paperPlane.value.style.transition = 'right 5s linear';
 
     setTimeout(() => {
-        paperPlane.value.style.right = '35em';
+        paperPlane.value.style.right = '25em';
     }, 100);
 
     axios.get(props.endpoint, { params: userInputParameterValues })
@@ -102,7 +101,7 @@ function sendRequest(): void {
 
 function handleSuccessResponse(res: any) {
     console.log('res', res);
-    animatePaperPlane('right 0.75s linear', '57em', () => {
+    animatePaperPlane('right 0.75s linear', '45em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('pop-animation');
         loading.value = false;
@@ -112,7 +111,7 @@ function handleSuccessResponse(res: any) {
 
 function handleErrorResponse(err: string) {
     console.log('err', err);
-    animatePaperPlane('right 0.75s linear', '57em', () => {
+    animatePaperPlane('right 0.75s linear', '45em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('shake-animation');
         errorMessage.value = err;
