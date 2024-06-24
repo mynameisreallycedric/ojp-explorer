@@ -69,10 +69,10 @@ function getInputType(param: SwaggerParams): InputType {
 
 function sendRequest(): void {
     // Reset validation error and remove animations
+    response.value = null;
     errorMessage.value = null;
     methodBlock.value.classList.remove('shake-animation', 'pop-animation');
 
-    // Check for missing parameters
     if (paramMissing.value.length > 0) {
         methodBlock.value.classList.add('shake-animation');
         errorMessage.value = paramMissing.value.length === 1
@@ -101,7 +101,7 @@ function sendRequest(): void {
 
 function handleSuccessResponse(res: any) {
     console.log('res', res);
-    animatePaperPlane('right 0.75s linear', '40em', () => {
+    animatePaperPlane('right 0.75s linear', '42em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('pop-animation');
         loading.value = false;
@@ -111,7 +111,7 @@ function handleSuccessResponse(res: any) {
 
 function handleErrorResponse(err: string) {
     console.log('err', err);
-    animatePaperPlane('right 0.75s linear', '40em', () => {
+    animatePaperPlane('right 0.75s linear', '42em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('shake-animation');
         errorMessage.value = err;
