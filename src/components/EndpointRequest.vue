@@ -101,7 +101,7 @@ function sendRequest(): void {
 
 function handleSuccessResponse(res: any) {
     console.log('res', res);
-    animatePaperPlane('right 0.75s linear', '45em', () => {
+    animatePaperPlane('right 0.75s linear', '40em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('pop-animation');
         loading.value = false;
@@ -111,7 +111,7 @@ function handleSuccessResponse(res: any) {
 
 function handleErrorResponse(err: string) {
     console.log('err', err);
-    animatePaperPlane('right 0.75s linear', '45em', () => {
+    animatePaperPlane('right 0.75s linear', '40em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('shake-animation');
         errorMessage.value = err;
