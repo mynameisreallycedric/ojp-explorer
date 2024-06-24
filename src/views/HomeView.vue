@@ -32,7 +32,7 @@ onMounted(() => {
           <PrimaryButton @click="$router.push({name: RouteNames.docsGettingStarted})" :text="t('action.getStarted')"></PrimaryButton>
         </div>
       </div>
-      <div class="flex flex-col justify-center gap-4 max-w-3xl">
+      <div class="flex flex-col justify-center gap-4 w-[700px]">
         <MainFeatureCard title="location information"
                          icon-url="/src/assets/icons/gps.svg"
                          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
@@ -46,7 +46,7 @@ onMounted(() => {
                          route-hash="#/api/stationBoard"
                          @click="router.push({name: RouteNames.docsEndpoints, hash: '#/api/stationBoard'})"/>
       </div>
-      <div class="mt-6 max-w-[700px]">
+      <div class="mt-6 w-[700px]">
         <p>
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
         </p>
