@@ -36,10 +36,14 @@ onMounted(() => {
         <MainFeatureCard title="location information"
                          icon-url="/src/assets/icons/gps.svg"
                          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                         :route-name="RouteNames.docsEndpoints"
+                         route-hash="#/api/locationInformation"
                          @click="router.push({name: RouteNames.docsEndpoints, hash: '#/api/locationInformation'})"/>
         <MainFeatureCard title="station board"
                          icon-url="/src/assets/icons/timetable.svg"
                          text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                         :route-name="RouteNames.docsEndpoints"
+                         route-hash="#/api/stationBoard"
                          @click="router.push({name: RouteNames.docsEndpoints, hash: '#/api/stationBoard'})"/>
       </div>
       <div class="mt-6 max-w-[700px]">
