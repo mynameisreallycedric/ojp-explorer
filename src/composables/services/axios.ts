@@ -58,6 +58,7 @@ axiosInstance.interceptors.response.use(
 
         console.log(customError);
         uiStore.axiosError = customError;
+        throw customError;
     },
 );
 

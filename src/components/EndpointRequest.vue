@@ -3,7 +3,7 @@ import {computed, onMounted, type PropType, reactive, ref, watch} from "vue";
 import type {SwaggerMethod, SwaggerParams} from "@/types/SwaggerModels";
 import VueJsonPretty from "vue-json-pretty";
 import {InputType} from "@/types/DevMode/InputType";
-import {useAxios} from "@/composables/services/axios";
+import {type AxiosCustomError, useAxios} from "@/composables/services/axios";
 import {useUiStore} from "@/stores/ui";
 import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "vue-i18n";
@@ -24,7 +24,7 @@ const baseUrl = import.meta.env.VITE_API_BASEURLNEW as string;
 const displayMsg = ref<boolean>(false);
 const userInputParameterValues = reactive<{ [key: string]: any }>({});
 const response = ref<string | null>(null);
-const validationError = ref<string | null>(null);
+const errorMessage = ref<string | null>(null);
 
 const methodBlock = ref();
 const paperPlane = ref();
@@ -68,72 +68,71 @@ function getInputType(param: SwaggerParams): InputType {
 }
 
 function sendRequest(): void {
-    validationError.value = null;
+    // Reset validation error and remove animations
+    errorMessage.value = null;
+    methodBlock.value.classList.remove('shake-animation', 'pop-animation');
+
+    // Check for missing parameters
     if (paramMissing.value.length > 0) {
-        if (paramMissing.value.length === 1) {
-            validationError.value = 'Param "' + paramMissing.value[0].name + '" is required!';
-        } else {
-            validationError.value = 'Following params are required: ' + paramMissing.value.map(param => param.name);
-        }
+        methodBlock.value.classList.add('shake-animation');
+        errorMessage.value = paramMissing.value.length === 1
+            ? `Param "${paramMissing.value[0].name}" is required!`
+            : `Following params are required: ${paramMissing.value.map(param => param.name).join(', ')}`;
         return;
     }
 
-    const targetX = methodBlock.value.getBoundingClientRect().x;
-    console.log(targetX)
-    const startX = paperPlane.value.getBoundingClientRect().x;
-    const deltaX = startX - targetX;
-
+    // Set loading state and initialize animation
     loading.value = true;
     paperPlane.value.style.display = 'flex';
     paperPlane.value.style.transform = 'rotate(-180deg)';
     paperPlane.value.style.transition = 'right 3s linear';
 
-
     setTimeout(() => {
-        paperPlane.value.style.right = '35em'
+        paperPlane.value.style.right = '35em';
     }, 100);
 
-    axios.get(props.endpoint, {
-        params: userInputParameterValues
-    })
+    axios.get(props.endpoint, { params: userInputParameterValues })
         .then(res => {
-            console.log('res', res);
-            response.value = res.data;
+            handleSuccessResponse(res);
         })
-        .catch(err => {
-            console.log('err', err);
-        })
-        .finally(() => {
-            paperPlane.value.style.transition = 'right 1s linear';
-            setTimeout(() => {
-                paperPlane.value.style.right = '57em'
-            }, 100);
-            setTimeout(() => {
-                paperPlane.value.style.display = 'none'
-                paperPlane.value.style.right = '2.8em'
-                methodBlockPop();
-                loading.value = false;
-            }, 1100);
+        .catch((err: AxiosCustomError) => {
+            handleErrorResponse(err.httpStatus + ' (' + err.httpStatusText + '): ' + err.canonicalErrorMsg);
         });
 }
 
-function methodBlockPop(): void {
-    methodBlock.value.style.transition = 'all .5s ease-in-out';
-    setTimeout(() => {
-        //methodBlock.value.style.backgroundColor = 'red'
-        methodBlock.value.style.transform = 'scale(1.2)'
-    }, 100);
-
-    setTimeout(() => {
-        methodBlock.value.style.transform = 'scale(1)'
-    }, 1000);
-    setTimeout(() => {
-        methodBlock.value.style.backgroundColor = '#2D2D2D'
-    }, 3000);
-
-
-
+function handleSuccessResponse(res: any) {
+    console.log('res', res);
+    animatePaperPlane('right 0.75s linear', '57em', () => {
+        resetPaperPlane();
+        methodBlock.value.classList.add('pop-animation');
+        loading.value = false;
+        response.value = res.data;
+    });
 }
+
+function handleErrorResponse(err: string) {
+    console.log('err', err);
+    animatePaperPlane('right 0.75s linear', '57em', () => {
+        resetPaperPlane();
+        methodBlock.value.classList.add('shake-animation');
+        errorMessage.value = err;
+        loading.value = false;
+    });
+}
+
+function animatePaperPlane(transition: string, position: string, callback: any) {
+    paperPlane.value.style.transition = transition;
+    setTimeout(() => {
+        paperPlane.value.style.right = position;
+    }, 100);
+    setTimeout(callback, 850);
+}
+
+function resetPaperPlane() {
+    paperPlane.value.style.display = 'none';
+    paperPlane.value.style.right = '2.8em';
+}
+
 
 async function copyToClipBoard() {
     const curlCmd = `curl --location '${fullURL.value}' --header 'Authorization: Bearer ${authStore.ojpToken}'`;
@@ -198,9 +197,11 @@ watch(() => relevantParameters.value, (value) => {
             <div class="flex-grow-0 flex flex-row items-center gap-3 mr-1.5">
 
                 <Transition>
-                    <EndpointRequestButton v-if="!loading" :tooltip-msg="t('action.send')" icon-path="/src/assets/icons/paperplane.svg" @click="sendRequest" />
+                    <EndpointRequestButton v-if="!loading" :tooltip-msg="t('action.send')"
+                                           icon-path="/src/assets/icons/paperplane.svg" @click="sendRequest"/>
                 </Transition>
-                <EndpointRequestButton :tooltip-msg="t('action.curlToClipBoard')" icon-path="/src/assets/icons/copy.svg" @click="copyToClipBoard" />
+                <EndpointRequestButton :tooltip-msg="t('action.curlToClipBoard')" icon-path="/src/assets/icons/copy.svg"
+                                       @click="copyToClipBoard"/>
 
             </div>
         </div>
@@ -209,11 +210,9 @@ watch(() => relevantParameters.value, (value) => {
                     @before-enter="beforeEnter"
                     @enter="enter"
                     @leave="leave">
-            <div v-if="uiStore.queriedEndpoint == endpoint && uiStore.axiosError !== null || validationError !== null"
+            <div v-if="errorMessage !== null"
                  class="font-bold bg-red-100 text-red-600 p-3 border-b border-black">
-                <span v-if="uiStore.axiosError !== null">{{ uiStore.axiosError.canonicalErrorMsg }}</span>
-                <span v-if="validationError !== null">{{ validationError }}</span>
-
+                <span>{{ errorMessage }}</span>
             </div>
         </Transition>
 
@@ -234,8 +233,8 @@ watch(() => relevantParameters.value, (value) => {
                     </p>
                 </div>
                 <EndpointRequestParamInput v-if="userInputParameterValues !== undefined" :type="getInputType(parameter)"
-                                   :required="parameter.required"
-                                   v-model="userInputParameterValues[parameter.name]"/>
+                                           :required="parameter.required"
+                                           v-model="userInputParameterValues[parameter.name]"/>
             </div>
         </div>
 
@@ -262,6 +261,7 @@ watch(() => relevantParameters.value, (value) => {
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
 
+
 .api-request__button:hover {
     filter: brightness(3);
 }
@@ -285,4 +285,49 @@ watch(() => relevantParameters.value, (value) => {
 .expand-leave-to {
     height: 0;
 }
+
+
+.pop-animation {
+    transition: transform .3s ease-in-out;
+    animation: pop 500ms ease-in-out;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2); /* Scale up to 1.2 times its original size */
+    }
+    100% {
+        transform: scale(1); /* Scale back to original size */
+    }
+}
+
+.shake-animation {
+    animation: shake 300ms ease-in-out;
+    background-color: theme('colors.red.500');
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-5px);
+    }
+    40% {
+        transform: translateX(5px);
+    }
+    60% {
+        transform: translateX(-5px);
+    }
+    80% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 </style>
