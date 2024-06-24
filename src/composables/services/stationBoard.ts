@@ -8,7 +8,7 @@ export class StationBoardService{
     public async getStationBoardForLocation(station: string, limit?: number, id?: number, datetime?: string ): Promise<StationBoard>{
         console.log("used get station-board service");
         try {
-            const response = await useAxios().get<StationBoard>('/stationBoard', {
+            const response = await useAxios().get<StationBoard>('/api/stationBoard', {
                 params: {
                     station: station,
                     limit: limit,

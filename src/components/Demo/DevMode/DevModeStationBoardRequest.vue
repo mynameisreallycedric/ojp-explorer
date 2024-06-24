@@ -55,8 +55,7 @@ const inputValue = ref({
       endpoint="/stationBoard"
       :parameters="parameters"
       placeholder="test"
-      :response="response">
-  </DevModeGeneralAPIRequest>
+      :response="response"/>
 
 </template>
 

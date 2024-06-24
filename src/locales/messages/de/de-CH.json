@@ -1,0 +1,65 @@
+{
+  "apiErrors": {
+    "generic": "Etwas ist schief gelaufen TBD",
+    "auth": {
+      "tokenMissing": "OJP-Token fehlt. xxx TBD xxx"
+    },
+    "templating": {
+      "argumentError": "Ein Argumentfehler ist aufgetreten TBD",
+      "runtimeError": "Ein Laufzeitfehler ist aufgetreten TBD"
+    },
+    "ojp": {
+      "generic": "Ein Fehler mit dem OJP-Dienst ist aufgetreten TBD",
+      "forbidden": "OJP sagt, dass Sie keinen Zugriff haben TBD",
+      "tooManyRequests": "OJP sagt, Sie haben zu viele Anfragen gestellt TBD"
+    },
+    "deserialize": {
+      "generic": "Ein Fehler beim Deserialisieren der XML-Modelle ist aufgetreten TBD"
+    }
+  },
+  "page": {
+    "home": "Ihre zentrale Anlaufstelle für alle relevanten Daten des Schweizer öffentlichen Verkehrs",
+    "demo": {
+      "index": "Demo",
+      "timeTable": "Fahrplan"
+    },
+    "docs": {
+      "index": "Dokumentation",
+      "introduction": "Einführung",
+      "gettingStarted": "Erste Schritte",
+      "endpoints": "Endpunkte"
+    }
+  },
+  "action": {
+    "getStarted": "Loslegen",
+    "goToSwagger": "Zu Swagger gehen"
+  },
+
+
+  "docsIntroduction": {
+    "title": "Endpoints",
+    "header": "ahaskldjfadsjföaioj"
+  },
+
+  "docsGettingStarted": {
+    "header": "Willkommen zur OJP-Explorer Dokumentation!\nDieser Leitfaden hilft Ihnen beim Einstieg in den Zugriff und die Nutzung der API, um Daten über den öffentlichen Verkehr in der Schweiz abzurufen.",
+    "step1": {
+      "title": "Holen Sie sich Ihren Schlüssel",
+      "description": "Um Ihre Anfragen zu authentifizieren, benötigen Sie einen API-Schlüssel. Sie können einen API-Schlüssel erhalten, indem Sie sich auf dem offiziellen OJP-Entwicklerportal anmelden.\n Sie finden das Entwicklerportal unter folgendem Link: {link}\n\nDieser API-Schlüssel muss im Authorization-Header Ihrer HTTP-Anfragen enthalten sein.\n\nFür alle Demos auf dem OJP-Explorer können Sie Ihren API-Schlüssel mit der Option oben rechts auf der Seite festlegen. Die Option ist durch die folgende Schaltfläche gekennzeichnet."
+    },
+    "step2": {
+      "title": "StationRef-Identifikator abrufen",
+      "description": "TBD"
+    },
+    "step3": {
+      "title": "StationBoard abrufen",
+      "description": "TBD"
+    },
+    "step4": {
+      "title": "TripRequest durchführen",
+      "description": "TBD"
+    }
+  }
+
+
+}
