@@ -12,8 +12,12 @@ import {storeToRefs} from "pinia";
 import DevModeLIRRequest from "@/components/Demo/DevMode/DevModeLIRRequest.vue";
 import DevModeStationBoardRequest from "@/components/Demo/DevMode/DevModeStationBoardRequest.vue";
 import DemoLayoutButton from "@/components/Demo/Layout/DemoLayoutButton.vue";
+import Endpoint from "@/components/Endpoint.vue";
+import type {SwaggerEndpoint} from "@/types/SwaggerModels";
+import {useSwaggerStore} from "@/stores/swagger";
 
 const stationBoardService = useStationBoardService();
+const swaggerStore = useSwaggerStore();
 
 const loading = ref<boolean>(false);
 const stationBoard = ref<StationBoard>();
@@ -26,10 +30,6 @@ const showDevMode = ref(false);
 const selectedLIR = ref<string>();
 
 const demoStore = useDemoPageStore();
-const { getParametersForEndpoint } = storeToRefs(demoStore);
-
-const paramsLIR = computed(() => demoStore.getQueryParametersForEndpoint('/api/locationInformation'));
-const paramsSB = computed(() => demoStore.getQueryParametersForEndpoint('/api/stationBoard'));
 
 watch(() => selectedLIR.value, async (value) => {
     if (errorMessage.value !== null) errorMessage.value = null;
@@ -45,13 +45,17 @@ watch(() => selectedLIR.value, async (value) => {
 });
 
 watch(() => selectedStation.value, async (value) => {
-  demoStore.setParameterValueForEndpoint('/api/locationInformation', 'locationName', value)
-  demoStore.setParameterValueForEndpoint('/api/stationBoard', 'station', value)
+    demoStore.setParameterValueForEndpoint('/api/locationInformation', 'locationName', value)
+    demoStore.setParameterValueForEndpoint('/api/stationBoard', 'station', value)
 });
 
 onMounted(() => {
-  demoStore.initializeSwaggerDoc();
+    demoStore.initializeSwaggerDoc();
 })
+
+function getEndpoint(endpointPath: string): SwaggerEndpoint | null {
+    return swaggerStore.swaggerJSON?.find(endpoint => endpoint.path === endpointPath) ?? null;
+}
 
 </script>
 
@@ -59,7 +63,8 @@ onMounted(() => {
     <DemoLayout :showDevMode>
         <template #main>
             <div class="flex flex-col items-center">
-                <DevModeToggle :checked="showDevMode" toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode"/>
+                <DevModeToggle :checked="showDevMode" toggleLabel="Developer Mode"
+                               @checked="showDevMode = !showDevMode"/>
                 <DevModeStep :dev-mode=false :step-nr=1>
                     <div class="p-[1rem]">
                         <DemoTimeTableSelect v-model:lir="selectedLIR"
@@ -67,37 +72,36 @@ onMounted(() => {
                     </div>
                 </DevModeStep>
                 <DevModeStep :dev-mode=false :step-nr=2>
-                  <div v-if="loading" class="flex content-center justify-center" >
-                    <p class="italic">loading Station Board...</p>
-                  </div>
-                  <div v-else>
-                    <div v-if="stationBoard" class="p-[1rem]">
-                      <DemoTimeTableConnections v-if="stationBoard.stationBoard.length > 0"
-                                                :connections="stationBoard?.stationBoard"/>
-                      <div v-else>
-                        <p>No Station Board for this Destination</p>
-                      </div>
+                    <div v-if="loading" class="flex content-center justify-center">
+                        <p class="italic">loading Station Board...</p>
                     </div>
-                  </div>
+                    <div v-else>
+                        <div v-if="stationBoard" class="p-[1rem]">
+                            <DemoTimeTableConnections v-if="stationBoard.stationBoard.length > 0"
+                                                      :connections="stationBoard?.stationBoard"/>
+                            <div v-else>
+                                <p>No Station Board for this Destination</p>
+                            </div>
+                        </div>
+                    </div>
                 </DevModeStep>
             </div>
         </template>
         <template #devMode>
-          <DevModeToggle id="devMode_toggle" :checked="showDevMode" toggleLabel="Developer Mode" @checked="showDevMode = !showDevMode"/>
-          <h3 class="font-bold pl-[2rem]">Developer Mode</h3>
-          <DemoLayoutButton class="demo_layout-button" @click="showDevMode = !showDevMode"/>
-            <DevModeStep :devMode=true :stepNr=1>
-                <div class="flex flex-col items-center p-[2rem]">
-                    <DemoTimeTableSelect v-model:lir="selectedLIR"
-                                         v-model:station="selectedStation"></DemoTimeTableSelect>
-                  <DevModeLIRRequest :parameters="paramsLIR"/>
-                </div>
-            </DevModeStep>
-            <DevModeStep :devMode=true :stepNr=2>
-                <div class="flex flex-col items-center p-[2rem]">
-                    <DevModeStationBoardRequest  :parameters="paramsSB"/>
-                </div>
-            </DevModeStep>
+            <DevModeToggle id="devMode_toggle" :checked="showDevMode" toggleLabel="Developer Mode"
+                           @checked="showDevMode = !showDevMode"/>
+            <div class="flex flex-col gap-6">
+                <h3 class="font-bold ml-[1rem]">Developer Mode</h3>
+                <DemoLayoutButton class="demo_layout-button" @click="showDevMode = !showDevMode"/>
+                <DevModeStep :devMode=true :stepNr=1>
+                    <Endpoint v-if="getEndpoint('/api/locationInformation') !== null"
+                              :endpoint="getEndpoint('/api/locationInformation')!"/>
+                </DevModeStep>
+                <DevModeStep :devMode=true :stepNr=2>
+                    <Endpoint v-if="getEndpoint('/api/stationBoard') !== null"
+                              :endpoint="getEndpoint('/api/stationBoard')!"/>
+                </DevModeStep>
+            </div>
         </template>
     </DemoLayout>
 </template>
@@ -106,7 +110,7 @@ onMounted(() => {
 @import "src/assets/scss/variables";
 
 #devMode_toggle {
-  display: none;
+    display: none;
 }
 
 .demo_layout-button {
@@ -114,17 +118,17 @@ onMounted(() => {
     z-index: 1000;
     top: 50%;
     left: -25px;
-  cursor: pointer;
+    cursor: pointer;
 }
 
 @media #{$media-query-l} {
-  .demo_layout-button {
-    display: none;
-  }
+    .demo_layout-button {
+        display: none;
+    }
 
-  #devMode_toggle {
-    display: flex;
-  }
+    #devMode_toggle {
+        display: flex;
+    }
 }
 
 </style>
