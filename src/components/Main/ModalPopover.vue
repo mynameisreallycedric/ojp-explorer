@@ -37,7 +37,7 @@ defineExpose({
 
 .modal {
   background: none;
-  position: relative;
+  position: fixed;
 }
 
 .modal__close {
