@@ -37,25 +37,26 @@ html {
   }
 
   h1 {
-    font-size: 5rem;
+    font-size: 4rem;
     font-family: "Inter Extra-Bold", sans-serif;
+    line-height: normal;
   }
 
   h2 {
     margin: 0 0 .5rem;
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: "Inter Semi-Bold", sans-serif;
   }
 
   h3 {
     margin: 0 0 .5rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family: "Inter Semi-Bold", sans-serif;
   }
 
   @media #{$media-query-m} {
     h1 {
-      font-size: 3rem;
+      font-size: 4rem;
       font-family: "Inter Extra-Bold", sans-serif;
     }
 
@@ -67,13 +68,14 @@ html {
 
     h3 {
       margin: 0 0 .5rem;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-family: "Inter Semi-Bold", sans-serif;
     }
   }
 
   p {
     margin: 0 0 1rem;
+    white-space: pre-line;
   }
 
   .text-big {
