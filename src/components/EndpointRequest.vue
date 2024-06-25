@@ -11,6 +11,7 @@ import EndpointRequestButton from "@/components/EndpointRequestButton.vue";
 import type {ResponseTimes} from "@/types/ResponseTimes";
 import EndpointRequestResponseError from "@/components/EndpointRequestResponseError.vue";
 import type {EndpointRequestError} from "@/types/EndpointRequestError";
+import EndpointRequestResponseTime from "@/components/EndpointRequestResponseTime.vue";
 
 const axios = useAxios();
 const authStore = useAuthStore();
@@ -197,11 +198,11 @@ watch(() => relevantParameters.value, (value) => {
             <div ref="methodBlock" class="flex-grow-0 p-1 bg-black text-white rounded">
                 <span class="text-center font-bold px-2">{{ method.name.toUpperCase() }}</span>
             </div>
-            <div class="flex-grow max-w-full text-nowrap overflow-x-auto">
+            <div class="flex-grow max-w-full text-nowrap overflow-x-scroll scrollbar-hide">
                 <span class="italic" v-if="displayMsg">copied to Clipboard!</span>
                 <span v-else>{{ fullURL }}</span>
             </div>
-            <div class="flex-grow-0 flex flex-row items-center gap-3 mr-1.5">
+            <div class="flex-grow-0 flex-shrink-0 flex flex-row items-center gap-3 mr-1.5">
 
                 <Transition>
                     <EndpointRequestButton v-if="!loading" :tooltip-msg="t('action.send')"
@@ -252,17 +253,14 @@ watch(() => relevantParameters.value, (value) => {
                     @enter="enter"
                     @leave="leave">
             <div v-if="response !== null" class="rounded-b px-3 py-6">
-                <div class="flex flex-col">
+                <div class="flex flex-col pb-3">
                     <div class="flex flex-row justify-between">
                         <span class="font-bold text-white">Response</span>
                         <button title="collapse" class="response__collapse-button mr-1.5" @click="response = null">
                             <img src="/src/assets/icons/x_white.svg" width="14" height="14">
                         </button>
                     </div>
-                    <div>
-                        <span class="font-bold text-xs text-gray-300">{{ responseTimes.total }}ms </span>
-                        <span class="text-xs text-gray-300">(ojp: {{ responseTimes.ojp.join('+') }}ms)</span>
-                    </div>
+                    <EndpointRequestResponseTime :response-times="responseTimes"/>
                 </div>
                 <div class="api_response__response bg-black-darken rounded mt-3 mb-12 text-gray-300">
                     <vue-json-pretty theme="dark" :data="response"></vue-json-pretty>
@@ -300,6 +298,16 @@ watch(() => relevantParameters.value, (value) => {
     height: 0;
 }
 
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
 
 .pop-animation {
     transition: transform .3s ease-in-out;
