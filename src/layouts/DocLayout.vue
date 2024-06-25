@@ -11,7 +11,7 @@ const router = useRouter();
         <aside class="mb-10">
             <DocNav/>
         </aside>
-        <div class="flex flex-col gap-20 md:ml-6 w-[700px]">
+        <div class="flex flex-col gap-20 md:ml-6 md:w-[700px]">
             <h1>{{ router.currentRoute.value.meta.title }}</h1>
             <RouterView/>
         </div>

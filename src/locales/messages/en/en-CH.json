@@ -1,20 +1,20 @@
 {
   "apiErrors": {
-    "generic": "öppis esch lätz TBD",
+    "generic": "Contact Admin or try again",
     "auth": {
-      "tokenMissing": "OJP-Token fehlt. xxx TBD xxx"
+      "tokenMissing": "Most likely you forgot to provide a token."
     },
     "templating": {
-      "argumentError": "öppis Argument züüg TBD",
-      "runtimeError": "öppis templating TBD"
+      "argumentError": "Argument-Error. Contact Admin or try again",
+      "runtimeError": "Templating-Error. Contact Admin or try again"
     },
     "ojp": {
-      "generic": "öppis mettem ojp service TBD",
-      "forbidden": "ojp seit döffsch ned TBD",
-      "tooManyRequests": "ojp seit besch zfliisig TBD"
+      "generic": "There is an issue with the OJP-Service...",
+      "forbidden": "Is your token valid?",
+      "tooManyRequests": "Enjoy a ☕️ before making the next request"
     },
     "deserialize": {
-      "generic": "öppis xml models TBD"
+      "generic": "Model-Error. Contact Admin or try again"
     }
   },
   "page": {
@@ -34,7 +34,9 @@
     "getStarted": "Get started",
     "goToSwagger": "Go To Swagger",
     "curlToClipBoard": "Copy curl cmd",
-    "send": "Send"
+    "send": "Send",
+    "details": "Details",
+    "contactSki": "Contact SKI+"
   },
 
 

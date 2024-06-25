@@ -21,7 +21,8 @@ module.exports = {
     extend: {
       colors: {
         black: {
-          DEFAULT: "#2D2D2D"
+          DEFAULT: "#2D2D2D",
+          darken: "#171717"
         },
         purple: {
           DEFAULT: "#B311FF"
