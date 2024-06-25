@@ -11,7 +11,6 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import {useRouter} from "vue-router";
 
 const {t} = useI18n();
 
