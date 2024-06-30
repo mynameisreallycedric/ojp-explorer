@@ -12,9 +12,8 @@ const {t} = useI18n();
         <RouterLink :to="{name: RouteNames.docsIntroduction}">{{ t('page.docs.introduction') }}</RouterLink>
         <RouterLink :to="{name: RouteNames.docsGettingStarted}">{{ t('page.docs.gettingStarted') }}</RouterLink>
         <span class="sidebar__section-title">{{ t('page.docs.endpoints') }}</span>
-        <template v-for="endpoint in swaggerStore.swaggerJSON" :key="endpoint.path">
-            <RouterLink :to="{name: RouteNames.docsEndpoints, hash: '#' + endpoint.path}">{{ endpoint.path }}</RouterLink>
-        </template>
+        <RouterLink :to="{name: RouteNames.docsLocationInformation}">/api/locationInformation</RouterLink>
+        <RouterLink :to="{name: RouteNames.docsStationBoard}">/api/stationBoard</RouterLink>
         <span class="sidebar__section-title">Background</span>
         <RouterLink to="#">Open journey platform</RouterLink>
         <RouterLink to="#">Transport Proxy</RouterLink>

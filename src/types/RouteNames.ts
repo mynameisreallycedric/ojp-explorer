@@ -4,4 +4,6 @@ export enum RouteNames {
     demoTimeTable = 'TimeTable',
     docsGettingStarted = 'GettingStarted',
     docsIntroduction = 'Introduction',
+    docsStationBoard = "Station Board",
+    docsLocationInformation = "Location Information"
 }
