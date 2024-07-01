@@ -55,7 +55,7 @@ const routes = [
                 name: RouteNames.docsStationBoard,
                 component: DocStationBoardEndpointView,
                 meta: {
-                    title: i18n.global.t('page.docs.endpoints'),
+                    title: i18n.global.t('page.docs.stationBoard'),
                 }
             },
             {
@@ -63,7 +63,7 @@ const routes = [
                 name: RouteNames.docsLocationInformation,
                 component: DocLocationInformationEndpointView,
                 meta: {
-                    title: i18n.global.t('page.docs.endpoints'),
+                    title: i18n.global.t('page.docs.locationInformation'),
                 }
             }
         ]

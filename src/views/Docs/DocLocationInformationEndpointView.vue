@@ -2,6 +2,7 @@
 import {useSwaggerStore} from "@/stores/swagger";
 import Endpoint from "@/components/Endpoint.vue";
 import type {SwaggerEndpoint} from "@/types/SwaggerModels";
+import 'vue-json-pretty/lib/styles.css';
 import VueJsonPretty from "vue-json-pretty";
 import {computed, type ComputedRef, onMounted, type Ref, ref, watch} from "vue";
 import EndpointRequest from "@/components/EndpointRequest.vue";

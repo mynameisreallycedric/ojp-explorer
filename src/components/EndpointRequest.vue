@@ -12,6 +12,7 @@ import type {ResponseTimes} from "@/types/ResponseTimes";
 import EndpointRequestResponseError from "@/components/EndpointRequestResponseError.vue";
 import type {EndpointRequestError} from "@/types/EndpointRequestError";
 import EndpointRequestResponseTime from "@/components/EndpointRequestResponseTime.vue";
+import 'vue-json-pretty/lib/styles.css';
 
 const axios = useAxios();
 const authStore = useAuthStore();

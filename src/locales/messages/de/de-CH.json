@@ -27,7 +27,9 @@
       "index": "Dokumentation",
       "introduction": "Einführung",
       "gettingStarted": "Erste Schritte",
-      "endpoints": "Endpunkte"
+      "endpoints": "Endpunkte",
+      "locationInformation": "Location Information",
+      "stationBoard": "Station Board"
     }
   },
   "action": {
