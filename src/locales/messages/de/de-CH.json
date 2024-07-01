@@ -1,20 +1,20 @@
 {
   "apiErrors": {
-    "generic": "Etwas ist schief gelaufen TBD",
+    "generic": "Kontaktieren Sie den Admin oder versuchen Sie es erneut",
     "auth": {
-      "tokenMissing": "OJP-Token fehlt. xxx TBD xxx"
+      "tokenMissing": "Wahrscheinlich haben Sie vergessen, ein Token bereitzustellen."
     },
     "templating": {
-      "argumentError": "Ein Argumentfehler ist aufgetreten TBD",
-      "runtimeError": "Ein Laufzeitfehler ist aufgetreten TBD"
+      "argumentError": "Argument-Fehler. Kontaktieren Sie den Admin oder versuchen Sie es erneut",
+      "runtimeError": "Templating-Fehler. Kontaktieren Sie den Admin oder versuchen Sie es erneut"
     },
     "ojp": {
-      "generic": "Ein Fehler mit dem OJP-Dienst ist aufgetreten TBD",
-      "forbidden": "OJP sagt, dass Sie keinen Zugriff haben TBD",
-      "tooManyRequests": "OJP sagt, Sie haben zu viele Anfragen gestellt TBD"
+      "generic": "Es gibt ein Problem mit dem OJP-Dienst...",
+      "forbidden": "Ist Ihr Token gültig?",
+      "tooManyRequests": "Geniessen Sie einen ☕️, bevor Sie die nächste Anfrage stellen"
     },
     "deserialize": {
-      "generic": "Ein Fehler beim Deserialisieren der XML-Modelle ist aufgetreten TBD"
+      "generic": "Modell-Fehler. Kontaktieren Sie den Admin oder versuchen Sie es erneut"
     }
   },
   "page": {
@@ -34,7 +34,9 @@
     "getStarted": "Loslegen",
     "goToSwagger": "Zu Swagger gehen",
     "curlToClipBoard": "Curl cmd kopieren",
-    "send": "Abschicken"
+    "send": "Abschicken",
+    "details": "Details",
+    "contactSki": "Kontaktiere SKI+"
   },
 
 

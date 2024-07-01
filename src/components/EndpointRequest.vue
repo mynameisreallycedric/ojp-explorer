@@ -4,14 +4,16 @@ import type {SwaggerMethod, SwaggerParams} from "@/types/SwaggerModels";
 import VueJsonPretty from "vue-json-pretty";
 import {InputType} from "@/types/DevMode/InputType";
 import {type AxiosCustomError, useAxios} from "@/composables/services/axios";
-import {useUiStore} from "@/stores/ui";
 import {useAuthStore} from "@/stores/auth";
 import {useI18n} from "vue-i18n";
 import EndpointRequestParamInput from "@/components/EndpointRequestParamInput.vue";
 import EndpointRequestButton from "@/components/EndpointRequestButton.vue";
+import type {ResponseTimes} from "@/types/ResponseTimes";
+import EndpointRequestResponseError from "@/components/EndpointRequestResponseError.vue";
+import type {EndpointRequestError} from "@/types/EndpointRequestError";
+import EndpointRequestResponseTime from "@/components/EndpointRequestResponseTime.vue";
 
 const axios = useAxios();
-const uiStore = useUiStore();
 const authStore = useAuthStore();
 const {t} = useI18n();
 
@@ -24,7 +26,8 @@ const baseUrl = import.meta.env.VITE_API_BASEURLNEW as string;
 const displayMsg = ref<boolean>(false);
 const userInputParameterValues = reactive<{ [key: string]: any }>({});
 const response = ref<string | null>(null);
-const errorMessage = ref<string | null>(null);
+const responseTimes = ref<ResponseTimes>({total: '', ojp: []} as ResponseTimes);
+const endpointRequestError = ref<EndpointRequestError>({message: null, axiosError: null} as EndpointRequestError);
 
 const methodBlock = ref();
 const paperPlane = ref();
@@ -41,7 +44,6 @@ const relevantParameters = computed(() => {
 
 const fullURL = computed(() => {
     let paramChain = "";
-    console.log(userInputParameterValues)
     Object.keys(userInputParameterValues).forEach(key => {
         if (userInputParameterValues[key] !== null && userInputParameterValues[key] !== '') {
             const chainChar = paramChain.includes('?') ? '&' : '?';
@@ -69,13 +71,12 @@ function getInputType(param: SwaggerParams): InputType {
 
 function sendRequest(): void {
     // Reset validation error and remove animations
-    response.value = null;
-    errorMessage.value = null;
+    resetResponses();
     methodBlock.value.classList.remove('shake-animation', 'pop-animation');
 
     if (paramMissing.value.length > 0) {
         methodBlock.value.classList.add('shake-animation');
-        errorMessage.value = paramMissing.value.length === 1
+        endpointRequestError.value!.message = paramMissing.value.length === 1
             ? `Param "${paramMissing.value[0].name}" is required!`
             : `Following params are required: ${paramMissing.value.map(param => param.name).join(', ')}`;
         return;
@@ -90,17 +91,20 @@ function sendRequest(): void {
         paperPlane.value.style.right = '25em';
     }, 100);
 
-    axios.get(props.endpoint, { params: userInputParameterValues })
+    axios.get(props.endpoint, {params: userInputParameterValues})
         .then(res => {
+            responseTimes.value.total = res.headers['x-response-time-ms'];
+            const ojpResponseTimes = Object.keys(res.headers).filter(key => key.includes('ojp-service'));
+            ojpResponseTimes.forEach(key => responseTimes.value.ojp.push(res.headers[key]));
             handleSuccessResponse(res);
         })
         .catch((err: AxiosCustomError) => {
-            handleErrorResponse(err.httpStatus + ' (' + err.httpStatusText + '): ' + err.canonicalErrorMsg);
+            //handleErrorResponse(err.httpStatus + ' (' + err.httpStatusText + '): ' + err.canonicalErrorMsg);
+            handleErrorResponse(err);
         });
 }
 
 function handleSuccessResponse(res: any) {
-    console.log('res', res);
     animatePaperPlane('right 0.75s linear', '42em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('pop-animation');
@@ -109,12 +113,11 @@ function handleSuccessResponse(res: any) {
     });
 }
 
-function handleErrorResponse(err: string) {
-    console.log('err', err);
+function handleErrorResponse(err: AxiosCustomError) {
     animatePaperPlane('right 0.75s linear', '42em', () => {
         resetPaperPlane();
         methodBlock.value.classList.add('shake-animation');
-        errorMessage.value = err;
+        endpointRequestError.value.axiosError = err;
         loading.value = false;
     });
 }
@@ -169,6 +172,12 @@ function leave(el: any, done: any): void {
     el.addEventListener('transitionend', done);
 }
 
+function resetResponses(): void {
+    responseTimes.value = {total: '', ojp: []};
+    response.value = null;
+    endpointRequestError.value = {message: null, axiosError: null};
+}
+
 watch(() => relevantParameters.value, (value) => {
     value.forEach(key => {
         userInputParameterValues[key.name] = null;
@@ -189,11 +198,11 @@ watch(() => relevantParameters.value, (value) => {
             <div ref="methodBlock" class="flex-grow-0 p-1 bg-black text-white rounded">
                 <span class="text-center font-bold px-2">{{ method.name.toUpperCase() }}</span>
             </div>
-            <div class="flex-grow max-w-full text-nowrap overflow-x-auto">
+            <div class="flex-grow max-w-full text-nowrap overflow-x-scroll scrollbar-hide">
                 <span class="italic" v-if="displayMsg">copied to Clipboard!</span>
                 <span v-else>{{ fullURL }}</span>
             </div>
-            <div class="flex-grow-0 flex flex-row items-center gap-3 mr-1.5">
+            <div class="flex-grow-0 flex-shrink-0 flex flex-row items-center gap-3 mr-1.5">
 
                 <Transition>
                     <EndpointRequestButton v-if="!loading" :tooltip-msg="t('action.send')"
@@ -209,9 +218,10 @@ watch(() => relevantParameters.value, (value) => {
                     @before-enter="beforeEnter"
                     @enter="enter"
                     @leave="leave">
-            <div v-if="errorMessage !== null"
+            <div v-if="endpointRequestError.message !== null || endpointRequestError.axiosError !== null"
                  class="font-bold bg-red-100 text-red-600 p-3 border-b border-black">
-                <span>{{ errorMessage }}</span>
+                <EndpointRequestResponseError v-if="endpointRequestError.axiosError !== null" :error="endpointRequestError.axiosError" />
+                <span v-else>{{ endpointRequestError.message }}</span>
             </div>
         </Transition>
 
@@ -219,7 +229,7 @@ watch(() => relevantParameters.value, (value) => {
         <div class="flex flex-col gap-3 w-full p-3 bg-white rounded-b">
             <span class="font-bold mb-1.5">Parameters</span>
 
-            <div v-for="parameter in relevantParameters" class="grid grid-cols-[1fr_1fr_1fr]">
+            <div v-for="parameter in relevantParameters" class="grid grid-cols-[1fr] md:grid-cols-[1fr_1fr_1fr]">
                 <div class="flex flex-col">
                     <div>
                         <span class="font-bold">{{ parameter.name }}</span>
@@ -243,13 +253,16 @@ watch(() => relevantParameters.value, (value) => {
                     @enter="enter"
                     @leave="leave">
             <div v-if="response !== null" class="rounded-b px-3 py-6">
-                <div class="flex flex-row justify-between pb-6">
-                    <span class="font-bold text-white">Response</span>
-                    <button title="collapse" class="response__collapse-button mr-1.5" @click="response = null">
-                        <img src="/src/assets/icons/x_white.svg" width="14" height="14">
-                    </button>
+                <div class="flex flex-col pb-3">
+                    <div class="flex flex-row justify-between">
+                        <span class="font-bold text-white">Response</span>
+                        <button title="collapse" class="response__collapse-button mr-1.5" @click="response = null">
+                            <img src="/src/assets/icons/x_white.svg" width="14" height="14">
+                        </button>
+                    </div>
+                    <EndpointRequestResponseTime :response-times="responseTimes"/>
                 </div>
-                <div class="api_response__response rounded mt-3 mb-12 text-gray-300">
+                <div class="api_response__response bg-black-darken rounded mt-3 mb-12 text-gray-300">
                     <vue-json-pretty theme="dark" :data="response"></vue-json-pretty>
                 </div>
             </div>
@@ -285,6 +298,16 @@ watch(() => relevantParameters.value, (value) => {
     height: 0;
 }
 
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
 
 .pop-animation {
     transition: transform .3s ease-in-out;
