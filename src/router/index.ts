@@ -5,10 +5,12 @@ import GettingStarted from "@/views/GettingStarted.vue";
 import DocLayout from "@/layouts/DocLayout.vue";
 import DemoLayout from "@/layouts/DemoLayout.vue";
 import {RouteNames} from "@/types/RouteNames";
-import DocEnpointsView from "@/views/Docs/DocEnpointsView.vue";
+import DocEnpointsView from "@/views/Docs/DocLocationInformationEndpointView.vue";
 import IntroductionView from "@/views/IntroductionView.vue";
 import {useI18n} from "vue-i18n";
 import i18n from "@/plugins/i18n";
+import DocStationBoardEndpointView from "@/views/Docs/DocStationBoardEndpointView.vue";
+import DocLocationInformationEndpointView from "@/views/Docs/DocLocationInformationEndpointView.vue";
 
 const routes = [
     {
@@ -49,12 +51,19 @@ const routes = [
                 }
             },
             {
-                path: 'endpoints',
-                name: RouteNames.docsEndpoints,
-                component: DocEnpointsView,
+                path: 'stationBoard',
+                name: RouteNames.docsStationBoard,
+                component: DocStationBoardEndpointView,
                 meta: {
-                    title: i18n.global.t('page.docs.endpoints'),
-                    hashFragments: true
+                    title: i18n.global.t('page.docs.stationBoard'),
+                }
+            },
+            {
+                path: 'locationInformation',
+                name: RouteNames.docsLocationInformation,
+                component: DocLocationInformationEndpointView,
+                meta: {
+                    title: i18n.global.t('page.docs.locationInformation'),
                 }
             }
         ]
